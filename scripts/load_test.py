@@ -39,7 +39,7 @@ with open(csv_filename, mode='w', newline='') as csv_file:
         except requests.exceptions.RequestException as e:
             #this handles cases where the service is down, unreachable, or times out
             end_time = time.time()
-            latency = (end_time - start_time) * 1000
+            latency = (end_time - start_time) * 1000 #calculate latency even for failed requests to understand the behaviour under failure conditions.
             latencies.append(latency)
             #this will let the load test continue and record the latency even when the service is not responding, 
             # which is important for understanding the behaviour under failure conditions.
