@@ -4,6 +4,8 @@ from flask import Flask, jsonify
 
 # Import logging module to enable structured logs
 import logging
+import os
+#os is used to create the log directory path on EC2 before writing application log files
 
 import random
 #random is used to simulate intermittent failures for error-rate monitoring experiments
@@ -15,11 +17,25 @@ import time
 # Create Flask application instance (name tells Flask where to look for resources)
 app = Flask(__name__)
 
-# Configure logging level to INFO 
+# Configure logging level to INFO
 # (this will log informational messages and above, but not debug messages)
+#this is the EC2 log path that CloudWatch agent can read from for application-level observability
+log_file_path = "/var/log/observability-app/app.log"
+#we keep console logging and add file logging so logs are visible both in terminal and log files
+log_handlers = [logging.StreamHandler()]
+#create log directory/file handler so Flask output is stored persistently on EC2
+
+try:
+    os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+    log_handlers.append(logging.FileHandler(log_file_path))
+except OSError:
+    #if writing to /var/log is not permitted, continue with console logs only
+    pass
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=log_handlers
     #format asctime will show the time of the log entry, levelname will show the severity (INFO, ERROR, etc.),
     # and message will show the log message itself.
 )
@@ -108,10 +124,10 @@ def slow():
     increased latency before total failure occurs.
     """
     logger.info("Slow endpoint triggered, introducing artificial delay")
-    
+
     time.sleep(5)
     #sleep causes a 5 second delay to simulate slow processing
-    
+
     return jsonify({"status": "delayed response"}), 200
 
 
@@ -121,4 +137,4 @@ if __name__ == "__main__":
     # This lets the application listen on all network interfaces,
     # which is necessary when running in a container or on a cloud instance.
     app.run(host="0.0.0.0", port=5000)
-#port 5000 is the default port for Flask applications, but it can be changed if needed.
+    #port 5000 is the default port for Flask applications, but it can be changed if needed.
