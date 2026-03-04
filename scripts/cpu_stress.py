@@ -1,36 +1,60 @@
+# Import multiprocessing to spawn CPU-intensive worker processes
+import multiprocessing
+# Import time to control how long the stress test runs
 import time
+# Import sys to read command-line arguments (stress duration in seconds)
 import sys
-from datetime import datetime
-#these imports are used for measuring time, handling command-line arguments,
-# and recording timestamps for when the fault is injected.
 
-if len(sys.argv) != 2:
-    #this checks if the user has provided the duration (in seconds).
-    print("Usage: python cpu_stress.py <duration_in_seconds>")
-    sys.exit(1)
-    #exit if incorrect input
 
-duration = int(sys.argv[1])
-#this converts the duration argument into an integer representing how long the CPU stress should run.
+def cpu_burn():
+    """
+    Runs an infinite loop of arithmetic operations to saturate a CPU core.
 
-print("\n--- CPU Stress Test Starting ---")
-start_timestamp = datetime.now()
-print(f"Start Time: {start_timestamp}")
-print(f"Running CPU stress for {duration} seconds...\n")
-#these print what the test is doing and when it started, which is useful for tracking and logging purposes.
-end_time = time.time() + duration
-#calculate when the stress should stop
+    A tight loop is used because it keeps the CPU constantly busy
+    without waiting for I/O, which maximises utilisation on a single core.
+    This is the simplest and most reliable way to simulate CPU exhaustion
+    for observability experiments.
+    """
+    while True:
+        # Perform a meaningless calculation to keep the CPU occupied
+        # the result is discarded because the goal is CPU load, not computation
+        _ = 9999 * 9999
 
-#this loop performs continuous mathematical operations to consume CPU cycles
-#it is intentionally simple and deterministic to make the experiment repeatable
-while time.time() < end_time:
-    x = 0
-    for i in range(1000000): #using a large number to ensure significant CPU usage, but not so large that it causes memory issues
-        x += i * i #just a simple operation to keep the CPU busy. 
 
-#once duration is complete, exit cleanly
-end_timestamp = datetime.now()
-print("\n--- CPU Stress Test Completed ---")
-print(f"End Time: {end_timestamp}")
-print("CPU stress simulation finished successfully.")
-#the print statements just show when the test completed, which is useful for tracking and logging purposes.
+def run_cpu_stress(duration_seconds):
+    """
+    Spawns one worker process per CPU core and runs them for a fixed duration.
+
+    Using one process per core ensures all available CPU capacity is consumed,
+    which is necessary to push CPUUtilization above the CloudWatch alarm threshold.
+    After the duration expires, all worker processes are terminated cleanly.
+    """
+    # Detect how many CPU cores are available on the EC2 instance
+    # so we can spawn exactly enough workers to saturate all of them
+    core_count = multiprocessing.cpu_count()
+    print(f"Starting CPU stress across {core_count} core(s) for {duration_seconds} second(s)...")
+
+    # Spawn one worker process per core, each running the cpu_burn loop
+    workers = []
+    for _ in range(core_count):
+        process = multiprocessing.Process(target=cpu_burn)
+        process.start()
+        workers.append(process)
+
+    # Allow stress to run for the specified duration before stopping
+    # this window is what CloudWatch observes and alarms on
+    time.sleep(duration_seconds)
+
+    # Terminate all worker processes after the stress window closes
+    for process in workers:
+        process.terminate()
+
+    print("CPU stress test complete. Workers terminated.")
+
+
+# Entry point — reads duration from command-line argument
+if __name__ == "__main__":
+    # Default to 30 seconds if no argument is provided
+    # 30 seconds is enough to exceed a 1-minute CloudWatch evaluation period
+    duration = int(sys.argv[1]) if len(sys.argv) > 1 else 30
+    run_cpu_stress(duration)
