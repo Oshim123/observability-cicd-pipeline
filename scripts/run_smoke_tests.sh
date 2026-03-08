@@ -16,21 +16,21 @@ set -euo pipefail
 if [ -z "${1:-}" ]; then
     echo "Usage: bash run_smoke_tests.sh <base_url>"
     echo "Example: bash run_smoke_tests.sh http://<EC2_PUBLIC_IP>:5000"
-    exit 1
+    exit 1 # Exit with error if no URL is provided
 fi
 
 BASE_URL="$1"
 # Track whether any test has failed so we can report at the end
 FAILED=0
 
-echo "=== Running smoke tests against $BASE_URL ==="
+echo "=== Running smoke tests against $BASE_URL ===" #this means the script is running and the base URL is set correctly
 
 # -----------------------------------------------------------------------
 # Helper function: check_status
 # Sends a GET request and verifies the HTTP status code matches expected.
 # curl's -o /dev/null discards the response body since we only need the code.
 # -----------------------------------------------------------------------
-check_status() {
+check_status() { #this will let us easily add more tests in the future by just calling this function with different endpoints and expected statuses
     local endpoint="$1"
     local expected_status="$2"
     local description="$3"
