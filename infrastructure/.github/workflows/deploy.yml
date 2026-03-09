@@ -1,0 +1,86 @@
+# This workflow automates deployment of the Flask application to AWS EC2.
+# It triggers on every push to the main branch, ensuring the live environment
+# always reflects the latest version of the code.
+# This forms the CI/CD pipeline component of the observability project,
+# and deployment events are visible in the GitHub Actions interface
+# alongside CloudWatch monitoring data.
+
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+    # only trigger on pushes to main so development branches
+    # do not accidentally deploy to the production EC2 instance
+
+jobs:
+  deploy:
+    # use the latest Ubuntu runner provided by GitHub Actions
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Step 1: Check out the repository code
+      # this makes the repo contents available to the runner
+      # so we can verify the push before connecting to EC2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Connect to the EC2 instance via SSH and deploy
+      # the deployment sequence is:
+      #   1. navigate to the project directory
+      #   2. pull the latest code from the main branch
+      #   3. activate the virtual environment (or create it if first run)
+      #   4. install any new or updated Python dependencies
+      #   5. kill any existing Flask process running on port 5000
+      #   6. restart Flask with nohup so it persists after SSH disconnects
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          # EC2 instance public IP address stored as a GitHub secret
+          # so it is never exposed in the repository
+          host: ${{ secrets.EC2_HOST }}
+
+          # SSH username for the EC2 instance (ubuntu for Ubuntu AMIs)
+          username: ${{ secrets.EC2_USERNAME }}
+
+          # private key (.pem file contents) stored as a GitHub secret
+          # used to authenticate the SSH connection without a password
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          # deployment commands executed on the EC2 instance
+          script: |
+            # navigate to the project directory on the EC2 instance
+            cd ~/observability-cicd-pipeline
+
+            # pull the latest changes from the main branch
+            # this updates the codebase on EC2 to match the pushed commit
+            git pull origin main
+
+            # activate the virtual environment if it exists, or create it first
+            # using a venv isolates dependencies and avoids conflicts with system Python
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
+            source venv/bin/activate
+
+            # install or update Python dependencies inside the virtual environment
+            # this ensures any new packages added to requirements.txt are available
+            pip install -r requirements.txt
+
+            # stop any existing Flask process running on port 5000
+            # to prevent port conflicts before restarting the application
+            fuser -k 5000/tcp 2>/dev/null || true
+            # the '|| true' prevents the step from failing if no process was found
+
+            # start Flask in the background using nohup
+            # output is appended to the application log file for CloudWatch ingestion
+            nohup venv/bin/python app/app.py >> /var/log/observability-app/app.log 2>&1 &
+
+            # brief pause to allow Flask to start before the SSH session closes
+            sleep 2
+
+            # confirm the process started successfully
+            echo "Deployment complete. Flask process:"
+            pgrep -a -f "app.py" || echo "Warning: Flask process not detected"
