@@ -1,7 +1,6 @@
 # Observability Pipeline: Monitored CI/CD on AWS
 
 BSc Dissertation Project — City, University of London  
-**Oshim Thakur | IN3007 | Supervisor: Panos Giannopoulos**
 
 ---
 
