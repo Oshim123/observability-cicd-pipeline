@@ -1,56 +1,104 @@
-# Observability-Driven CI/CD Pipeline
+# Observability Pipeline: Monitored CI/CD on AWS
 
-Dissertation project: Deploy Flask app to EC2, monitor with CloudWatch, measure detection latency.
+BSc Dissertation Project 
 
-## Quick Start (6 Hours)
+---
 
-### 1. Launch EC2
-- AMI: Ubuntu 22.04 LTS, t2.micro
-- Security: Allow SSH (22) and Flask (5000) from your IP
-- Copy public IP
+## What This Project Does
 
-### 2. Deploy App
+Deploys a Flask web application to AWS EC2, monitors it using Amazon CloudWatch and Grafana, and runs controlled fault injection experiments to evaluate how effectively observability tools detect post-deployment failures.
+
+---
+
+## Repository Structure
+
+```
+app/app.py                          Flask application with logging endpoints
+scripts/cpu_stress.py               CPU fault injection script
+scripts/memory_stress.py            Memory fault injection script
+scripts/load_test.py                HTTP load testing script
+scripts/alert.py                    Programmatic CloudWatch alerting (boto3)
+scripts/experiment_runner.py        Automated experiment orchestration
+.github/workflows/deploy.yml        GitHub Actions CI/CD pipeline
+infrastructure/cloudwatch-agent-config.json   CloudWatch agent configuration
+requirements.txt                    Python dependencies
+results/                            Experiment CSV outputs
+```
+
+---
+
+## Requirements
+
+- Python 3.10+
+- AWS EC2 t2.micro (Ubuntu 24.04 LTS)
+- IAM role with `CloudWatchAgentServerPolicy` and `CloudWatchReadOnlyAccess`
+- Ports 22, 5000, 3000 open in security group
+
+---
+
+## Local Setup
+
 ```bash
-ssh -i key.pem ubuntu@<IP>
-sudo apt update && sudo apt install -y python3 python3-pip git
 git clone https://github.com/Oshim123/observability-cicd-pipeline.git
-cd observability-cicd-pipeline/app
-pip3 install flask && python3 app.py
+cd observability-cicd-pipeline
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app/app.py
 ```
-Test: `http://<IP>:5000/` and `http://<IP>:5000/health`
 
-### 3. Install CloudWatch Agent
+Test at `http://localhost:5000/health`
+
+---
+
+## EC2 Deployment
+
+The GitHub Actions pipeline deploys automatically on push to `main`. Three secrets are required in the repository settings:
+
+| Secret | Value |
+|--------|-------|
+| `EC2_HOST` | EC2 public IP address |
+| `EC2_USERNAME` | `ubuntu` |
+| `EC2_SSH_KEY` | Contents of `.pem` key file |
+
+---
+
+## Running Experiments
+
 ```bash
-sudo apt install -y amazon-cloudwatch-agent
-sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
-# Select: CPU, Memory, /var/log/syslog
-sudo systemctl enable amazon-cloudwatch-agent && sudo systemctl start amazon-cloudwatch-agent
+# Baseline
+python scripts/load_test.py http://localhost:5000/health 100
+
+# CPU fault injection (60 seconds)
+python scripts/cpu_stress.py 60
+
+# Memory fault injection (60 seconds)
+python scripts/memory_stress.py 60
+
+# Run all experiments automatically
+python scripts/experiment_runner.py --base-url http://localhost:5000 --requests 100 --duration 60
+
+# Programmatic CloudWatch alerting
+python scripts/alert.py
 ```
 
-### 4. Create Alarm
-CloudWatch console:
-- Metric: CPUUtilization > 70%
-- Period: 1 minute, Evaluation: 2 periods
+---
 
-### 5. Test Fault Injection
-```bash
-cd ~/observability-cicd-pipeline/scripts
-python3 cpu_stress.py 30
-```
-Note CPU spike time and alarm trigger time in CloudWatch. Calculate detection delay.
+## Flask Endpoints
 
-### 6. Screenshot & Document
-- Baseline CPU graph
-- CPU graph during stress
-- Alarm configuration and triggered state
-- Write: "During CPU stress, utilization rose from X% to Y%, alarm triggered after Z seconds."
+| Endpoint | Description |
+|----------|-------------|
+| `/` | Root endpoint |
+| `/health` | Health check — returns `{"status":"healthy"}` |
+| `/trigger-error` | Deliberately returns HTTP 500 |
+| `/slow` | Responds after ~5 second delay |
+| `/unstable` | Randomly returns 200 or 500 |
 
-## Troubleshooting
-- App not reachable: Check security group allows TCP 5000
-- No metrics: Confirm agent running (`sudo systemctl status amazon-cloudwatch-agent`)
-- Alarm won't trigger: Lower threshold to 50% to test wiring
+---
 
-## Done When
-✅ Flask accessible at EC2 IP:5000  
-✅ CloudWatch shows metrics  
-✅ Alarm triggers during CPU stress
+## Monitoring
+
+- **CloudWatch metrics**: `cpu_usage_active` and `mem_used_percent` under namespace `ObservabilityPipeline`
+- **CloudWatch logs**: Flask logs streamed to log group `observability-pipeline`
+- **Grafana**: Running on port 3000, connected to CloudWatch via IAM role
+- **Alarms**: `cpu-high` (>70% for 2 periods), `memory-high` (>75% for 2 periods)
