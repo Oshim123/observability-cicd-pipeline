@@ -1,6 +1,6 @@
 # Observability Pipeline: Monitored CI/CD on AWS
 
-BSc Dissertation Project — City, University of London  
+BSc Dissertation Project 
 
 ---
 
