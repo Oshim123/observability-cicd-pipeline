@@ -1,0 +1,34 @@
+[
+  {
+    "experiment": "baseline",
+    "start_time": "2026-03-21T14:30:40.107679",
+    "end_time": "2026-03-21T14:30:43.854096",
+    "return_code": 0,
+    "output_file": "results\\run_20260321_143040\\baseline_load_test.txt"
+  },
+  {
+    "experiment": "cpu",
+    "start_time": "2026-03-21T14:30:43.854096",
+    "end_time": "2026-03-21T14:31:04.149565",
+    "load_test_return_code": 0,
+    "stress_return_code": 0,
+    "stress_output_file": "results\\run_20260321_143040\\cpu_stress_output.txt",
+    "load_output_file": "results\\run_20260321_143040\\cpu_load_test.txt"
+  },
+  {
+    "experiment": "memory",
+    "start_time": "2026-03-21T14:31:04.149565",
+    "end_time": "2026-03-21T14:31:24.287073",
+    "load_test_return_code": 0,
+    "stress_return_code": 0,
+    "stress_output_file": "results\\run_20260321_143040\\memory_stress_output.txt",
+    "load_output_file": "results\\run_20260321_143040\\memory_load_test.txt"
+  },
+  {
+    "experiment": "trigger_error",
+    "start_time": "2026-03-21T14:31:24.287073",
+    "end_time": "2026-03-21T14:31:27.936476",
+    "return_code": 0,
+    "output_file": "results\\run_20260321_143040\\trigger_error_load_test.txt"
+  }
+]

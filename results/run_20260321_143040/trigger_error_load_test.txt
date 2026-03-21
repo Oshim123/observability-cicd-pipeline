@@ -1,0 +1,13 @@
+$ C:\Users\oshim\AppData\Local\Programs\Python\Python312\python.exe scripts/load_test.py http://127.0.0.1:5000/trigger-error 50
+return_code: 0
+
+--- STDOUT ---
+
+--- Load Test Summary ---
+Total Requests: 50
+Average Latency: 10.78 ms
+Minimum Latency: 0.00 ms
+Maximum Latency: 29.08 ms
+Status Code Distribution: {500: 50}
+
+--- STDERR ---
