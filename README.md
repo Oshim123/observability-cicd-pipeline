@@ -1,12 +1,14 @@
-# Observability Pipeline: Monitored CI/CD on AWS
+# The Observability Pipeline: Implementing and Evaluating a Monitored CI/CD Workflow on AWS Using CloudWatch and Grafana
 
-BSc Dissertation Project 
+**Student:** Oshim Thakur | **Module:** IN3007 | **Institution:** City, University of London
 
 ---
 
 ## What This Project Does
 
 Deploys a Flask web application to AWS EC2, monitors it using Amazon CloudWatch and Grafana, and runs controlled fault injection experiments to evaluate how effectively observability tools detect post-deployment failures.
+
+**The full system requires an AWS account.** CloudWatch, Grafana, and the CI/CD pipeline all depend on AWS infrastructure. If you do not have AWS credentials, use `demo.py` (see below) to run the application and experiments locally — this demonstrates the core fault injection and load testing functionality without any cloud setup.
 
 ---
 
@@ -17,26 +19,21 @@ app/app.py                          Flask application with logging endpoints
 scripts/cpu_stress.py               CPU fault injection script
 scripts/memory_stress.py            Memory fault injection script
 scripts/load_test.py                HTTP load testing script
-scripts/alert.py                    Programmatic CloudWatch alerting (boto3)
+scripts/alert.py                    Programmatic CloudWatch alerting (boto3) — requires AWS
 scripts/experiment_runner.py        Automated experiment orchestration
-.github/workflows/deploy.yml        GitHub Actions CI/CD pipeline
-infrastructure/cloudwatch-agent-config.json   CloudWatch agent configuration
+demo.py                             Single-command local demo (no AWS needed)
+.github/workflows/deploy.yml        GitHub Actions CI/CD pipeline — requires AWS
+infrastructure/cloudwatch-agent-config.json   CloudWatch agent configuration — requires AWS
 requirements.txt                    Python dependencies
-results/                            Experiment CSV outputs
+results/                            Experiment CSV outputs and summary
+SETUP.txt                           Full installation and deployment instructions
 ```
 
 ---
 
-## Requirements
+## Option A — Local Demo (no AWS required)
 
-- Python 3.10+
-- AWS EC2 t2.micro (Ubuntu 24.04 LTS)
-- IAM role with `CloudWatchAgentServerPolicy` and `CloudWatchReadOnlyAccess`
-- Ports 22, 5000, 3000 open in security group
-
----
-
-## Local Setup
+This runs the Flask application and all fault injection experiments locally. It does not connect to CloudWatch or Grafana, but demonstrates the core application and experiment pipeline working end to end.
 
 ```bash
 git clone https://github.com/Oshim123/observability-cicd-pipeline.git
@@ -44,16 +41,27 @@ cd observability-cicd-pipeline
 python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python app/app.py
+python demo.py
 ```
 
-Test at `http://localhost:5000/health`
+This starts Flask, waits for it to be ready, runs all experiments automatically, prints results, and shuts down. CSV outputs are saved to `results/`.
 
 ---
 
-## EC2 Deployment
+## Option B — Full System on AWS (requires AWS account)
 
-The GitHub Actions pipeline deploys automatically on push to `main`. Three secrets are required in the repository settings:
+The complete observability pipeline including CloudWatch metrics, Grafana dashboards, and automated CI/CD deployment requires:
+
+- AWS account (free tier is sufficient)
+- EC2 t2.micro instance running Ubuntu 24.04 LTS
+- IAM role with `CloudWatchAgentServerPolicy` and `CloudWatchReadOnlyAccess`
+- Ports 22, 5000, and 3000 open in the EC2 security group
+
+Full step-by-step instructions for the complete AWS setup are in **SETUP.txt**.
+
+### CI/CD Pipeline
+
+The GitHub Actions workflow deploys automatically on push to `main`. Three secrets must be added to the repository:
 
 | Secret | Value |
 |--------|-------|
@@ -63,10 +71,10 @@ The GitHub Actions pipeline deploys automatically on push to `main`. Three secre
 
 ---
 
-## Running Experiments
+## Running Experiments Manually
 
 ```bash
-# Baseline
+# Baseline load test
 python scripts/load_test.py http://localhost:5000/health 100
 
 # CPU fault injection (60 seconds)
@@ -78,7 +86,7 @@ python scripts/memory_stress.py 60
 # Run all experiments automatically
 python scripts/experiment_runner.py --base-url http://localhost:5000 --requests 100 --duration 60
 
-# Programmatic CloudWatch alerting
+# Programmatic CloudWatch alerting (requires AWS credentials)
 python scripts/alert.py
 ```
 
@@ -88,7 +96,7 @@ python scripts/alert.py
 
 | Endpoint | Description |
 |----------|-------------|
-| `/` | Root endpoint |
+| `/` | Root endpoint — HTTP 200 |
 | `/health` | Health check — returns `{"status":"healthy"}` |
 | `/trigger-error` | Deliberately returns HTTP 500 |
 | `/slow` | Responds after ~5 second delay |
@@ -96,9 +104,15 @@ python scripts/alert.py
 
 ---
 
-## Monitoring
+## Monitoring (AWS only)
 
 - **CloudWatch metrics**: `cpu_usage_active` and `mem_used_percent` under namespace `ObservabilityPipeline`
 - **CloudWatch logs**: Flask logs streamed to log group `observability-pipeline`
 - **Grafana**: Running on port 3000, connected to CloudWatch via IAM role
 - **Alarms**: `cpu-high` (>70% for 2 periods), `memory-high` (>75% for 2 periods)
+
+---
+
+## GitHub Repository
+
+https://github.com/Oshim123/observability-cicd-pipeline

@@ -12,6 +12,20 @@ PREREQUISITES
 - IAM role with CloudWatchAgentServerPolicy and CloudWatchReadOnlyAccess attached
 - Ports 22, 5000, and 3000 open in the EC2 security group
 
+QUICKEST WAY TO RUN (NO AWS REQUIRED)
+--------------------------------------
+To run the application and experiments locally without any AWS setup:
+
+   python3 -m venv venv
+   source venv/bin/activate          (Mac/Linux)
+   venv\Scripts\activate             (Windows)
+   pip install -r requirements.txt
+   python demo.py
+
+This starts Flask, runs all fault injection experiments automatically,
+saves CSV results to results/, and shuts down. No AWS credentials needed.
+
+For the full system with CloudWatch and Grafana, follow the steps below.
 
 RUNNING LOCALLY
 ---------------
