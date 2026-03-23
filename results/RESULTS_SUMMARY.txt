@@ -1,0 +1,39 @@
+EXPERIMENT RESULTS SUMMARY
+Observability Pipeline — Oshim Thakur, IN3007
+================================================================
+All experiments run on AWS EC2 t2.micro, Ubuntu 24.04 LTS
+Flask application monitored via CloudWatch and Grafana
+100 requests per experiment to /health endpoint
+================================================================
+
+EXPERIMENT 1: BASELINE
+File: load_test_results_2026-03-10_14-12-39.csv
+Average latency: 2.45ms | Min: 2.00ms | Max: 6.71ms | 100% HTTP 200
+Observation: System stable. No alarms triggered. Confirms normal behaviour.
+
+EXPERIMENT 2: CPU FAULT INJECTION
+File: load_test_results_2026-03-10_14-16-38.csv
+Average latency: 3.37ms | Min: 1.88ms | Max: 5.48ms | 100% HTTP 200
+Peak CPU: ~60% | Alarm: Did not trigger (below 70% threshold)
+Observation: CPU spike immediately visible in Grafana. Latency increased 37%.
+Performance degradation detected before system failure.
+
+EXPERIMENT 3: MEMORY FAULT INJECTION
+File: load_test_results_2026-03-10_14-17-29.csv
+Average latency: 2.56ms | Min: 1.96ms | Max: 7.94ms | 100% HTTP 200
+Peak memory: ~35% | Secondary CPU spike: ~80% | Alarm: Did not trigger
+Observation: Gradual memory trend visible in Grafana. Different signal
+pattern to CPU — demonstrates different faults need different detection.
+
+EXPERIMENT 4: ALERTING SCRIPT
+File: load_test_results_2026-03-10_14-24-51.csv
+CPU readings: 0.83%, 1.12%, 19.12%, 39.07% across cycles
+Observation: boto3 script successfully queried CloudWatch in real time.
+No alerts fired — threshold not breached during this run.
+
+KEY FINDINGS
+1. Both faults visible in Grafana but did not trigger CloudWatch alarms.
+2. Alarms require sustained breaches — short faults may go undetected.
+3. CPU = immediate spike. Memory = gradual trend. Different strategies needed.
+4. Application remained responsive throughout all experiments.
+5. Visual monitoring via Grafana provided earlier detection than alarms.
