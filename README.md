@@ -116,3 +116,26 @@ python scripts/alert.py
 ## GitHub Repository
 
 https://github.com/Oshim123/observability-cicd-pipeline
+---
+
+## What the Experiments Show
+
+The system was tested under different conditions to see how it behaves.
+
+- Baseline → normal behaviour with no faults  
+- CPU stress → simulates high load on the system  
+- Memory stress → simulates gradual resource pressure  
+- Trigger error → forces application failures (HTTP 500)
+
+These tests help show how monitoring tools detect issues after deployment.
+
+---
+
+## Deployment Environment
+
+All experiments were run on:
+
+- AWS EC2 t2.micro instance  
+- Ubuntu 24.04 LTS  
+
+This setup reflects a small-scale real-world deployment environment.
