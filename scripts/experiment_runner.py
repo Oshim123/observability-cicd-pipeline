@@ -1,4 +1,5 @@
 import argparse
+import ast
 import json
 import subprocess
 import sys
@@ -6,145 +7,69 @@ from datetime import datetime
 from pathlib import Path
 
 
-def run_command(command, output_file):
-    result = subprocess.run(command, capture_output=True, text=True)
-    with output_file.open("w", encoding="utf-8") as file_handle:
-        file_handle.write(f"$ {' '.join(command)}\n")
-        file_handle.write(f"return_code: {result.returncode}\n\n")
-        file_handle.write("--- STDOUT ---\n")
-        file_handle.write(result.stdout)
-        file_handle.write("\n--- STDERR ---\n")
-        file_handle.write(result.stderr)
-    return result
+def run_command(command):
+    return subprocess.run(command, capture_output=True, text=True)
 
 
-def run_baseline(base_url, request_count, results_dir):
-    print("=== Running Baseline Test ===")
-    output_file = results_dir / "baseline_load_test.txt"
-    summary_json = results_dir / "baseline_metrics.json"
-    csv_file = results_dir / "baseline.csv"
-
-    start_time = datetime.now()
+def run_load_phase(phase_name, target_url, request_count, csv_file):
     result = run_command(
         [
             sys.executable,
             "scripts/load_test.py",
-            f"{base_url}/",
+            target_url,
             str(request_count),
             "--output-csv",
             str(csv_file),
-            "--summary-json",
-            str(summary_json),
-        ],
-        output_file,
+        ]
     )
-    end_time = datetime.now()
 
-    return {
-        "phase": "baseline",
-        "success": result.returncode == 0,
-        "error": None if result.returncode == 0 else "Baseline load test failed",
-        "start_time": start_time.isoformat(),
-        "end_time": end_time.isoformat(),
-        "return_code": result.returncode,
-        "csv_file": str(csv_file),
-        "metrics_file": str(summary_json),
-        "output_file": str(output_file),
+    metrics = {
+        "avg_latency_ms": None,
+        "error_rate_percent": None,
+        "status_code_distribution": {},
     }
+
+    if result.returncode == 0:
+        for line in result.stdout.splitlines():
+            if line.startswith("Average Latency:"):
+                metrics["avg_latency_ms"] = float(line.split(":", 1)[1].replace("ms", "").strip())
+            elif line.startswith("Error Rate:"):
+                metrics["error_rate_percent"] = float(line.split(":", 1)[1].replace("%", "").strip())
+            elif line.startswith("Status Code Distribution:"):
+                metrics["status_code_distribution"] = ast.literal_eval(line.split(":", 1)[1].strip())
+
+    return result, metrics
+
+
+def run_baseline(base_url, request_count, results_dir):
+    csv_file = results_dir / "baseline.csv"
+    return run_load_phase("baseline", f"{base_url}/", request_count, csv_file), csv_file
 
 
 def run_fault_experiment(name, stress_script, base_url, request_count, duration_seconds, results_dir):
-    label = "CPU" if name == "cpu" else "Memory"
-    print(f"=== Running {label} Stress Test ===")
-
-    stress_output = results_dir / f"{name}_stress_output.txt"
-    load_output = results_dir / f"{name}_load_test.txt"
-    summary_json = results_dir / f"{name}_metrics.json"
     csv_file = results_dir / f"{name}.csv"
+    stress_process = subprocess.Popen(
+        [sys.executable, stress_script, str(duration_seconds)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
 
-    start_time = datetime.now()
-
-    with stress_output.open("w", encoding="utf-8") as stress_log:
-        stress_process = subprocess.Popen(
-            [sys.executable, stress_script, str(duration_seconds)],
-            stdout=stress_log,
-            stderr=subprocess.STDOUT,
-            text=True,
-        )
-        load_result = run_command(
-            [
-                sys.executable,
-                "scripts/load_test.py",
-                f"{base_url}/",
-                str(request_count),
-                "--output-csv",
-                str(csv_file),
-                "--summary-json",
-                str(summary_json),
-            ],
-            load_output,
-        )
-        stress_process.wait()
-
-    end_time = datetime.now()
-    success = load_result.returncode == 0 and stress_process.returncode == 0
+    load_result, metrics = run_load_phase(name, f"{base_url}/", request_count, csv_file)
+    stress_stdout, _ = stress_process.communicate()
 
     return {
-        "phase": name,
-        "success": success,
-        "error": None if success else f"{label} stress phase failed",
-        "start_time": start_time.isoformat(),
-        "end_time": end_time.isoformat(),
-        "load_test_return_code": load_result.returncode,
+        "load_result": load_result,
         "stress_return_code": stress_process.returncode,
-        "csv_file": str(csv_file),
-        "metrics_file": str(summary_json),
-        "stress_output_file": str(stress_output),
-        "load_output_file": str(load_output),
+        "stress_stdout": stress_stdout,
+        "metrics": metrics,
+        "csv_file": csv_file,
     }
 
 
 def run_trigger_error_experiment(base_url, request_count, results_dir):
-    print("=== Running HTTP 500 Error Test ===")
-
-    output_file = results_dir / "trigger_error_load_test.txt"
-    summary_json = results_dir / "error_metrics.json"
     csv_file = results_dir / "error.csv"
-
-    start_time = datetime.now()
-    result = run_command(
-        [
-            sys.executable,
-            "scripts/load_test.py",
-            f"{base_url}/trigger-error",
-            str(request_count),
-            "--output-csv",
-            str(csv_file),
-            "--summary-json",
-            str(summary_json),
-        ],
-        output_file,
-    )
-    end_time = datetime.now()
-
-    return {
-        "phase": "trigger_error",
-        "success": result.returncode == 0,
-        "error": None if result.returncode == 0 else "Trigger error phase failed",
-        "start_time": start_time.isoformat(),
-        "end_time": end_time.isoformat(),
-        "return_code": result.returncode,
-        "csv_file": str(csv_file),
-        "metrics_file": str(summary_json),
-        "output_file": str(output_file),
-    }
-
-
-def build_logs_file(results_dir, phases):
-    lines = ["Observability Demo Execution Log", ""]
-    for phase in phases:
-        lines.append(f"phase={phase['phase']} success={phase['success']} error={phase['error']}")
-    (results_dir / "logs.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return run_load_phase("error", f"{base_url}/trigger-error", request_count, csv_file), csv_file
 
 
 def main():
@@ -152,55 +77,83 @@ def main():
     parser.add_argument("--base-url", default="http://127.0.0.1:5000", help="Flask base URL")
     parser.add_argument("--requests", type=int, default=200, help="Requests per load test")
     parser.add_argument("--duration", type=int, default=60, help="Stress duration in seconds")
-    parser.add_argument(
-        "--results-dir",
-        default=None,
-        help="Optional explicit results directory. If omitted, uses results/run_<timestamp>",
-    )
+    parser.add_argument("--results-dir", required=True, help="Explicit results directory")
     args = parser.parse_args()
 
-    if args.results_dir:
-        results_dir = Path(args.results_dir)
-    else:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        results_dir = Path("results") / f"run_{timestamp}"
+    results_dir = Path(args.results_dir)
     results_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"[runner] Results directory: {results_dir}")
+    logs = []
 
-    phases = [
-        run_baseline(args.base_url, args.requests, results_dir),
-        run_fault_experiment("cpu", "scripts/cpu_stress.py", args.base_url, args.requests, args.duration, results_dir),
-        run_fault_experiment("memory", "scripts/memory_stress.py", args.base_url, args.requests, args.duration, results_dir),
-        run_trigger_error_experiment(args.base_url, args.requests, results_dir),
-    ]
+    print("[2/5] Running baseline test...")
+    (baseline_payload, baseline_csv) = run_baseline(args.base_url, args.requests, results_dir)
+    baseline_result, baseline_metrics = baseline_payload
+    logs.append("=== BASELINE ===")
+    logs.append(baseline_result.stdout)
+    logs.append(baseline_result.stderr)
 
-    overall_success = all(phase["success"] for phase in phases)
-    failing = [phase["phase"] for phase in phases if not phase["success"]]
+    print("[3/5] Running CPU stress test...")
+    cpu = run_fault_experiment(
+        "cpu", "scripts/cpu_stress.py", args.base_url, args.requests, args.duration, results_dir
+    )
+    logs.append("=== CPU LOAD ===")
+    logs.append(cpu["load_result"].stdout)
+    logs.append(cpu["load_result"].stderr)
+    logs.append("=== CPU STRESS ===")
+    logs.append(cpu["stress_stdout"] or "")
+
+    print("[4/5] Running memory stress test...")
+    memory = run_fault_experiment(
+        "memory", "scripts/memory_stress.py", args.base_url, args.requests, args.duration, results_dir
+    )
+    logs.append("=== MEMORY LOAD ===")
+    logs.append(memory["load_result"].stdout)
+    logs.append(memory["load_result"].stderr)
+    logs.append("=== MEMORY STRESS ===")
+    logs.append(memory["stress_stdout"] or "")
+
+    print("[5/5] Running error test...")
+    (error_payload, error_csv) = run_trigger_error_experiment(args.base_url, args.requests, results_dir)
+    error_result, error_metrics = error_payload
+    logs.append("=== ERROR LOAD ===")
+    logs.append(error_result.stdout)
+    logs.append(error_result.stderr)
 
     summary = {
-        "success": overall_success,
-        "error": None if overall_success else f"Failed phases: {', '.join(failing)}",
-        "base_url": args.base_url,
-        "requests": args.requests,
-        "duration_seconds": args.duration,
-        "results_dir": str(results_dir),
-        "phases": phases,
+        "success": False,
+        "summary": {
+            "baseline": baseline_metrics,
+            "cpu": cpu["metrics"],
+            "memory": memory["metrics"],
+            "error": error_metrics,
+        },
     }
 
-    summary_file = results_dir / "summary.json"
-    summary_file.write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    build_logs_file(results_dir, phases)
+    return_codes_ok = all(
+        [
+            baseline_result.returncode == 0,
+            cpu["load_result"].returncode == 0,
+            cpu["stress_return_code"] == 0,
+            memory["load_result"].returncode == 0,
+            memory["stress_return_code"] == 0,
+            error_result.returncode == 0,
+        ]
+    )
 
-    if overall_success:
-        print("✅ All experiments completed successfully")
-    else:
-        print(f"❌ Experiment failed: {', '.join(failing)}")
+    summary["success"] = return_codes_ok
+    if not return_codes_ok:
+        summary["error"] = "One or more phases failed. Check logs.txt for details."
 
-    print(f"[runner] Summary saved to {summary_file}")
-    print(f"[runner] Results saved to: {results_dir}")
+    (results_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (results_dir / "logs.txt").write_text("\n".join(logs), encoding="utf-8")
 
-    if not overall_success:
+    required_csv = [baseline_csv, cpu["csv_file"], memory["csv_file"], error_csv]
+    if not all(path.exists() for path in required_csv):
+        print("Required CSV artifact missing")
+        sys.exit(1)
+
+    if not return_codes_ok:
+        print("Experiment failed")
         sys.exit(1)
 
 

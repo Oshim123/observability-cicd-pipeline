@@ -25,25 +25,22 @@ def section(title):
 
 
 def validate_environment():
-    section("Pre-flight Validation")
-
     if sys.version_info < (3, 10) or sys.version_info >= (3, 13):
-        print("❌ Python 3.10-3.12 is required for this demo.")
+        print("Python 3.10-3.12 is required for this demo.")
         print(f"Detected: {sys.version.split()[0]}")
         return False
 
     missing = [path for path in REQUIRED_FILES if not Path(path).exists()]
     if missing:
-        print("❌ Missing required files:")
+        print("Missing required files:")
         for item in missing:
             print(f" - {item}")
         return False
 
     has_aws = bool(os.getenv("AWS_ACCESS_KEY_ID") and os.getenv("AWS_SECRET_ACCESS_KEY"))
     if not has_aws:
-        print("⚠️ AWS credentials not detected. This is fine for local demo mode.")
+        print("AWS credentials not detected. This is fine for local demo mode.")
 
-    print("✅ Environment checks passed")
     return True
 
 
@@ -57,7 +54,6 @@ def find_available_port(start=5000, end=5050):
 
 
 def wait_for_app(base_url, timeout_seconds=30):
-    section("Waiting for Flask Server")
     deadline = time.time() + timeout_seconds
     attempt = 1
 
@@ -73,7 +69,7 @@ def wait_for_app(base_url, timeout_seconds=30):
         attempt += 1
         time.sleep(1)
 
-    print("❌ Flask server did not become healthy within 30 seconds.")
+    print("Flask server did not become healthy within 30 seconds.")
     print("Suggested fix: ensure selected port is free and try again.")
     return False
 
@@ -91,26 +87,19 @@ def terminate_process(proc):
 def print_results_summary(results_dir):
     summary_file = results_dir / "summary.json"
     if not summary_file.exists():
-        print("⚠️ summary.json not found; cannot print run metrics.")
-        return
+        print("summary.json not found; cannot print run metrics.")
+        return False
 
-    summary = json.loads(summary_file.read_text(encoding="utf-8"))
+    data = json.loads(summary_file.read_text(encoding="utf-8"))
+    summary = data.get("summary", {})
+
     section("Results Summary")
+    print(f"Baseline latency: {summary.get('baseline', {}).get('avg_latency_ms')}ms")
+    print(f"CPU latency: {summary.get('cpu', {}).get('avg_latency_ms')}ms")
+    print(f"Memory latency: {summary.get('memory', {}).get('avg_latency_ms')}ms")
+    print(f"Error rate: {summary.get('error', {}).get('error_rate_percent')}%")
 
-    for phase in summary.get("phases", []):
-        metrics_file = phase.get("metrics_file")
-        if not metrics_file:
-            continue
-        metrics_path = Path(metrics_file)
-        if not metrics_path.exists():
-            continue
-        metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
-        print(
-            f"{phase['phase']}: avg latency={metrics['average_latency_ms']} ms, "
-            f"error rate={metrics['error_rate_percent']}%"
-        )
-
-    print(f"Results saved to: {results_dir}")
+    return bool(data.get("success"))
 
 
 def main():
@@ -119,20 +108,27 @@ def main():
     parser.add_argument("--duration", type=int, default=20, help="Stress duration (seconds)")
     args = parser.parse_args()
 
-    section("Starting Observability Demo")
+    started_at = time.time()
+
+    section("Observability Demo")
+    print("This will:")
+    print("- start a Flask server")
+    print("- run 4 experiments")
+    print("- generate results automatically")
+    print("\nEstimated time: ~1-2 minutes")
 
     if not validate_environment():
         return 1
 
     selected_port = find_available_port(5000, 5050)
     if selected_port != 5000:
-        print(f"⚠️ Port 5000 in use, using fallback port {selected_port}")
+        print(f"Port 5000 in use, using fallback port {selected_port}")
 
     base_url = f"http://127.0.0.1:{selected_port}"
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_dir = Path("results") / f"run_{timestamp}"
+    run_id = datetime.now().strftime("run_%Y-%m-%d_%H-%M-%S")
+    results_dir = Path("results") / run_id
 
-    section("Starting Flask Server")
+    print("\n[1/5] Starting server...")
     app_process = subprocess.Popen(
         [sys.executable, "app/app.py", "--port", str(selected_port)],
         stdout=None,
@@ -143,7 +139,7 @@ def main():
 
     def handle_interrupt(signum, frame):
         interrupted["value"] = True
-        print("\n⚠️ Interrupted by user. Shutting down gracefully...")
+        print("\nInterrupted by user. Shutting down gracefully...")
         terminate_process(app_process)
         raise KeyboardInterrupt
 
@@ -156,7 +152,6 @@ def main():
         if not wait_for_app(base_url):
             return 1
 
-        section("Running Experiment Pipeline")
         cmd = [
             sys.executable,
             "scripts/experiment_runner.py",
@@ -171,25 +166,35 @@ def main():
         ]
         subprocess.run(cmd, check=True)
 
-        print_results_summary(results_dir)
-        print("✅ Demo finished successfully")
-        return 0
+        ok = print_results_summary(results_dir)
+        elapsed = int(time.time() - started_at)
+        minutes = elapsed // 60
+        seconds = elapsed % 60
+
+        if ok:
+            print("\nAll experiments completed successfully")
+        else:
+            print("\nExperiment failed. Check summary.json and logs.txt")
+
+        print("\nResults saved to:")
+        print(f"{results_dir}/")
+        print(f"Run ID: {run_id}")
+        print(f"Total runtime: {minutes}m {seconds}s")
+
+        return 0 if ok else 1
 
     except subprocess.CalledProcessError as exc:
-        print(f"❌ Experiment run failed with exit code {exc.returncode}")
+        print(f"Experiment run failed with exit code {exc.returncode}")
         print(f"Results (partial or complete): {results_dir}")
         return 1
     except KeyboardInterrupt:
         return 1
     finally:
-        section("Stopping Flask Server")
         terminate_process(app_process)
         signal.signal(signal.SIGINT, previous_sigint)
         signal.signal(signal.SIGTERM, previous_sigterm)
         if interrupted["value"]:
             print("Flask server stopped after interrupt")
-        else:
-            print("Flask server stopped")
 
 
 if __name__ == "__main__":
