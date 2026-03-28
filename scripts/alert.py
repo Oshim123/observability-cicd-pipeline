@@ -1,43 +1,31 @@
+import argparse
 import boto3
+import os
 from datetime import datetime, timezone, timedelta
 import time
 
-# Connect to CloudWatch in the correct region using the EC2 instance IAM role.
-# boto3 automatically picks up credentials from the instance metadata,
-# so no access keys are needed.
-client = boto3.client('cloudwatch', region_name='eu-west-2')
+# the alerting script queries CloudWatch metrics programmatically using boto3.
+# environment-specific values are configurable via CLI arguments or environment
+# variables so the script is portable across different EC2 instances and regions.
 
-# Define the thresholds that will trigger an alert.
-# These mirror the CloudWatch alarm thresholds configured in the console,
-# allowing programmatic alerting without relying solely on the AWS alarm system.
-CPU_THRESHOLD = 70.0
-MEMORY_THRESHOLD = 75.0
-
-# Define how far back to look when querying metrics.
-# 10 minutes ensures at least one CloudWatch data point is captured,
-# since the agent collects metrics every 60 seconds.
-LOOKBACK_MINUTES = 10
-
-# The CPU metric requires two dimensions to match exactly how the
-# CloudWatch agent registers it: host and cpu.
-# The memory metric only requires the host dimension.
-CPU_DIMENSIONS = [
-    {'Name': 'host', 'Value': 'ip-172-31-35-161'},
-    {'Name': 'cpu', 'Value': 'cpu-total'}
-]
-
-MEMORY_DIMENSIONS = [
-    {'Name': 'host', 'Value': 'ip-172-31-35-161'}
-]
+def parse_args():
+    parser = argparse.ArgumentParser(description="Poll CloudWatch metrics and alert on threshold breaches")
+    parser.add_argument("--region", default=os.getenv("AWS_REGION", "eu-west-2"), help="AWS region")
+    parser.add_argument("--namespace", default=os.getenv("CW_NAMESPACE", "ObservabilityPipeline"), help="CloudWatch namespace")
+    parser.add_argument("--host", default=os.getenv("CW_HOST_DIMENSION", "ip-172-31-35-161"), help="Host dimension value")
+    parser.add_argument("--cpu-threshold", type=float, default=70.0, help="CPU alert threshold percent")
+    parser.add_argument("--memory-threshold", type=float, default=75.0, help="Memory alert threshold percent")
+    parser.add_argument("--cycles", type=int, default=5, help="Number of polling cycles")
+    parser.add_argument("--interval", type=int, default=60, help="Seconds between cycles")
+    parser.add_argument("--lookback", type=int, default=10, help="Minutes of metric history to query")
+    return parser.parse_args()
 
 
-def get_latest_metric(metric_name, dimensions, namespace='ObservabilityPipeline'):
-    """
-    Query CloudWatch for the most recent average value of a given metric.
-    Returns the latest datapoint value, or None if no data is available.
-    """
+def get_latest_metric(client, metric_name, dimensions, namespace, lookback_minutes):
+    # query CloudWatch for the most recent average value of a given metric.
+    # returns the latest datapoint value, or None if no data is available.
     end_time = datetime.now(timezone.utc)
-    start_time = end_time - timedelta(minutes=LOOKBACK_MINUTES)
+    start_time = end_time - timedelta(minutes=lookback_minutes)
 
     response = client.get_metric_statistics(
         Namespace=namespace,
@@ -58,55 +46,65 @@ def get_latest_metric(metric_name, dimensions, namespace='ObservabilityPipeline'
     return latest['Average']
 
 
-def check_and_alert():
-    """
-    Check both CPU and memory metrics against their thresholds.
-    Log an alert message if either metric exceeds its threshold.
-    """
+def check_and_alert(client, args):
+    # check both CPU and memory metrics against their thresholds.
+    # the CPU metric requires both host and cpu dimensions to match how
+    # the CloudWatch agent registers it. memory only needs host.
+    cpu_dimensions = [
+        {'Name': 'host', 'Value': args.host},
+        {'Name': 'cpu', 'Value': 'cpu-total'}
+    ]
+
+    memory_dimensions = [
+        {'Name': 'host', 'Value': args.host}
+    ]
+
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
 
-    cpu_value = get_latest_metric('cpu_usage_active', CPU_DIMENSIONS)
-    memory_value = get_latest_metric('mem_used_percent', MEMORY_DIMENSIONS)
+    cpu_value = get_latest_metric(client, 'cpu_usage_active', cpu_dimensions, args.namespace, args.lookback)
+    memory_value = get_latest_metric(client, 'mem_used_percent', memory_dimensions, args.namespace, args.lookback)
 
     print(f"\n[{timestamp}] Checking metrics...")
 
     if cpu_value is not None:
-        print(f"  CPU usage:    {cpu_value:.2f}% (threshold: {CPU_THRESHOLD}%)")
-        if cpu_value > CPU_THRESHOLD:
-            print(f"  *** ALERT: CPU usage {cpu_value:.2f}% exceeds threshold {CPU_THRESHOLD}% ***")
+        print(f"  CPU usage:    {cpu_value:.2f}% (threshold: {args.cpu_threshold}%)")
+        if cpu_value > args.cpu_threshold:
+            print(f"  *** ALERT: CPU usage {cpu_value:.2f}% exceeds threshold {args.cpu_threshold}% ***")
     else:
-        print(f"  CPU usage:    No data available in last {LOOKBACK_MINUTES} minutes")
+        print(f"  CPU usage:    No data available in last {args.lookback} minutes")
 
     if memory_value is not None:
-        print(f"  Memory usage: {memory_value:.2f}% (threshold: {MEMORY_THRESHOLD}%)")
-        if memory_value > MEMORY_THRESHOLD:
-            print(f"  *** ALERT: Memory usage {memory_value:.2f}% exceeds threshold {MEMORY_THRESHOLD}% ***")
+        print(f"  Memory usage: {memory_value:.2f}% (threshold: {args.memory_threshold}%)")
+        if memory_value > args.memory_threshold:
+            print(f"  *** ALERT: Memory usage {memory_value:.2f}% exceeds threshold {args.memory_threshold}% ***")
     else:
-        print(f"  Memory usage: No data available in last {LOOKBACK_MINUTES} minutes")
+        print(f"  Memory usage: No data available in last {args.lookback} minutes")
 
     if cpu_value is not None and memory_value is not None:
-        if cpu_value <= CPU_THRESHOLD and memory_value <= MEMORY_THRESHOLD:
+        if cpu_value <= args.cpu_threshold and memory_value <= args.memory_threshold:
             print("  Status: All metrics within normal range.")
 
 
-def run_alerting_loop(interval_seconds=60, cycles=5):
-    """
-    Run the alerting check repeatedly at a fixed interval.
-    """
+def run_alerting_loop(args):
+    # boto3 picks up credentials from the EC2 instance IAM role automatically
+    # so no access keys are needed when running on EC2
+    client = boto3.client('cloudwatch', region_name=args.region)
+
     print(f"Starting observability alerting script.")
-    print(f"Polling every {interval_seconds}s for {cycles} cycles.")
-    print(f"Thresholds — CPU: {CPU_THRESHOLD}%, Memory: {MEMORY_THRESHOLD}%")
+    print(f"Region: {args.region} | Namespace: {args.namespace} | Host: {args.host}")
+    print(f"Polling every {args.interval}s for {args.cycles} cycles.")
+    print(f"Thresholds — CPU: {args.cpu_threshold}%, Memory: {args.memory_threshold}%")
     print("-" * 60)
 
-    for i in range(cycles):
-        check_and_alert()
+    for i in range(args.cycles):
+        check_and_alert(client, args)
 
-        if i < cycles - 1:
-            print(f"  Next check in {interval_seconds} seconds...")
-            time.sleep(interval_seconds)
+        if i < args.cycles - 1:
+            print(f"  Next check in {args.interval} seconds...")
+            time.sleep(args.interval)
 
     print("\nAlerting script complete.")
 
 
 if __name__ == '__main__':
-    run_alerting_loop()
+    run_alerting_loop(parse_args())

@@ -6,6 +6,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+SCHEMA_VERSION = "1.0"
+
 
 def run_command(command):
     return subprocess.run(command, capture_output=True, text=True)
@@ -119,16 +121,6 @@ def main():
     logs.append(error_result.stdout)
     logs.append(error_result.stderr)
 
-    summary = {
-        "success": False,
-        "summary": {
-            "baseline": baseline_metrics,
-            "cpu": cpu["metrics"],
-            "memory": memory["metrics"],
-            "error": error_metrics,
-        },
-    }
-
     return_codes_ok = all(
         [
             baseline_result.returncode == 0,
@@ -140,9 +132,20 @@ def main():
         ]
     )
 
-    summary["success"] = return_codes_ok
-    if not return_codes_ok:
-        summary["error"] = "One or more phases failed. Check logs.txt for details."
+    summary = {
+        "schema_version": SCHEMA_VERSION,
+        "success": return_codes_ok,
+        "error": None if return_codes_ok else "One or more phases failed. Check logs.txt for details.",
+        "base_url": args.base_url,
+        "requests_per_phase": args.requests,
+        "stress_duration_seconds": args.duration,
+        "summary": {
+            "baseline": baseline_metrics,
+            "cpu": cpu["metrics"],
+            "memory": memory["metrics"],
+            "error": error_metrics,
+        },
+    }
 
     (results_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     (results_dir / "logs.txt").write_text("\n".join(logs), encoding="utf-8")
