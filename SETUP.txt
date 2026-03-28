@@ -12,41 +12,46 @@ PREREQUISITES
 - IAM role with CloudWatchAgentServerPolicy and CloudWatchReadOnlyAccess attached
 - Ports 22, 5000, and 3000 open in the EC2 security group
 
-QUICKEST WAY TO RUN (NO AWS REQUIRED)
---------------------------------------
-To run the application and experiments locally without any AWS setup:
 
-   python3 -m venv venv
-   source venv/bin/activate          (Mac/Linux)
-   venv\Scripts\activate             (Windows)
-   pip install -r requirements.txt
-   python demo.py
+RUNNING LOCALLY (NO AWS REQUIRED)
+----------------------------------
+To verify the project works without any AWS setup, run the one-command demo:
 
-This starts Flask, runs all fault injection experiments automatically,
-saves CSV results to results/, and shuts down. No AWS credentials needed.
+    python3 -m venv venv
+    source venv/bin/activate          (Mac/Linux)
+    venv\Scripts\activate             (Windows)
+    pip install -r requirements.txt
+    python demo.py
 
-For the full system with CloudWatch and Grafana, follow the steps below.
+This starts Flask, runs all four fault injection experiments automatically,
+saves CSV results to results/, and shuts down cleanly.
 
-RUNNING LOCALLY
----------------
-1. Clone the repository:
-   git clone https://github.com/Oshim123/observability-cicd-pipeline.git
-   cd observability-cicd-pipeline
+To run the application manually instead:
 
-2. Create and activate a virtual environment:
-   python3 -m venv venv
-   source venv/bin/activate          (Mac/Linux)
-   venv\Scripts\activate             (Windows)
+    1. Clone the repository:
 
-3. Install dependencies:
-   pip install -r requirements.txt
+        git clone https://github.com/Oshim123/observability-cicd-pipeline.git
+        cd observability-cicd-pipeline
 
-4. Start the Flask application:
-   python app/app.py
+    2. Create and activate a virtual environment:
 
-5. Verify it is running:
-   curl http://localhost:5000/health
-   Expected: {"status":"healthy"}
+        python3 -m venv venv
+        source venv/bin/activate          (Mac/Linux)
+        venv\Scripts\activate             (Windows)
+
+    3. Install dependencies:
+
+        pip install -r requirements.txt
+
+    4. Start the Flask application:
+
+        python app/app.py
+
+    5. Verify it is running:
+
+        curl http://localhost:5000/health
+
+        Expected response: {"status":"healthy"}
 
 
 DEPLOYING TO AWS EC2
@@ -57,132 +62,147 @@ DEPLOYING TO AWS EC2
    - IAM instance profile: attach observability-ec2-role at launch
    - Security group: allow TCP 22, 5000, 3000
 
-2. Connect via SSH:
-   ssh -i observability-key.pem ubuntu@<EC2_PUBLIC_IP>
+2. Connect to the instance:
+
+        ssh -i observability-key.pem ubuntu@<EC2_PUBLIC_IP>
 
 3. Set up the instance:
-   sudo apt update && sudo apt install python3-pip python3-venv git -y
-   sudo mkdir -p /var/log/observability-app
-   sudo chown ubuntu:ubuntu /var/log/observability-app
-   git clone https://github.com/Oshim123/observability-cicd-pipeline.git
-   cd observability-cicd-pipeline
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
 
-4. Start Flask permanently:
-   nohup venv/bin/python app/app.py >> /var/log/observability-app/app.log 2>&1 &
+        sudo apt update && sudo apt install python3-pip python3-venv git -y
+        sudo mkdir -p /var/log/observability-app
+        sudo chown ubuntu:ubuntu /var/log/observability-app
+        git clone https://github.com/Oshim123/observability-cicd-pipeline.git
+        cd observability-cicd-pipeline
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
 
-5. Verify:
-   curl http://localhost:5000/health
+4. Start the Flask application:
+
+        nohup venv/bin/python app/app.py >> /var/log/observability-app/app.log 2>&1 &
+
+5. Verify it is running:
+
+        curl http://localhost:5000/health
+
+        Expected response: {"status":"healthy"}
 
 
 CI/CD PIPELINE (GITHUB ACTIONS)
 --------------------------------
-Add these three secrets to the GitHub repository:
+Add these three secrets to the GitHub repository under:
 Settings > Secrets and variables > Actions > New repository secret
 
-   EC2_HOST       = EC2 public IP address
-   EC2_USERNAME   = ubuntu
-   EC2_SSH_KEY    = full contents of .pem file including header and footer
+    EC2_HOST       = EC2 public IP address
+    EC2_USERNAME   = ubuntu
+    EC2_SSH_KEY    = full contents of .pem file including header and footer
 
-Push to main to trigger a deployment:
-   git add .
-   git commit -m "deploy"
-   git push origin main
+To trigger a deployment, push any commit to main:
+
+        git add .
+        git commit -m "deploy"
+        git push origin main
 
 Pipeline status is visible under the Actions tab in the repository.
 
 
 INSTALLING CLOUDWATCH AGENT
 ----------------------------
-Run on the EC2 instance:
+Run the following on the EC2 instance:
 
-   wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
-   sudo dpkg -i amazon-cloudwatch-agent.deb
-   sudo nano /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+        wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+        sudo dpkg -i amazon-cloudwatch-agent.deb
+        sudo nano /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 
-Paste the contents of infrastructure/cloudwatch-agent-config.json from the repo, save, then run:
+Paste the contents of infrastructure/cloudwatch-agent-config.json from the repository into
+the editor, save, and exit. Then start the agent:
 
-   sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
-     -a fetch-config -m ec2 \
-     -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
+        sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+          -a fetch-config -m ec2 \
+          -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
 
-Verify:
-   sudo systemctl status amazon-cloudwatch-agent
+Verify the agent is running:
 
-Metrics appear in CloudWatch under namespace ObservabilityPipeline within 1-2 minutes.
+        sudo systemctl status amazon-cloudwatch-agent
+
+Metrics appear in CloudWatch under the namespace ObservabilityPipeline within 1-2 minutes.
 
 
 INSTALLING GRAFANA
 ------------------
-Run on the EC2 instance:
+Run the following on the EC2 instance:
 
-   sudo apt-get install -y apt-transport-https software-properties-common
-   sudo wget -q -O /usr/share/keyrings/grafana.key https://apt.grafana.com/gpg.key
-   echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
-   sudo apt-get update
-   sudo apt-get install grafana -y
-   sudo systemctl start grafana-server
-   sudo systemctl enable grafana-server
+        sudo apt-get install -y apt-transport-https software-properties-common
+        sudo wget -q -O /usr/share/keyrings/grafana.key https://apt.grafana.com/gpg.key
+        echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
+        sudo apt-get update
+        sudo apt-get install grafana -y
+        sudo systemctl start grafana-server
+        sudo systemctl enable grafana-server
 
-Access Grafana at http://<EC2_PUBLIC_IP>:3000
-Default login: admin / admin
+Access Grafana at:   http://<EC2_PUBLIC_IP>:3000
+Default login:       admin / admin
 
-To connect to CloudWatch:
-   Connections > Data sources > Add data source > CloudWatch
-   Authentication Provider: AWS SDK Default
-   Default Region: eu-west-2
-   Click Save & test
+To connect CloudWatch as a data source:
+    Connections > Data sources > Add data source > CloudWatch
+    Authentication Provider: AWS SDK Default
+    Default Region:          eu-west-2
+    Click Save & test
 
 
 RUNNING THE EXPERIMENTS
 ------------------------
 Activate the virtual environment first:
-   cd ~/observability-cicd-pipeline
-   source venv/bin/activate
 
-Baseline load test:
-   python scripts/load_test.py http://localhost:5000/health 100
+        cd ~/observability-cicd-pipeline
+        source venv/bin/activate
 
-CPU fault injection (run both at the same time in two terminals):
-   Terminal 1: python scripts/cpu_stress.py 60
-   Terminal 2: python scripts/load_test.py http://localhost:5000/health 100
+Run all experiments automatically (recommended):
 
-Memory fault injection (run both at the same time in two terminals):
-   Terminal 1: python scripts/memory_stress.py 60
-   Terminal 2: python scripts/load_test.py http://localhost:5000/health 100
+        python scripts/experiment_runner.py --base-url http://localhost:5000 --requests 100 --duration 60
 
-Run all experiments automatically:
-   python scripts/experiment_runner.py --base-url http://localhost:5000 --requests 100 --duration 60
+To run experiments individually:
 
-Programmatic alerting script:
-   python scripts/alert.py
+    Baseline load test:
+
+        python scripts/load_test.py http://localhost:5000/health 100
+
+    CPU fault injection — open two terminals and run simultaneously:
+
+        python scripts/cpu_stress.py 60
+        python scripts/load_test.py http://localhost:5000/health 100
+
+    Memory fault injection — open two terminals and run simultaneously:
+
+        python scripts/memory_stress.py 60
+        python scripts/load_test.py http://localhost:5000/health 100
+
+    Programmatic CloudWatch alerting check (requires AWS credentials):
+
+        python scripts/alert.py
 
 
 FLASK ENDPOINTS
 ---------------
-   /              GET   Root endpoint — HTTP 200
-   /health        GET   Health check — {"status":"healthy"}
-   /trigger-error GET   Deliberate error — HTTP 500
-   /slow          GET   Slow response (~5 seconds) — HTTP 200
-   /unstable      GET   Random 200 or 500
+    /              GET   Returns HTTP 200
+    /health        GET   Returns {"status":"healthy"}
+    /trigger-error GET   Returns HTTP 500
+    /slow          GET   Returns HTTP 200 after ~5 second delay
+    /unstable      GET   Returns HTTP 200 or 500 at random
 
 
 TROUBLESHOOTING
 ---------------
-Flask not accessible on port 5000
-   Check EC2 security group has inbound TCP 5000 open
+Flask not accessible on port 5000:
+    Check the EC2 security group has inbound TCP 5000 open.
 
-CloudWatch metrics not appearing
-   sudo systemctl status amazon-cloudwatch-agent
+CloudWatch metrics not appearing:
+        sudo systemctl status amazon-cloudwatch-agent
 
-Grafana shows no data
-   Confirm IAM role has CloudWatchReadOnlyAccess and region is eu-west-2
+Grafana shows no data:
+    Confirm the IAM role has CloudWatchReadOnlyAccess attached
+    and that the data source region is set to eu-west-2.
 
-GitHub Actions pipeline failing
-   Check all three secrets are correctly set in repository settings
-
-CPU metric shows No data in alerting script
-   The CPU metric requires two dimensions: host and cpu=cpu-total
-   Check scripts/alert.py has both dimensions in CPU_DIMENSIONS
+GitHub Actions pipeline failing:
+    Check all three repository secrets are correctly set under
+    Settings > Secrets and variables > Actions.
