@@ -1,8 +1,3 @@
-# Defence Runbook (Copy/Paste)
-
-This file is intentionally command-focused so you can run the full flow during viva/defence without memorising steps.
-
----
 
 ## A) EC2 + App + Experiments (Core Demo)
 
