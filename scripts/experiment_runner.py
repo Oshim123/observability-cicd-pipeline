@@ -1,9 +1,7 @@
 import argparse
-import ast
 import json
 import subprocess
 import sys
-from datetime import datetime
 from pathlib import Path
 
 SCHEMA_VERSION = "1.0"
@@ -13,7 +11,8 @@ def run_command(command):
     return subprocess.run(command, capture_output=True, text=True)
 
 
-def run_load_phase(phase_name, target_url, request_count, csv_file):
+def run_load_phase(target_url, request_count, csv_file):
+    summary_json_file = csv_file.with_name(f"{csv_file.stem}_summary.json")
     result = run_command(
         [
             sys.executable,
@@ -22,6 +21,8 @@ def run_load_phase(phase_name, target_url, request_count, csv_file):
             str(request_count),
             "--output-csv",
             str(csv_file),
+            "--summary-json",
+            str(summary_json_file),
         ]
     )
 
@@ -32,20 +33,23 @@ def run_load_phase(phase_name, target_url, request_count, csv_file):
     }
 
     if result.returncode == 0:
-        for line in result.stdout.splitlines():
-            if line.startswith("Average Latency:"):
-                metrics["avg_latency_ms"] = float(line.split(":", 1)[1].replace("ms", "").strip())
-            elif line.startswith("Error Rate:"):
-                metrics["error_rate_percent"] = float(line.split(":", 1)[1].replace("%", "").strip())
-            elif line.startswith("Status Code Distribution:"):
-                metrics["status_code_distribution"] = ast.literal_eval(line.split(":", 1)[1].strip())
+        try:
+            summary_payload = json.loads(summary_json_file.read_text(encoding="utf-8"))
+            metrics["avg_latency_ms"] = summary_payload.get("average_latency_ms")
+            metrics["error_rate_percent"] = summary_payload.get("error_rate_percent")
+            metrics["status_code_distribution"] = summary_payload.get("status_code_distribution", {})
+        except (OSError, json.JSONDecodeError):
+            pass
+        finally:
+            if summary_json_file.exists():
+                summary_json_file.unlink()
 
     return result, metrics
 
 
 def run_baseline(base_url, request_count, results_dir):
     csv_file = results_dir / "baseline.csv"
-    return run_load_phase("baseline", f"{base_url}/", request_count, csv_file), csv_file
+    return run_load_phase(f"{base_url}/", request_count, csv_file), csv_file
 
 
 def run_fault_experiment(name, stress_script, base_url, request_count, duration_seconds, results_dir):
@@ -57,7 +61,7 @@ def run_fault_experiment(name, stress_script, base_url, request_count, duration_
         text=True,
     )
 
-    load_result, metrics = run_load_phase(name, f"{base_url}/", request_count, csv_file)
+    load_result, metrics = run_load_phase(f"{base_url}/", request_count, csv_file)
     stress_stdout, _ = stress_process.communicate()
 
     return {
@@ -71,7 +75,7 @@ def run_fault_experiment(name, stress_script, base_url, request_count, duration_
 
 def run_trigger_error_experiment(base_url, request_count, results_dir):
     csv_file = results_dir / "error.csv"
-    return run_load_phase("error", f"{base_url}/trigger-error", request_count, csv_file), csv_file
+    return run_load_phase(f"{base_url}/trigger-error", request_count, csv_file), csv_file
 
 
 def main():
@@ -120,6 +124,17 @@ def main():
     logs.append("=== ERROR LOAD ===")
     logs.append(error_result.stdout)
     logs.append(error_result.stderr)
+
+    summary = {
+        "schema_version": "1.0",
+        "success": False,
+        "summary": {
+            "baseline": baseline_metrics,
+            "cpu": cpu["metrics"],
+            "memory": memory["metrics"],
+            "error": error_metrics,
+        },
+    }
 
     return_codes_ok = all(
         [
