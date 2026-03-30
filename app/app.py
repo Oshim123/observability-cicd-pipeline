@@ -1,9 +1,13 @@
-from flask import Flask, jsonify
 import argparse
+import json
 import logging
 import os
 import random
 import time
+import uuid
+from datetime import datetime, timezone
+
+from flask import Flask, g, jsonify, request
 
 app = Flask(__name__)
 
@@ -16,31 +20,79 @@ try:
 except OSError:
     pass
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=log_handlers,
-)
-
+logging.basicConfig(level=logging.INFO, handlers=log_handlers)
 logger = logging.getLogger(__name__)
-logger.info("Application initialised successfully")
+
+SEED = int(os.getenv("UNSTABLE_SEED", "42"))
+_rng = random.Random(SEED)
+
+
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        payload = {
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            "level": record.levelname,
+            "message": record.getMessage(),
+        }
+        extra_fields = ("request_id", "endpoint", "status_code", "latency_ms", "scenario", "run_id")
+        for field in extra_fields:
+            value = getattr(record, field, None)
+            if value is not None:
+                payload[field] = value
+        return json.dumps(payload)
+
+
+for handler in logger.handlers:
+    handler.setFormatter(JsonFormatter())
+
+
+@app.before_request
+def _start_request_tracking():
+    g.start = time.time()
+    g.request_id = request.headers.get("X-Request-Id", str(uuid.uuid4()))
+    g.scenario = request.headers.get("X-Scenario")
+    g.run_id = request.headers.get("X-Run-Id")
+
+
+@app.after_request
+def _log_response(response):
+    latency_ms = round((time.time() - g.start) * 1000, 2)
+    logger.info(
+        "request_complete",
+        extra={
+            "request_id": g.request_id,
+            "endpoint": request.path,
+            "status_code": response.status_code,
+            "latency_ms": latency_ms,
+            "scenario": g.scenario,
+            "run_id": g.run_id,
+        },
+    )
+    response.headers["X-Request-Id"] = g.request_id
+    return response
 
 
 @app.route("/")
 def home():
-    logger.info("Root endpoint accessed successfully")
     return "Observability Pipeline Running"
 
 
 @app.route("/health")
 def health():
-    logger.info("Health check endpoint accessed")
     return {"status": "healthy"}, 200
 
 
 @app.route("/trigger-error")
 def trigger_error():
-    logger.error("Intentional application error triggered for observability testing")
+    logger.error(
+        "intentional_error",
+        extra={
+            "request_id": g.request_id,
+            "endpoint": request.path,
+            "scenario": g.scenario,
+            "run_id": g.run_id,
+        },
+    )
     return jsonify(
         {
             "status": "error",
@@ -51,16 +103,13 @@ def trigger_error():
 
 @app.route("/unstable")
 def unstable():
-    if random.random() < 0.4:
-        logger.error("Random failure occurred in unstable endpoint")
+    if _rng.random() < 0.4:
         return jsonify({"status": "error"}), 500
-    logger.info("Unstable endpoint returned success")
     return jsonify({"status": "success"}), 200
 
 
 @app.route("/slow")
 def slow():
-    logger.info("Slow endpoint triggered, introducing artificial delay")
     time.sleep(5)
     return jsonify({"status": "delayed response"}), 200
 
@@ -77,5 +126,6 @@ def parse_args():
 
 
 if __name__ == "__main__":
+    logger.info(f"app_started seed={SEED}")
     args = parse_args()
     app.run(host="0.0.0.0", port=args.port)

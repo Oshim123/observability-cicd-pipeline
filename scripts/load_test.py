@@ -3,7 +3,8 @@ import csv
 import json
 import statistics
 import time
-from datetime import datetime
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -13,78 +14,106 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run HTTP load test and save detailed CSV results")
     parser.add_argument("url", help="Target URL")
     parser.add_argument("number_of_requests", type=int, help="Number of HTTP requests to send")
-    parser.add_argument(
-        "--output-csv",
-        default=None,
-        help="Destination CSV file. If omitted, creates load_test_results_<timestamp>.csv in CWD.",
-    )
-    parser.add_argument(
-        "--summary-json",
-        default=None,
-        help="Optional destination JSON file for summary metrics.",
-    )
+    parser.add_argument("--output-csv", default=None, help="Destination CSV file")
+    parser.add_argument("--summary-json", default=None, help="Optional destination JSON file")
+    parser.add_argument("--scenario", default="unknown", help="Scenario label for traceability")
+    parser.add_argument("--run-id", default="run0", help="Run identifier for traceability")
+    parser.add_argument("--pace-ms", type=int, default=50, help="Delay between requests")
+    parser.add_argument("--timeout", type=float, default=5.0, help="Request timeout in seconds")
     return parser.parse_args()
+
+
+def percentile(values, pct):
+    if not values:
+        return 0.0
+    if len(values) == 1:
+        return values[0]
+    values_sorted = sorted(values)
+    idx = (len(values_sorted) - 1) * pct
+    low = int(idx)
+    high = min(low + 1, len(values_sorted) - 1)
+    weight = idx - low
+    return values_sorted[low] * (1 - weight) + values_sorted[high] * weight
 
 
 def main():
     args = parse_args()
+    if args.number_of_requests <= 0:
+        raise ValueError("number_of_requests must be > 0")
 
     if args.output_csv:
         csv_path = Path(args.output_csv)
     else:
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H-%M-%S")
         csv_path = Path(f"load_test_results_{timestamp}.csv")
 
     csv_path.parent.mkdir(parents=True, exist_ok=True)
 
     latencies = []
     status_counts = {}
+    error_count = 0
 
     with csv_path.open("w", newline="", encoding="utf-8") as csv_file:
-        fieldnames = ["Request Number", "Latency (ms)", "Status Code"]
+        fieldnames = [
+            "timestamp_utc",
+            "request_number",
+            "request_id",
+            "scenario",
+            "run_id",
+            "latency_ms",
+            "status_code",
+        ]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
         for i in range(args.number_of_requests):
+            request_id = str(uuid.uuid4())
             start_time = time.time()
+            timestamp_utc = datetime.now(timezone.utc).isoformat()
+            headers = {
+                "X-Request-Id": request_id,
+                "X-Scenario": args.scenario,
+                "X-Run-Id": args.run_id,
+            }
             try:
-                response = requests.get(args.url, timeout=5)
+                response = requests.get(args.url, timeout=args.timeout, headers=headers)
                 status_code = response.status_code
             except requests.exceptions.RequestException as exc:
                 status_code = "ERROR"
                 print(f"Request {i + 1} failed: {exc}")
 
-            end_time = time.time()
-            latency = (end_time - start_time) * 1000
+            latency = (time.time() - start_time) * 1000
             latencies.append(latency)
-            status_counts[status_code] = status_counts.get(status_code, 0) + 1
+            status_counts[str(status_code)] = status_counts.get(str(status_code), 0) + 1
+            if str(status_code).startswith("5") or status_code == "ERROR":
+                error_count += 1
 
             writer.writerow(
                 {
-                    "Request Number": i + 1,
-                    "Latency (ms)": latency,
-                    "Status Code": status_code,
+                    "timestamp_utc": timestamp_utc,
+                    "request_number": i + 1,
+                    "request_id": request_id,
+                    "scenario": args.scenario,
+                    "run_id": args.run_id,
+                    "latency_ms": round(latency, 3),
+                    "status_code": status_code,
                 }
             )
-            time.sleep(0.05)
-
-    avg_latency = statistics.mean(latencies) if latencies else 0.0
-    min_latency = min(latencies) if latencies else 0.0
-    max_latency = max(latencies) if latencies else 0.0
-
-    total_errors = sum(
-        count for code, count in status_counts.items() if str(code).startswith("5") or code == "ERROR"
-    )
-    error_rate = (total_errors / args.number_of_requests * 100) if args.number_of_requests else 0.0
+            time.sleep(args.pace_ms / 1000.0)
 
     summary = {
         "url": args.url,
+        "scenario": args.scenario,
+        "run_id": args.run_id,
         "requests": args.number_of_requests,
-        "average_latency_ms": round(avg_latency, 2),
-        "minimum_latency_ms": round(min_latency, 2),
-        "maximum_latency_ms": round(max_latency, 2),
+        "mean_latency_ms": round(statistics.mean(latencies), 3),
+        "median_latency_ms": round(statistics.median(latencies), 3),
+        "std_dev_latency_ms": round(statistics.pstdev(latencies), 3),
+        "minimum_latency_ms": round(min(latencies), 3),
+        "maximum_latency_ms": round(max(latencies), 3),
+        "p95_latency_ms": round(percentile(latencies, 0.95), 3),
         "status_code_distribution": status_counts,
-        "error_rate_percent": round(error_rate, 2),
+        "error_rate_percent": round((error_count / args.number_of_requests) * 100, 3),
         "csv_file": str(csv_path),
     }
 
@@ -93,14 +122,7 @@ def main():
         summary_path.parent.mkdir(parents=True, exist_ok=True)
         summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
-    print("\n--- Load Test Summary ---")
-    print(f"Total Requests: {args.number_of_requests}")
-    print(f"Average Latency: {avg_latency:.2f} ms")
-    print(f"Minimum Latency: {min_latency:.2f} ms")
-    print(f"Maximum Latency: {max_latency:.2f} ms")
-    print(f"Error Rate: {error_rate:.2f}%")
-    print(f"Status Code Distribution: {status_counts}")
-    print(f"CSV Output: {csv_path}")
+    print(json.dumps(summary, indent=2))
 
 
 if __name__ == "__main__":
