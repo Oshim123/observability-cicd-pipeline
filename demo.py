@@ -93,11 +93,25 @@ def print_results_summary(results_dir):
     data = json.loads(summary_file.read_text(encoding="utf-8"))
     summary = data.get("summary", {})
 
+    def scenario_metric(scenario, phase, key):
+        return summary.get(scenario, {}).get(phase, {}).get(key)
+
     section("Results Summary")
-    print(f"Baseline latency: {summary.get('baseline', {}).get('avg_latency_ms')}ms")
-    print(f"CPU latency: {summary.get('cpu', {}).get('avg_latency_ms')}ms")
-    print(f"Memory latency: {summary.get('memory', {}).get('avg_latency_ms')}ms")
-    print(f"Error rate: {summary.get('error', {}).get('error_rate_percent')}%")
+    print(
+        "CPU latency (baseline -> fault): "
+        f"{scenario_metric('cpu', 'baseline', 'mean_latency_ms')}ms -> "
+        f"{scenario_metric('cpu', 'fault', 'mean_latency_ms')}ms"
+    )
+    print(
+        "Memory latency (baseline -> fault): "
+        f"{scenario_metric('memory', 'baseline', 'mean_latency_ms')}ms -> "
+        f"{scenario_metric('memory', 'fault', 'mean_latency_ms')}ms"
+    )
+    print(
+        "Error rate (baseline -> fault): "
+        f"{scenario_metric('error', 'baseline', 'error_rate_percent')}% -> "
+        f"{scenario_metric('error', 'fault', 'error_rate_percent')}%"
+    )
 
     return bool(data.get("success"))
 

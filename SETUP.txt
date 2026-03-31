@@ -159,7 +159,7 @@ Activate the virtual environment first:
 
 Run all experiments automatically (recommended):
 
-        python scripts/experiment_runner.py --base-url http://localhost:5000 --requests 100 --duration 60
+        python scripts/experiment_runner.py --base-url http://localhost:5000 --requests 100 --duration 60 --results-dir results/run_local
 
 To run experiments individually:
 

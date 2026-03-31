@@ -81,17 +81,25 @@ EXPERIMENT OUTPUT
 Every run produces a timestamped folder:
 
     results/run_<timestamp>/
-        baseline.csv      — normal operation
-        cpu.csv           — CPU stress active
-        memory.csv        — memory stress active
-        error.csv         — /trigger-error endpoint
-        summary.json      — aggregated metrics and pass/fail flag
-        logs.txt          — full stdout/stderr for the run
+        baseline/         — baseline CSV files for each scenario/run
+        cpu/              — CPU fault CSV files by run
+        memory/           — memory fault CSV files by run
+        error/            — trigger-error fault CSV files by run
+        summary.json      — success flag + per-scenario baseline vs fault aggregates
+        metadata.json     — run configuration (requests, duration, repeats, base URL)
+        logs.txt          — phase markers + captured stdout/stderr
 
-A successful run will show in summary.json:
-    - "success": true
-    - CPU experiment mean latency higher than baseline
-    - Error experiment error rate at or near 100%
+summary.json structure:
+    summary["cpu"]["baseline"] and summary["cpu"]["fault"]
+    summary["memory"]["baseline"] and summary["memory"]["fault"]
+    summary["error"]["baseline"] and summary["error"]["fault"]
+
+Each baseline/fault block contains:
+    - runs
+    - mean_latency_ms
+    - std_dev_latency_ms
+    - p95_latency_ms
+    - error_rate_percent
 
 
 FLASK ENDPOINTS
