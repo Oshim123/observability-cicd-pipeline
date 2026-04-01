@@ -87,15 +87,10 @@ def home():
 
 @app.route("/health")
 def health():
-    # 1. Check if we can write to the log file (Disk Check)
-    if not os.access(os.path.dirname(log_file_path), os.W_OK):
-        return {"status": "unhealthy", "reason": "disk_readonly"}, 500
-    
-    # 2. Check if CPU is exploding (Resource Check)
-    #this now can simulate a CPU spike by performing a CPU-intensive task, such as calculating Fibonacci numbers recursively,
-    
-    
     return {"status": "healthy"}, 200
+    
+    
+    
 
 
 @app.route("/trigger-error")
