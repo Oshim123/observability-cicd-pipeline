@@ -6,26 +6,30 @@ import random
 import time
 import uuid
 from datetime import datetime, timezone
-
 from flask import Flask, g, jsonify, request
-
+#these imports all let us use the flask framework to create a web application, 
+# handle requests, and manage logging and other utilities.
 app = Flask(__name__)
 
 log_file_path = "/var/log/observability-app/app.log"
 log_handlers = [logging.StreamHandler()]
-
+#the log file and handler are set up to write logs to both the console 
+# and a file, with error handling to ensure the application continues running even if the log file cannot be created.
 try:
     os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
     log_handlers.append(logging.FileHandler(log_file_path))
 except OSError:
     pass
-
+#this try except block can handle the case where the log file cannot be created, 
+# such as due to permissions issues, and ensures that the application continues to run without crashing.
 logging.basicConfig(level=logging.INFO, handlers=log_handlers)
 logger = logging.getLogger(__name__)
-
+#logging and logger lets you log messages with different severity levels (e.g., INFO, ERROR) 
+# and configure how those logs are handled (e.g., written to a file or displayed in the console).
 SEED = int(os.getenv("UNSTABLE_SEED", "42"))
 _rng = random.Random(SEED)
-
+#seed is set for the random number generator to ensure reproducibility of the "unstable" endpoint's behavior across runs, 
+# which is important for consistent testing and monitoring experiments.
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
@@ -33,18 +37,21 @@ class JsonFormatter(logging.Formatter):
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "level": record.levelname,
             "message": record.getMessage(),
-        }
+        } #payload is a dictionary that includes the timestamp, log level, and message. 
+        #its used to structure log entries in a consistent JSON format, making it easier to parse and analyse logs in monitoring systems or log management tools.
         extra_fields = ("request_id", "endpoint", "status_code", "latency_ms", "scenario", "run_id")
         for field in extra_fields:
             value = getattr(record, field, None)
             if value is not None:
                 payload[field] = value
         return json.dumps(payload)
-
-
+#extra_fields is a tuple of additional fields that may be included in log records. 
+# it will check if these fields are present in the log record and include them in the JSON payload if they exist.
+#if none of the extra fields are present, it will simply return the basic log information (timestamp, level, message) in JSON format.
 for handler in logger.handlers:
     handler.setFormatter(JsonFormatter())
-
+#for loop loops through all the handlers attached to the logger and sets their formatter to an instance of JsonFormatter 
+# so that all log messages will be formatted as JSON when they are emitted.
 
 @app.before_request
 def _start_request_tracking():
@@ -52,7 +59,8 @@ def _start_request_tracking():
     g.request_id = request.headers.get("X-Request-Id", str(uuid.uuid4()))
     g.scenario = request.headers.get("X-Scenario")
     g.run_id = request.headers.get("X-Run-Id")
-
+#the different fields being set in the g object (start, request_id, scenario, run_id) are used to track the request's start time, 
+# so that latency can be calculated later, and to capture any relevant metadata about the request (like scenario and run ID) for logging purposes.
 
 @app.after_request
 def _log_response(response):
@@ -79,6 +87,14 @@ def home():
 
 @app.route("/health")
 def health():
+    # 1. Check if we can write to the log file (Disk Check)
+    if not os.access(os.path.dirname(log_file_path), os.W_OK):
+        return {"status": "unhealthy", "reason": "disk_readonly"}, 500
+    
+    # 2. Check if CPU is exploding (Resource Check)
+    #this now can simulate a CPU spike by performing a CPU-intensive task, such as calculating Fibonacci numbers recursively,
+    
+    
     return {"status": "healthy"}, 200
 
 
