@@ -14,8 +14,6 @@ REQUIREMENTS
 - pip
 - Internet connection (required once for dependency installation)
 
-
-IMPORTANT FOR MARKERS
 ---------------------
 There are TWO ways to run this project:
 
