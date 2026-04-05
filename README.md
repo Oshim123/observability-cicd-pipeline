@@ -22,9 +22,6 @@ There are TWO ways to run this project:
 1) LOCAL DEMO (RECOMMENDED — NO AWS REQUIRED)
 2) FULL AWS DEPLOYMENT (OPTIONAL — REQUIRES CLOUD SETUP)
 
-If you are marking this project, use the LOCAL DEMO.
-
-
 ===============================================================================
 QUICK CHECK (OPTIONAL)
 ===============================================================================
