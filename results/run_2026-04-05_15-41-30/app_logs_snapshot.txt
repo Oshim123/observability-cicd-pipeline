@@ -1,0 +1,1294 @@
+2026-03-05 20:18:00,108 - INFO - Application initialised successfully
+2026-03-05 20:18:01,427 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.201:5000
+2026-03-05 20:18:01,427 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-05 20:18:37,753 - INFO - Root endpoint accessed successfully
+2026-03-05 20:18:37,756 - INFO - 127.0.0.1 - - [05/Mar/2026 20:18:37] "GET / HTTP/1.1" 200 -
+2026-03-05 20:18:38,474 - INFO - 127.0.0.1 - - [05/Mar/2026 20:18:38] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-05 20:18:49,389 - ERROR - Intentional application error triggered for observability testing
+2026-03-05 20:18:49,390 - INFO - 127.0.0.1 - - [05/Mar/2026 20:18:49] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-05 20:19:00,839 - INFO - Slow endpoint triggered, introducing artificial delay
+2026-03-05 20:19:05,840 - INFO - 127.0.0.1 - - [05/Mar/2026 20:19:05] "GET /slow HTTP/1.1" 200 -
+2026-03-05 20:19:14,206 - ERROR - Random failure occurred in unstable endpoint
+2026-03-05 20:19:14,208 - INFO - 127.0.0.1 - - [05/Mar/2026 20:19:14] "[35m[1mGET /unstable HTTP/1.1[0m" 500 -
+2026-03-05 20:19:25,921 - INFO - Health check endpoint accessed
+2026-03-05 20:19:25,922 - INFO - 127.0.0.1 - - [05/Mar/2026 20:19:25] "GET /health HTTP/1.1" 200 -
+2026-03-05 20:24:12,911 - INFO - Application initialised successfully
+2026-03-05 20:24:14,207 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.201:5000
+2026-03-05 20:24:14,207 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-05 20:24:36,940 - INFO - Health check endpoint accessed
+2026-03-05 20:24:36,940 - INFO - 127.0.0.1 - - [05/Mar/2026 20:24:36] "GET /health HTTP/1.1" 200 -
+2026-03-21 14:30:38,440 - INFO - Application initialised successfully
+2026-03-21 14:30:39,787 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+2026-03-21 14:30:39,787 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-21 14:30:40,030 - INFO - Health check endpoint accessed
+2026-03-21 14:30:40,030 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET /health HTTP/1.1" 200 -
+2026-03-21 14:30:40,652 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:40,652 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:40,705 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:40,705 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:40,780 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:40,781 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:40,847 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:40,848 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:40,913 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:40,913 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:40,982 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:40,982 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:40] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,047 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,048 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,100 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,100 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,164 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,164 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,230 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,231 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,297 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,298 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,349 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,349 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,412 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,413 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,480 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,480 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,546 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,546 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,600 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,600 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,662 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,663 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,730 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,730 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,783 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,783 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,859 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,859 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,931 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,931 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:41,996 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:41,996 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:41] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,062 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,062 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,115 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,115 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,180 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,181 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,234 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,235 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,311 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,312 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,365 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,365 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,431 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,431 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,496 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,496 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,561 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,561 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,615 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,616 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,693 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,693 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,762 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,763 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,830 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,830 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,896 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,897 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:42,950 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:42,950 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:42] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,013 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,014 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,071 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,071 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,146 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,148 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,201 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,202 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,267 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,267 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,320 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,320 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,393 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,394 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,463 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,464 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,518 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,518 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,595 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,596 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,663 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,663 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,717 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,717 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:43,780 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:43,780 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:43] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,123 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,146 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,238 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,249 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,357 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,380 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,467 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,480 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,560 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,566 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,627 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,638 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,718 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,741 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,842 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,858 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:45,946 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:45,955 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:45] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,057 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,073 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,141 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,152 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,218 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,221 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,295 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,306 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,376 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,391 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,472 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,474 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,544 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,567 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,639 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,651 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,736 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,749 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,816 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,818 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,897 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,915 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:46,995 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:46,997 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:46] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,096 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,127 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,227 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,228 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,361 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,393 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,501 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,505 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,597 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,607 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,697 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,700 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,773 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,774 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,857 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,870 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:47,951 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:47,957 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:47] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,037 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,050 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,123 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,137 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,220 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,221 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,291 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,296 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,400 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,420 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,534 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,550 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,623 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,647 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,722 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,724 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,828 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,853 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:48,930 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:48,934 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:48] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,025 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,030 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,103 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,129 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,207 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,217 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,331 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,349 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,423 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,427 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,496 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,515 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,631 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,664 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,798 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,829 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:49,934 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:49,955 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:49] "GET / HTTP/1.1" 200 -
+2026-03-21 14:30:50,034 - INFO - Root endpoint accessed successfully
+2026-03-21 14:30:50,053 - INFO - 127.0.0.1 - - [21/Mar/2026 14:30:50] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:04,726 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:04,726 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:04] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:04,797 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:04,798 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:04] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:04,851 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:04,851 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:04] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:04,921 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:04,922 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:04] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:04,974 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:04,974 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:04] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,047 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,048 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,124 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,125 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,201 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,202 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,265 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,266 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,343 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,344 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,396 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,396 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,467 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,467 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,544 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,545 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,621 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,621 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,697 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,698 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,775 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,775 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,838 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,838 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,916 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,917 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:05,970 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:05,970 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:05] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,040 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,040 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,094 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,094 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,164 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,164 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,241 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,241 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,319 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,319 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,373 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,373 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,426 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,427 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,503 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,503 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,566 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,566 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,643 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,643 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,721 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,721 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,774 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,774 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,827 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,828 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,891 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,892 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:06,968 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:06,968 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:06] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,046 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,046 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,099 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,100 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,170 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,170 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,247 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,247 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,310 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,310 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,385 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,385 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,449 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,450 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,512 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,513 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,589 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,589 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,652 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,652 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,705 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,706 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,777 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,778 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,831 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,832 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,903 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,904 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:07,967 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:07,967 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:07] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:08,031 - INFO - Root endpoint accessed successfully
+2026-03-21 14:31:08,031 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:08] "GET / HTTP/1.1" 200 -
+2026-03-21 14:31:24,823 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:24,823 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:24] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:24,886 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:24,886 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:24] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:24,964 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:24,965 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:24] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,018 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,018 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,071 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,071 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,125 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,126 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,200 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,200 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,251 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,251 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,317 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,317 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,383 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,383 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,436 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,437 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,500 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,500 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,552 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,554 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,616 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,616 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,668 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,668 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,733 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,733 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,801 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,802 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,854 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,855 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,920 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,920 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:25,972 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:25,973 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:25] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,050 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,050 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,103 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,103 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,166 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,166 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,233 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,233 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,286 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,287 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,337 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,337 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,415 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,415 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,469 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,469 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,522 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,522 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,585 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,585 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,650 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,650 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,702 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,702 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,768 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,768 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,834 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,834 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,887 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,888 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:26,967 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:26,968 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:26] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,033 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,034 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,099 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,101 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,166 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,167 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,231 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,232 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,298 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,299 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,351 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,351 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,417 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,417 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,482 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,483 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,545 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,546 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,615 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,615 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,668 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,668 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,734 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,735 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,801 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,801 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-21 14:31:27,866 - ERROR - Intentional application error triggered for observability testing
+2026-03-21 14:31:27,866 - INFO - 127.0.0.1 - - [21/Mar/2026 14:31:27] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:41:38,307 - INFO - Application initialised successfully
+2026-03-22 12:41:39,627 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+2026-03-22 12:41:39,627 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-22 12:41:41,330 - INFO - Health check endpoint accessed
+2026-03-22 12:41:41,331 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:41] "GET /health HTTP/1.1" 200 -
+2026-03-22 12:41:44,636 - INFO - Health check endpoint accessed
+2026-03-22 12:41:44,638 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:44] "GET /health HTTP/1.1" 200 -
+2026-03-22 12:41:45,101 - INFO - Application initialised successfully
+2026-03-22 12:41:45,769 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:45,769 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:45] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:45,844 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:45,845 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:45] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:45,921 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:45,921 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:45] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:45,976 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:45,977 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:45] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,047 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,047 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,102 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,103 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,171 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,171 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,250 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,251 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,328 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,329 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,382 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,384 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,427 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+2026-03-22 12:41:46,427 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-22 12:41:46,437 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,438 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,516 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,516 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,572 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,572 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,640 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,641 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,718 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,718 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,807 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,809 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,863 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,864 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,917 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,918 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:46,982 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:46,983 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:46] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,037 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,038 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,106 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,107 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,185 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,186 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,262 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,263 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,341 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,342 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,419 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,419 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,498 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,498 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,576 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,576 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,654 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,654 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,733 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,733 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,811 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,811 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,887 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,887 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:47,943 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:47,943 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:47] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,012 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,012 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,091 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,091 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,169 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,170 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,223 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,224 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,279 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,279 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,333 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,334 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,390 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,390 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,463 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,463 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,541 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,542 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,618 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,619 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,696 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,697 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,776 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,777 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,839 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,839 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,917 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,919 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:48,995 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:48,996 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:48] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:49,058 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:49,059 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:49] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:49,137 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:49,138 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:49] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:49,216 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:49,217 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:49] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,375 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,391 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,497 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,499 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,585 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,589 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,672 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,673 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,772 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,776 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,841 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,847 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:51,936 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:51,948 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:51] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,033 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,035 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,113 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,116 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,188 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,189 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,264 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,266 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,344 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,357 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,441 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,443 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,540 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,545 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,641 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,642 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,743 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,773 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,849 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,863 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,935 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:52,937 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:52] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:52,997 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,003 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,114 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,116 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,194 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,201 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,287 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,292 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,368 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,380 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,487 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,494 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,579 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,586 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,667 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,677 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,760 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,761 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,834 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,848 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:53,936 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:53,956 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:53] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,041 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,056 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,137 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,138 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,244 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,257 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,328 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,335 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,410 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,427 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,514 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,527 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,596 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,601 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,701 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,724 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,795 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,799 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,873 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,894 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:54,966 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:54,967 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:54] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,073 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,090 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,157 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,164 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,236 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,270 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,364 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,396 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,464 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,494 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,563 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,567 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,661 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,666 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,766 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,790 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,873 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,889 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:41:55,963 - INFO - Root endpoint accessed successfully
+2026-03-22 12:41:55,986 - INFO - 127.0.0.1 - - [22/Mar/2026 12:41:55] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,400 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,401 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,478 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,478 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,556 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,556 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,633 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,634 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,688 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,688 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,761 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,762 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,838 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,839 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,916 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,917 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:10,972 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:10,972 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:10] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,026 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,026 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,104 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,105 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,181 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,182 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,259 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,259 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,313 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,314 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,385 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,386 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,464 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,464 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,518 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,519 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,572 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,573 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,650 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,650 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,727 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,728 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,807 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,807 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,869 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,870 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:11,947 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:11,947 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:11] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,025 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,026 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,078 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,079 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,150 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,151 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,228 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,229 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,282 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,282 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,352 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,352 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,407 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,408 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,476 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,477 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,553 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,555 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,608 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,608 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,679 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,680 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,757 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,758 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,820 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,822 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,899 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,899 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:12,955 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:12,956 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:12] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,021 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,022 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,075 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,076 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,129 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,130 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,206 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,206 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,261 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,261 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,333 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,334 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,387 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,388 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,458 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,458 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,537 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,538 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,616 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,616 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,695 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,695 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:13,748 - INFO - Root endpoint accessed successfully
+2026-03-22 12:42:13,749 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:13] "GET / HTTP/1.1" 200 -
+2026-03-22 12:42:30,776 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:30,776 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:30] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:30,844 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:30,845 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:30] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:30,924 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:30,925 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:30] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,000 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,001 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,056 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,056 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,125 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,126 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,181 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,182 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,252 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,252 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,306 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,308 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,375 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,376 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,453 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,453 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,531 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,532 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,609 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,610 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,687 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,688 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,741 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,743 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,812 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,813 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,890 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,890 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:31,967 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:31,967 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:31] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,044 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,045 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,122 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,122 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,200 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,201 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,278 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,279 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,356 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,356 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,432 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,433 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,510 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,510 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,587 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,589 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,664 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,665 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,743 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,745 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,799 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,800 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,870 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,870 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:32,948 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:32,950 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:32] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,004 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,005 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,073 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,073 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,151 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,151 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,228 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,229 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,305 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,306 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,361 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,361 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,430 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,431 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,506 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,507 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,584 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,585 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,661 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,662 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,737 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,739 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,792 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,792 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,847 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,847 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:33,925 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:33,926 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:34,003 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:34,005 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:34,081 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:34,082 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:34,136 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:34,137 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:34,191 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:34,193 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-22 12:42:34,270 - ERROR - Intentional application error triggered for observability testing
+2026-03-22 12:42:34,271 - INFO - 127.0.0.1 - - [22/Mar/2026 12:42:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-23 15:28:06,006 - INFO - Application initialised successfully
+2026-03-23 15:28:07,324 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+2026-03-23 15:28:07,325 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-23 15:28:08,193 - INFO - Health check endpoint accessed
+2026-03-23 15:28:08,195 - INFO - 127.0.0.1 - - [23/Mar/2026 15:28:08] "GET /health HTTP/1.1" 200 -
+2026-03-23 15:46:25,327 - INFO - Application initialised successfully
+2026-03-23 15:46:26,628 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+2026-03-23 15:46:26,628 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-23 15:46:27,782 - INFO - Health check endpoint accessed
+2026-03-23 15:46:27,782 - INFO - 127.0.0.1 - - [23/Mar/2026 15:46:27] "GET /health HTTP/1.1" 200 -
+2026-03-26 17:24:45,557 - INFO - Application initialised successfully
+2026-03-26 17:24:46,890 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+2026-03-26 17:24:46,890 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-26 17:24:48,026 - INFO - Health check endpoint accessed
+2026-03-26 17:24:48,028 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:48] "GET /health HTTP/1.1" 200 -
+2026-03-26 17:24:48,757 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:48,758 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:48] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:48,813 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:48,815 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:48] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:48,869 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:48,871 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:48] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:48,925 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:48,926 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:48] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,006 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,006 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,084 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,085 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,160 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,161 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,240 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,241 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,317 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,318 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,396 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,396 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,474 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,475 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,551 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,552 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,629 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,630 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,707 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,708 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,785 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,786 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,841 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,841 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,895 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,896 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:49,950 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:49,950 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:49] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,019 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,020 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,097 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,098 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,151 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,152 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,207 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,207 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,282 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,283 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,363 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,363 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,440 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,441 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,518 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,519 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,596 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,596 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,675 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,676 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,775 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,779 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,834 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,835 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,909 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,909 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:50,985 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:50,986 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:50] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,064 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,065 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,141 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,141 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,218 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,219 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,295 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,296 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,375 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,376 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,454 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,455 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,509 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,509 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,579 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,580 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,658 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,659 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,736 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,737 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,815 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,815 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,870 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,870 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,941 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,941 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:51,995 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:51,996 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:51] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:52,050 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:52,050 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:52] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:52,104 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:52,105 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:52] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:52,175 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:52,176 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:52] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:52,252 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:52,253 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:52] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:55,525 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:55,532 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:55] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:55,635 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:55,637 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:55] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:55,703 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:55,706 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:55] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:55,771 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:55,779 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:55] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:55,850 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:55,856 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:55] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:55,925 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:55,935 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:55] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,003 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,010 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,081 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,084 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,175 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,180 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,260 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,264 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,326 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,328 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,391 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,400 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,471 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,475 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,549 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,564 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,635 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,636 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,723 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,734 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,797 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,802 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,871 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,881 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:56,949 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:56,956 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:56] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,026 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,026 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,096 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,107 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,177 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,178 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,256 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,266 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,332 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,344 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,421 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,427 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,565 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,566 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,634 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,644 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,704 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,712 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,788 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,796 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,868 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,877 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:57,945 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:57,955 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:57] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,026 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,028 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,093 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,097 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,175 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,185 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,247 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,258 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,330 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,332 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,401 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,413 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,483 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,485 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,556 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,560 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,647 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,651 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,727 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,737 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,811 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,812 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,876 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,878 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:58,950 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:58,955 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:58] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:59,020 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:59,033 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:59] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:59,108 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:59,115 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:59] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:59,181 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:59,193 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:59] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:59,252 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:59,262 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:59] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:59,331 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:59,335 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:59] "GET / HTTP/1.1" 200 -
+2026-03-26 17:24:59,407 - INFO - Root endpoint accessed successfully
+2026-03-26 17:24:59,423 - INFO - 127.0.0.1 - - [26/Mar/2026 17:24:59] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,152 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,153 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,207 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,207 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,262 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,263 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,338 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,338 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,416 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,416 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,470 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,470 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,541 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,542 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,619 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,619 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,697 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,697 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,752 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,753 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,821 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,821 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,900 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,900 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:13,979 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:13,980 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:13] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,056 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,057 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,111 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,112 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,181 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,181 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,260 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,260 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,325 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,325 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,402 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,403 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,481 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,482 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,559 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,560 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,613 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,613 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,683 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,684 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,763 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,764 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,817 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,818 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,887 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,887 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:14,965 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:14,966 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:14] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,019 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,019 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,091 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,091 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,170 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,170 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,248 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,248 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,326 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,326 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,402 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,403 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,457 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,457 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,512 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,512 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,588 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,588 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,667 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,667 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,744 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,745 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,822 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,823 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,884 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,885 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:15,939 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:15,939 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:15] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,011 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,012 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,089 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,089 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,167 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,167 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,245 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,246 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,299 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,300 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,353 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,355 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,431 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,431 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,485 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,486 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:16,558 - INFO - Root endpoint accessed successfully
+2026-03-26 17:25:16,559 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:16] "GET / HTTP/1.1" 200 -
+2026-03-26 17:25:33,444 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,446 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,500 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,500 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,556 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,556 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,610 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,610 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,682 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,683 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,738 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,738 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,810 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,811 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,865 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,866 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,920 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,921 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:33,998 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:33,999 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:33] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,075 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,077 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,165 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,169 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,226 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,227 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,281 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,281 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,359 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,359 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,438 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,439 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,516 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,517 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,595 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,595 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,674 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,674 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,752 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,753 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,832 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,833 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,910 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,910 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:34,965 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:34,966 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:34] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,020 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,020 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,095 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,096 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,150 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,151 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,205 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,206 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,280 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,280 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,357 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,359 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,413 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,414 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,481 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,482 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,558 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,559 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,638 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,639 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,716 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,717 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,792 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,792 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,870 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,870 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:35,948 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:35,948 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:35] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,003 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,004 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,072 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,072 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,150 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,150 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,230 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,231 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,307 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,308 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,387 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,387 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,464 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,465 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,519 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,520 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,588 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,589 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,667 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,669 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,746 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,747 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,824 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,824 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+2026-03-26 17:25:36,879 - ERROR - Intentional application error triggered for observability testing
+2026-03-26 17:25:36,880 - INFO - 127.0.0.1 - - [26/Mar/2026 17:25:36] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -
+INFO:__main__:app_started seed=42
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.33:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:33] "GET /health HTTP/1.1" 200 -
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:34] "GET / HTTP/1.1" 200 -
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:35] "GET / HTTP/1.1" 200 -
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:36] "GET / HTTP/1.1" 200 -
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:37] "GET / HTTP/1.1" 200 -
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:38] "GET / HTTP/1.1" 200 -
+ERROR:__main__:intentional_error
+INFO:__main__:request_complete
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 15:41:39] "[35m[1mGET /trigger-error HTTP/1.1[0m" 500 -

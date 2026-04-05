@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-import signal
 import socket
 import subprocess
 import sys
@@ -19,31 +18,37 @@ REQUIRED_FILES = [
     "scripts/memory_stress.py",
 ]
 
-
 def section(title):
     print(f"\n=== {title} ===")
 
-
 def validate_environment():
+    # Keep requirements explicit so marker failures are obvious and fast.
     if sys.version_info < (3, 10) or sys.version_info >= (3, 13):
-        print("Python 3.10-3.12 is required for this demo.")
+        print("Python 3.10-3.12 is required.")
         print(f"Detected: {sys.version.split()[0]}")
         return False
 
-    missing = [path for path in REQUIRED_FILES if not Path(path).exists()]
-    if missing:
-        print("Missing required files:")
-        for item in missing:
-            print(f" - {item}")
-        return False
-
-    has_aws = bool(os.getenv("AWS_ACCESS_KEY_ID") and os.getenv("AWS_SECRET_ACCESS_KEY"))
-    if not has_aws:
-        print("AWS credentials not detected. This is fine for local demo mode.")
+    for file_path in REQUIRED_FILES:
+        if not Path(file_path).exists():
+            print(f"Missing required file: {file_path}")
+            return False
 
     return True
 
-def wait_for_app(base_url, timeout_seconds=30):
+def find_free_port():
+    # Loop through ports 5000 to 5010 to find one that isn't busy
+    # This is my workaround for the 'Address already in use' bug
+    for p in range(5000, 5011):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # connect_ex returns a non-zero number if the port is FREE
+        result = sock.connect_ex(('127.0.0.1', p))
+        sock.close()
+        
+        if result != 0:
+            return p
+    return 5000 # Fallback to 5000 if none found (Fix #3)
+
+def wait_for_server(base_url, timeout_seconds=30):
     deadline = time.time() + timeout_seconds
     attempt = 1
 
@@ -59,97 +64,89 @@ def wait_for_app(base_url, timeout_seconds=30):
         attempt += 1
         time.sleep(1)
 
-    print("Flask server did not become healthy within 30 seconds.")
-    print("Suggested fix: ensure selected port is free and try again.")
+    print("Server did not become healthy within 30 seconds.")
     return False
 
+def stop_server(proc):
+    if proc is None:
+        return
+    if proc.poll() is not None:
+        return
 
-def terminate_process(proc):
-    if proc:
-        print("Stopping the flask server...")
+    print("Stopping Flask server...")
+    proc.terminate()
+    try:
+        proc.wait(timeout=5)
+    except subprocess.TimeoutExpired:
         proc.kill()
-      #this function is used to kill the flask server when the demo is done or interrupted by the user.
-      # It checks if the process object exists, and if so, it prints a message and calls proc.kill() to terminate the process.
+        proc.wait(timeout=5)
 
-
-def print_results_summary(results_dir):
-    summary_file = results_dir / "summary.json"
+def show_summary(results_dir):
+    # Fix #2: Pathlib Insurance - convert results_dir to a Path object
+    res_path = Path(results_dir)
+    summary_file = res_path / "summary.json"
+    
     if not summary_file.exists():
-        print("summary.json not found; cannot print run metrics.")
+        print("summary.json not found.")
         return False
 
     data = json.loads(summary_file.read_text(encoding="utf-8"))
     summary = data.get("summary", {})
 
-    def scenario_metric(scenario, phase, key):
-        return summary.get(scenario, {}).get(phase, {}).get(key)
+    def metric(scenario, phase, key):
+        return summary.get(scenario, {}).get(phase, {}).get(key, "N/A")
 
     section("Results Summary")
     print(
         "CPU latency (baseline -> fault): "
-        f"{summary['cpu']['baseline']['mean_latency_ms']}ms"
-        f"{summary['cpu']['fault']['mean_latency_ms']}ms"
+        f"{metric('cpu', 'baseline', 'mean_latency_ms')}ms -> "
+        f"{metric('cpu', 'fault', 'mean_latency_ms')}ms"
     )
     print(
         "Memory latency (baseline -> fault): "
-        f"{summary['memory']['baseline']['mean_latency_ms']}ms -> "
-        f"{summary['memory']['fault']['mean_latency_ms']}ms"
+        f"{metric('memory', 'baseline', 'mean_latency_ms')}ms -> "
+        f"{metric('memory', 'fault', 'mean_latency_ms')}ms"
     )
     print(
         "Error rate (baseline -> fault): "
-        f"{scenario_metric('error', 'baseline', 'error_rate_percent')}% -> "
-        f"{scenario_metric('error', 'fault', 'error_rate_percent')}%"
+        f"{metric('error', 'baseline', 'error_rate_percent')}% -> "
+        f"{metric('error', 'fault', 'error_rate_percent')}%"
     )
 
     return bool(data.get("success"))
 
-
 def main():
-    parser = argparse.ArgumentParser(description="Run local observability experiments")
-    parser.add_argument("--requests", type=int, default=50, help="Requests per phase for demo run")
-    parser.add_argument("--duration", type=int, default=20, help="Stress duration (seconds)")
+    parser = argparse.ArgumentParser(description="Run local observability demo")
+    parser.add_argument("--requests", type=int, default=10, help="Requests per phase")
+    parser.add_argument("--duration", type=int, default=5, help="Stress duration in seconds")
+    parser.add_argument("--repeats", type=int, default=1, help="Repeats per scenario")
     args = parser.parse_args()
 
-    started_at = time.time()
+    if args.requests <= 0 or args.duration <= 0 or args.repeats <= 0:
+        print("--requests, --duration, and --repeats must all be > 0")
+        return 1
 
     section("Observability Demo")
     print("This will:")
     print("- start a Flask server")
-    print("- run 4 experiments")
-    print("- generate results automatically")
-    print("\nEstimated time: ~1-2 minutes")
+    print("- run baseline/fault scenarios (cpu, memory, error)")
+    print("- write results to results/run_<timestamp>/")
+    print("\nExpected runtime: ~30-60 seconds")
 
     if not validate_environment():
         return 1
 
-    my_port = 5000 # default Flask port
-
-    base_url = f"http://127.0.0.1:{my_port}"
+    started_at = time.time()
+    port = find_free_port()
+    base_url = f"http://127.0.0.1:{port}"
     run_id = datetime.now().strftime("run_%Y-%m-%d_%H-%M-%S")
     results_dir = Path("results") / run_id
 
-    print("\n[1/5] Starting server...")
-    app_process = subprocess.Popen(
-        [sys.executable, "app/app.py", "--port", str(my_port)],
-        stdout=None,
-        stderr=None,
-    )
-
-    interrupted = {"value": False}
-
-    def handle_interrupt(signum, frame):
-        interrupted["value"] = True
-        print("\nInterrupted by user. Shutting down gracefully...")
-        terminate_process(app_process)
-        raise KeyboardInterrupt
-
-    previous_sigint = signal.getsignal(signal.SIGINT)
-    previous_sigterm = signal.getsignal(signal.SIGTERM)
-    signal.signal(signal.SIGINT, handle_interrupt)
-    signal.signal(signal.SIGTERM, handle_interrupt)
+    print(f"\nStarting Flask on port {port}...")
+    app_proc = subprocess.Popen([sys.executable, "app/app.py", "--port", str(port)])
 
     try:
-        if not wait_for_app(base_url):
+        if not wait_for_server(base_url):
             return 1
 
         cmd = [
@@ -161,41 +158,27 @@ def main():
             str(args.requests),
             "--duration",
             str(args.duration),
+            "--repeats",
+            str(args.repeats),
             "--results-dir",
             str(results_dir),
         ]
         subprocess.run(cmd, check=True)
 
-        ok = print_results_summary(results_dir)
+        success = show_summary(results_dir)
         elapsed = int(time.time() - started_at)
-        minutes = elapsed // 60
-        seconds = elapsed % 60
-
-        if ok:
-            print("\nAll experiments completed successfully")
-        else:
-            print("\nExperiment failed. Check summary.json and logs.txt")
-
-        print("\nResults saved to:")
-        print(f"{results_dir}/")
-        print(f"Run ID: {run_id}")
-        print(f"Total runtime: {minutes}m {seconds}s")
-
-        return 0 if ok else 1
+        print(f"\nResults saved to: {results_dir}/")
+        print(f"Total runtime: {elapsed}s")
+        return 0 if success else 1
 
     except subprocess.CalledProcessError as exc:
-        print(f"Experiment run failed with exit code {exc.returncode}")
-        print(f"Results (partial or complete): {results_dir}")
+        print(f"Experiment runner failed with exit code {exc.returncode}")
         return 1
     except KeyboardInterrupt:
+        print("\nStopped by user.")
         return 1
     finally:
-        terminate_process(app_process)
-        signal.signal(signal.SIGINT, previous_sigint)
-        signal.signal(signal.SIGTERM, previous_sigterm)
-        if interrupted["value"]:
-            print("Flask server stopped after interrupt")
-
+        stop_server(app_proc)
 
 if __name__ == "__main__":
     sys.exit(main())

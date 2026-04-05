@@ -1,0 +1,2 @@
+timestamp_utc,request_number,request_id,scenario,run_id,latency_ms,status_code
+2026-04-05T14:41:35.868502+00:00,1,374ea2f8-18c3-434b-9c66-7e9285c63fc2,cpu,run01,61.973,200
