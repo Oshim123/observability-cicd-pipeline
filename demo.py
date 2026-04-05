@@ -43,16 +43,6 @@ def validate_environment():
 
     return True
 
-
-def find_available_port(start=5000, end=5050):
-    for port in range(start, end + 1):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            if sock.connect_ex(("127.0.0.1", port)) != 0:
-                return port
-    raise RuntimeError(f"No free port found between {start} and {end}")
-
-
 def wait_for_app(base_url, timeout_seconds=30):
     deadline = time.time() + timeout_seconds
     attempt = 1
@@ -75,13 +65,11 @@ def wait_for_app(base_url, timeout_seconds=30):
 
 
 def terminate_process(proc):
-    if proc and proc.poll() is None:
-        proc.terminate()
-        try:
-            proc.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            proc.kill()
-            proc.wait(timeout=5)
+    if proc:
+        print("Stopping the flask server...")
+        proc.kill()
+      #this function is used to kill the flask server when the demo is done or interrupted by the user.
+      # It checks if the process object exists, and if so, it prints a message and calls proc.kill() to terminate the process.
 
 
 def print_results_summary(results_dir):
@@ -99,13 +87,13 @@ def print_results_summary(results_dir):
     section("Results Summary")
     print(
         "CPU latency (baseline -> fault): "
-        f"{scenario_metric('cpu', 'baseline', 'mean_latency_ms')}ms -> "
-        f"{scenario_metric('cpu', 'fault', 'mean_latency_ms')}ms"
+        f"{summary['cpu']['baseline']['mean_latency_ms']}ms"
+        f"{summary['cpu']['fault']['mean_latency_ms']}ms"
     )
     print(
         "Memory latency (baseline -> fault): "
-        f"{scenario_metric('memory', 'baseline', 'mean_latency_ms')}ms -> "
-        f"{scenario_metric('memory', 'fault', 'mean_latency_ms')}ms"
+        f"{summary['memory']['baseline']['mean_latency_ms']}ms -> "
+        f"{summary['memory']['fault']['mean_latency_ms']}ms"
     )
     print(
         "Error rate (baseline -> fault): "
@@ -134,17 +122,15 @@ def main():
     if not validate_environment():
         return 1
 
-    selected_port = find_available_port(5000, 5050)
-    if selected_port != 5000:
-        print(f"Port 5000 in use, using fallback port {selected_port}")
+    my_port = 5000 # default Flask port
 
-    base_url = f"http://127.0.0.1:{selected_port}"
+    base_url = f"http://127.0.0.1:{my_port}"
     run_id = datetime.now().strftime("run_%Y-%m-%d_%H-%M-%S")
     results_dir = Path("results") / run_id
 
     print("\n[1/5] Starting server...")
     app_process = subprocess.Popen(
-        [sys.executable, "app/app.py", "--port", str(selected_port)],
+        [sys.executable, "app/app.py", "--port", str(my_port)],
         stdout=None,
         stderr=None,
     )
