@@ -1,0 +1,2 @@
+timestamp_utc,request_number,request_id,scenario,run_id,latency_ms,status_code
+2026-04-05T17:44:18.989892+00:00,1,a56f20bf-5331-4c94-a3ea-37ec748aa674,error,run_1,6.006,500

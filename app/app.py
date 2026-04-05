@@ -1,142 +1,100 @@
 import argparse
 import json
-import logging
 import os
 import random
 import time
-import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from flask import Flask, g, jsonify, request
-#these imports all let us use the flask framework to create a web application, 
-# handle requests, and manage logging and other utilities.
+
+# Create the Flask app
 app = Flask(__name__)
 
-log_file_path = "/var/log/observability-app/app.log"
-log_handlers = [logging.StreamHandler()]
-#the log file and handler are set up to write logs to both the console 
-# and a file, with error handling to ensure the application continues running even if the log file cannot be created.
-try:
-    os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
-    log_handlers.append(logging.FileHandler(log_file_path))
-except OSError:
-    pass
-#this try except block can handle the case where the log file cannot be created, 
-# such as due to permissions issues, and ensures that the application continues to run without crashing.
-logging.basicConfig(level=logging.INFO, handlers=log_handlers)
-logger = logging.getLogger(__name__)
-#logging and logger lets you log messages with different severity levels (e.g., INFO, ERROR) 
-# and configure how those logs are handled (e.g., written to a file or displayed in the console).
-SEED = int(os.getenv("UNSTABLE_SEED", "42"))
-_rng = random.Random(SEED)
-#seed is set for the random number generator to ensure reproducibility of the "unstable" endpoint's behavior across runs, 
-# which is important for consistent testing and monitoring experiments.
+# Simple log file in the same folder as the script
+LOG_FILE = "app_logs.json"
 
-class JsonFormatter(logging.Formatter):
-    def format(self, record):
-        payload = {
-            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-            "level": record.levelname,
-            "message": record.getMessage(),
-        } #payload is a dictionary that includes the timestamp, log level, and message. 
-        #its used to structure log entries in a consistent JSON format, making it easier to parse and analyse logs in monitoring systems or log management tools.
-        extra_fields = ("request_id", "endpoint", "status_code", "latency_ms", "scenario", "run_id")
-        for field in extra_fields:
-            value = getattr(record, field, None)
-            if value is not None:
-                payload[field] = value
-        return json.dumps(payload)
-#extra_fields is a tuple of additional fields that may be included in log records. 
-# it will check if these fields are present in the log record and include them in the JSON payload if they exist.
-#if none of the extra fields are present, it will simply return the basic log information (timestamp, level, message) in JSON format.
-for handler in logger.handlers:
-    handler.setFormatter(JsonFormatter())
-#for loop loops through all the handlers attached to the logger and sets their formatter to an instance of JsonFormatter 
-# so that all log messages will be formatted as JSON when they are emitted.
+def write_log(message, status_code=200, extra_info=None):
+    """
+    Helper function to manually create a JSON log entry.
+    I use this instead of the complex logging library because 
+    it's easier to control the format for my results.
+    """
+    # Calculate how long the request took (latency)
+    latency = 0
+    if hasattr(g, 'start_time'):
+        latency = round((time.time() - g.start_time) * 1000, 2)
 
+    # Build the log data manually
+    log_entry = {
+        "timestamp": datetime.now().isoformat(),
+        "endpoint": request.path,
+        "status": status_code,
+        "latency_ms": latency,
+        "message": message
+    }
+
+    # Add extra stuff if provided (like the experiment ID)
+    if extra_info:
+        log_entry.update(extra_info)
+
+    # Print to terminal and save to the JSON file
+    print(json.dumps(log_entry))
+    with open(LOG_FILE, "a") as f:
+        f.write(json.dumps(log_entry) + "\n")
+
+# This runs before every request
 @app.before_request
-def _start_request_tracking():
-    g.start = time.time()
-    g.request_id = request.headers.get("X-Request-Id", str(uuid.uuid4()))
-    g.scenario = request.headers.get("X-Scenario")
-    g.run_id = request.headers.get("X-Run-Id")
-#the different fields being set in the g object (start, request_id, scenario, run_id) are used to track the request's start time, 
-# so that latency can be calculated later, and to capture any relevant metadata about the request (like scenario and run ID) for logging purposes.
+def start_timer():
+    g.start_time = time.time()
+    # Grab headers if the experiment runner sent them
+    g.scenario = request.headers.get("X-Scenario", "none")
+    g.run_id = request.headers.get("X-Run-Id", "none")
 
+# This runs after every request
 @app.after_request
-def _log_response(response):
-    latency_ms = round((time.time() - g.start) * 1000, 2)
-    logger.info(
-        "request_complete",
-        extra={
-            "request_id": g.request_id,
-            "endpoint": request.path,
-            "status_code": response.status_code,
-            "latency_ms": latency_ms,
-            "scenario": g.scenario,
-            "run_id": g.run_id,
-        },
+def log_request(response):
+    write_log(
+        "request_finished", 
+        status_code=response.status_code,
+        extra_info={"scenario": g.scenario, "run_id": g.run_id}
     )
-    response.headers["X-Request-Id"] = g.request_id
     return response
 
-
 @app.route("/")
-def home():
-    return "Observability Pipeline Running"
-
+def index():
+    return "Observability App is Running"
 
 @app.route("/health")
 def health():
-    return {"status": "healthy"}, 200
-    
-    
-    
-
+    # Simple check for the demo script to know we are awake
+    return {"status": "ok"}, 200
 
 @app.route("/trigger-error")
 def trigger_error():
-    logger.error(
-        "intentional_error",
-        extra={
-            "request_id": g.request_id,
-            "endpoint": request.path,
-            "scenario": g.scenario,
-            "run_id": g.run_id,
-        },
-    )
-    return jsonify(
-        {
-            "status": "error",
-            "message": "Intentional failure triggered for monitoring experiment.",
-        }
-    ), 500
-
+    # Manually trigger a 500 error for the monitoring test
+    write_log("intentional_error_triggered", status_code=500)
+    return jsonify({
+        "status": "error",
+        "message": "This is a simulated failure for the experiment."
+    }), 500
 
 @app.route("/unstable")
 def unstable():
-    if _rng.random() < 0.4:
-        return jsonify({"status": "error"}), 500
+    # 40% chance of failing to test the 'error rate' monitoring
+    if random.random() < 0.4:
+        return jsonify({"status": "random_failure"}), 500
     return jsonify({"status": "success"}), 200
-
 
 @app.route("/slow")
 def slow():
-    time.sleep(5)
-    return jsonify({"status": "delayed response"}), 200
-
-
-def parse_args():
-    parser = argparse.ArgumentParser(description="Run the Flask app for observability experiments")
-    parser.add_argument(
-        "--port",
-        type=int,
-        default=int(os.getenv("PORT", "5000")),
-        help="Port to bind Flask on (default: PORT env var or 5000)",
-    )
-    return parser.parse_args()
-
+    # Artificial delay to test latency spikes
+    time.sleep(2)
+    return jsonify({"status": "slow_response"}), 200
 
 if __name__ == "__main__":
-    logger.info(f"app_started seed={SEED}")
-    args = parse_args()
+    # Setup argparse so demo.py can tell us which port to use
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", type=int, default=5000)
+    args = parser.parse_args()
+
+    print(f"--- Starting Flask on Port {args.port} ---")
     app.run(host="0.0.0.0", port=args.port)

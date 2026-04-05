@@ -1,0 +1,173 @@
+{
+    "timestamp": "2026-04-05T18:44:19.077103",
+    "success": true,
+    "summary": {
+        "cpu": {
+            "baseline": {
+                "runs": 1,
+                "mean_latency_ms": 5.615,
+                "error_rate_percent": 0.0
+            },
+            "fault": {
+                "runs": 1,
+                "mean_latency_ms": 57.003,
+                "error_rate_percent": 0.0
+            }
+        },
+        "memory": {
+            "baseline": {
+                "runs": 1,
+                "mean_latency_ms": 4.298,
+                "error_rate_percent": 0.0
+            },
+            "fault": {
+                "runs": 1,
+                "mean_latency_ms": 4.424,
+                "error_rate_percent": 0.0
+            }
+        },
+        "error": {
+            "baseline": {
+                "runs": 1,
+                "mean_latency_ms": 17.115,
+                "error_rate_percent": 0.0
+            },
+            "fault": {
+                "runs": 1,
+                "mean_latency_ms": 6.006,
+                "error_rate_percent": 100.0
+            }
+        }
+    },
+    "details": [
+        {
+            "scenario": "cpu",
+            "baseline": {
+                "metrics": {
+                    "url": "http://127.0.0.1:5000/",
+                    "scenario": "cpu_baseline",
+                    "run_id": "run_1",
+                    "requests": 1,
+                    "mean_latency_ms": 5.615,
+                    "median_latency_ms": 5.615,
+                    "std_dev_latency_ms": 0.0,
+                    "minimum_latency_ms": 5.615,
+                    "maximum_latency_ms": 5.615,
+                    "p95_latency_ms": 5.615,
+                    "status_code_distribution": {
+                        "200": 1
+                    },
+                    "error_rate_percent": 0.0,
+                    "csv_file": "results\\run_2026-04-05_18-44-10\\baseline\\base_cpu_run_1.csv"
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "url": "http://127.0.0.1:5000/",
+                    "scenario": "cpu",
+                    "run_id": "run_1",
+                    "requests": 1,
+                    "mean_latency_ms": 57.003,
+                    "median_latency_ms": 57.003,
+                    "std_dev_latency_ms": 0.0,
+                    "minimum_latency_ms": 57.003,
+                    "maximum_latency_ms": 57.003,
+                    "p95_latency_ms": 57.003,
+                    "status_code_distribution": {
+                        "200": 1
+                    },
+                    "error_rate_percent": 0.0,
+                    "csv_file": "results\\run_2026-04-05_18-44-10\\cpu\\fault_cpu_run_1.csv"
+                },
+                "code": 0
+            }
+        },
+        {
+            "scenario": "memory",
+            "baseline": {
+                "metrics": {
+                    "url": "http://127.0.0.1:5000/",
+                    "scenario": "memory_baseline",
+                    "run_id": "run_1",
+                    "requests": 1,
+                    "mean_latency_ms": 4.298,
+                    "median_latency_ms": 4.298,
+                    "std_dev_latency_ms": 0.0,
+                    "minimum_latency_ms": 4.298,
+                    "maximum_latency_ms": 4.298,
+                    "p95_latency_ms": 4.298,
+                    "status_code_distribution": {
+                        "200": 1
+                    },
+                    "error_rate_percent": 0.0,
+                    "csv_file": "results\\run_2026-04-05_18-44-10\\baseline\\base_memory_run_1.csv"
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "url": "http://127.0.0.1:5000/",
+                    "scenario": "memory",
+                    "run_id": "run_1",
+                    "requests": 1,
+                    "mean_latency_ms": 4.424,
+                    "median_latency_ms": 4.424,
+                    "std_dev_latency_ms": 0.0,
+                    "minimum_latency_ms": 4.424,
+                    "maximum_latency_ms": 4.424,
+                    "p95_latency_ms": 4.424,
+                    "status_code_distribution": {
+                        "200": 1
+                    },
+                    "error_rate_percent": 0.0,
+                    "csv_file": "results\\run_2026-04-05_18-44-10\\memory\\fault_memory_run_1.csv"
+                },
+                "code": 0
+            }
+        },
+        {
+            "scenario": "error",
+            "baseline": {
+                "metrics": {
+                    "url": "http://127.0.0.1:5000/",
+                    "scenario": "error_baseline",
+                    "run_id": "run_1",
+                    "requests": 1,
+                    "mean_latency_ms": 17.115,
+                    "median_latency_ms": 17.115,
+                    "std_dev_latency_ms": 0.0,
+                    "minimum_latency_ms": 17.115,
+                    "maximum_latency_ms": 17.115,
+                    "p95_latency_ms": 17.115,
+                    "status_code_distribution": {
+                        "200": 1
+                    },
+                    "error_rate_percent": 0.0,
+                    "csv_file": "results\\run_2026-04-05_18-44-10\\baseline\\base_error_run_1.csv"
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "url": "http://127.0.0.1:5000/trigger-error",
+                    "scenario": "error",
+                    "run_id": "run_1",
+                    "requests": 1,
+                    "mean_latency_ms": 6.006,
+                    "median_latency_ms": 6.006,
+                    "std_dev_latency_ms": 0.0,
+                    "minimum_latency_ms": 6.006,
+                    "maximum_latency_ms": 6.006,
+                    "p95_latency_ms": 6.006,
+                    "status_code_distribution": {
+                        "500": 1
+                    },
+                    "error_rate_percent": 100.0,
+                    "csv_file": "results\\run_2026-04-05_18-44-10\\error\\fault_error_run_1.csv"
+                },
+                "code": 0
+            }
+        }
+    ]
+}

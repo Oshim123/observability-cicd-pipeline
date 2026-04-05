@@ -1,0 +1,136 @@
+[START CPU run01 BASELINE] 2026-04-05T15:29:44.588968+00:00
+[END CPU run01 BASELINE] 2026-04-05T15:29:45.237327+00:00
+[START CPU run01 FAULT] 2026-04-05T15:29:45.237327+00:00
+[END CPU run01 FAULT] 2026-04-05T15:29:46.554342+00:00
+{
+  "url": "http://127.0.0.1:5000/",
+  "scenario": "cpu_baseline",
+  "run_id": "run01",
+  "requests": 1,
+  "mean_latency_ms": 5.016,
+  "median_latency_ms": 5.016,
+  "std_dev_latency_ms": 0.0,
+  "minimum_latency_ms": 5.016,
+  "maximum_latency_ms": 5.016,
+  "p95_latency_ms": 5.016,
+  "status_code_distribution": {
+    "200": 1
+  },
+  "error_rate_percent": 0.0,
+  "csv_file": "results\\run_2026-04-05_16-29-41\\baseline\\baseline_cpu_run01.csv"
+}
+
+
+{
+  "url": "http://127.0.0.1:5000/",
+  "scenario": "cpu",
+  "run_id": "run01",
+  "requests": 1,
+  "mean_latency_ms": 70.509,
+  "median_latency_ms": 70.509,
+  "std_dev_latency_ms": 0.0,
+  "minimum_latency_ms": 70.509,
+  "maximum_latency_ms": 70.509,
+  "p95_latency_ms": 70.509,
+  "status_code_distribution": {
+    "200": 1
+  },
+  "error_rate_percent": 0.0,
+  "csv_file": "results\\run_2026-04-05_16-29-41\\cpu\\cpu_run01.csv"
+}
+
+
+[CPU_STRESS_FINISHED]
+scenario=cpu run_id=run01
+[CPU_STRESS_STARTED] cores=16 duration=1s
+
+[START MEMORY run01 BASELINE] 2026-04-05T15:29:46.555342+00:00
+[END MEMORY run01 BASELINE] 2026-04-05T15:29:47.240077+00:00
+[START MEMORY run01 FAULT] 2026-04-05T15:29:47.240077+00:00
+[END MEMORY run01 FAULT] 2026-04-05T15:29:48.303103+00:00
+{
+  "url": "http://127.0.0.1:5000/",
+  "scenario": "memory_baseline",
+  "run_id": "run01",
+  "requests": 1,
+  "mean_latency_ms": 4.875,
+  "median_latency_ms": 4.875,
+  "std_dev_latency_ms": 0.0,
+  "minimum_latency_ms": 4.875,
+  "maximum_latency_ms": 4.875,
+  "p95_latency_ms": 4.875,
+  "status_code_distribution": {
+    "200": 1
+  },
+  "error_rate_percent": 0.0,
+  "csv_file": "results\\run_2026-04-05_16-29-41\\baseline\\baseline_memory_run01.csv"
+}
+
+
+{
+  "url": "http://127.0.0.1:5000/",
+  "scenario": "memory",
+  "run_id": "run01",
+  "requests": 1,
+  "mean_latency_ms": 23.201,
+  "median_latency_ms": 23.201,
+  "std_dev_latency_ms": 0.0,
+  "minimum_latency_ms": 23.201,
+  "maximum_latency_ms": 23.201,
+  "p95_latency_ms": 23.201,
+  "status_code_distribution": {
+    "200": 1
+  },
+  "error_rate_percent": 0.0,
+  "csv_file": "results\\run_2026-04-05_16-29-41\\memory\\memory_run01.csv"
+}
+
+
+scenario=memory run_id=run01
+[MEMORY_STRESS_STARTED] start=2026-04-05T15:29:47.293891+00:00 duration=1s chunk_mb=10 max_mb=512
+allocated_mb=10
+allocated_mb=20
+[MEMORY_STRESS_FINISHED] end=2026-04-05T15:29:48.297493+00:00
+
+[START ERROR run01 BASELINE] 2026-04-05T15:29:48.304107+00:00
+[END ERROR run01 BASELINE] 2026-04-05T15:29:48.949017+00:00
+[START ERROR run01 FAULT] 2026-04-05T15:29:48.949017+00:00
+[END ERROR run01 FAULT] 2026-04-05T15:29:49.597943+00:00
+{
+  "url": "http://127.0.0.1:5000/",
+  "scenario": "error_baseline",
+  "run_id": "run01",
+  "requests": 1,
+  "mean_latency_ms": 6.829,
+  "median_latency_ms": 6.829,
+  "std_dev_latency_ms": 0.0,
+  "minimum_latency_ms": 6.829,
+  "maximum_latency_ms": 6.829,
+  "p95_latency_ms": 6.829,
+  "status_code_distribution": {
+    "200": 1
+  },
+  "error_rate_percent": 0.0,
+  "csv_file": "results\\run_2026-04-05_16-29-41\\baseline\\baseline_error_run01.csv"
+}
+
+
+{
+  "url": "http://127.0.0.1:5000/trigger-error",
+  "scenario": "error",
+  "run_id": "run01",
+  "requests": 1,
+  "mean_latency_ms": 5.02,
+  "median_latency_ms": 5.02,
+  "std_dev_latency_ms": 0.0,
+  "minimum_latency_ms": 5.02,
+  "maximum_latency_ms": 5.02,
+  "p95_latency_ms": 5.02,
+  "status_code_distribution": {
+    "500": 1
+  },
+  "error_rate_percent": 100.0,
+  "csv_file": "results\\run_2026-04-05_16-29-41\\error\\error_run01.csv"
+}
+
+

@@ -1,0 +1,16 @@
+{"timestamp": "2026-04-05T16:29:44.494583", "endpoint": "/health", "status": 200, "latency_ms": 2.8, "message": "request_finished", "scenario": "none", "run_id": "none"}
+{"timestamp": "2026-04-05T16:29:45.151805", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "cpu_baseline", "run_id": "run01"}
+{"timestamp": "2026-04-05T16:29:46.355860", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "cpu", "run_id": "run01"}
+{"timestamp": "2026-04-05T16:29:47.154472", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "memory_baseline", "run_id": "run01"}
+{"timestamp": "2026-04-05T16:29:47.829329", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "memory", "run_id": "run01"}
+{"timestamp": "2026-04-05T16:29:48.864893", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "error_baseline", "run_id": "run01"}
+{"timestamp": "2026-04-05T16:29:49.514308", "endpoint": "/trigger-error", "status": 500, "latency_ms": 0.0, "message": "intentional_error_triggered"}
+{"timestamp": "2026-04-05T16:29:49.514308", "endpoint": "/trigger-error", "status": 500, "latency_ms": 0.0, "message": "request_finished", "scenario": "error", "run_id": "run01"}
+{"timestamp": "2026-04-05T18:44:13.852987", "endpoint": "/health", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "none", "run_id": "none"}
+{"timestamp": "2026-04-05T18:44:14.548432", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "cpu_baseline", "run_id": "run_1"}
+{"timestamp": "2026-04-05T18:44:15.846337", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "cpu", "run_id": "run_1"}
+{"timestamp": "2026-04-05T18:44:16.632895", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "memory_baseline", "run_id": "run_1"}
+{"timestamp": "2026-04-05T18:44:17.286474", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "memory", "run_id": "run_1"}
+{"timestamp": "2026-04-05T18:44:18.350147", "endpoint": "/", "status": 200, "latency_ms": 0.0, "message": "request_finished", "scenario": "error_baseline", "run_id": "run_1"}
+{"timestamp": "2026-04-05T18:44:18.993899", "endpoint": "/trigger-error", "status": 500, "latency_ms": 0.0, "message": "intentional_error_triggered"}
+{"timestamp": "2026-04-05T18:44:18.993899", "endpoint": "/trigger-error", "status": 500, "latency_ms": 0.0, "message": "request_finished", "scenario": "error", "run_id": "run_1"}
