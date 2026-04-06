@@ -6,95 +6,160 @@ import time
 from datetime import datetime
 from flask import Flask, g, jsonify, request
 
-# Create the Flask app
+# --- Start of the App ---
+# I am initializing the Flask web server here
 app = Flask(__name__)
 
-# Simple log file in the same folder as the script
-LOG_FILE = "app_logs.json"
+# This is where I am going to save all the data I collect
+# I named it app_logs.json so it's easy to find
+MY_LOG_FILENAME = "app_logs.json"
 
-def write_log(message, status_code=200, extra_info=None):
+def record_activity_to_file(message_text, status_code):
     """
-    Helper function to manually create a JSON log entry.
-    I use this instead of the complex logging library because 
-    it's easier to control the format for my results.
+    This is my manual logging function.
+    I didn't use the standard Python logger because I wanted 
+    to make sure the JSON format was exactly how I needed it.
     """
-    # Calculate how long the request took (latency)
-    latency = 0
+    
+    # 1. Get the current time
+    # I need this so I know when the request happened
+    now_obj = datetime.now()
+    time_string = now_obj.isoformat()
+    
+    # 2. Calculate Latency
+    # I'm checking how much time passed since the request started
+    finish_time = time.time()
+    total_time_taken = 0
+    
     if hasattr(g, 'start_time'):
-        latency = round((time.time() - g.start_time) * 1000, 2)
+        # Calculate difference in seconds then convert to milliseconds
+        start_time = g.start_time
+        difference = finish_time - start_time
+        total_time_taken = difference * 1000
+        # Round it to 2 decimal places so it's not a huge number
+        total_time_taken = round(total_time_taken, 2)
 
-    # Build the log data manually
-    log_entry = {
-        "timestamp": datetime.now().isoformat(),
-        "endpoint": request.path,
-        "status": status_code,
-        "latency_ms": latency,
-        "message": message
-    }
+    # 3. Collect Headers
+    # I need to know which experiment this is part of
+    # I'm pulling these from the request headers sent by my demo script
+    current_scenario = "none"
+    if "X-Scenario" in request.headers:
+        current_scenario = request.headers.get("X-Scenario")
+    
+    current_run_id = "none"
+    if "X-Run-Id" in request.headers:
+        current_run_id = request.headers.get("X-Run-Id")
 
-    # Add extra stuff if provided (like the experiment ID)
-    if extra_info:
-        log_entry.update(extra_info)
+    # 4. Build the dictionary
+    # I am putting all the info into a dictionary before saving to JSON
+    my_log_data = {}
+    my_log_data["timestamp"] = time_string
+    my_log_data["endpoint_hit"] = request.path
+    my_log_data["http_status"] = status_code
+    my_log_data["latency_ms"] = total_time_taken
+    my_log_data["message"] = message_text
+    my_log_data["experiment"] = current_scenario
+    my_log_data["run_number"] = current_run_id
 
-    # Print to terminal and save to the JSON file
-    print(json.dumps(log_entry))
-    with open(LOG_FILE, "a") as f:
-        f.write(json.dumps(log_entry) + "\n")
+    # 5. Print to console
+    # I print it so I can see what's happening in the terminal while I record my video
+    json_string = json.dumps(my_log_data)
+    print("LOG ENTRY: " + json_string)
 
-# This runs before every request
+    # 6. Write to the file
+    # I am using 'a' for append so it doesn't overwrite the old logs
+    my_file = open(MY_LOG_FILENAME, "a")
+    my_file.write(json_string + "\n")
+    my_file.close()
+    
+    # Done with logging
+    return True
+
 @app.before_request
-def start_timer():
+def start_the_timer():
+    """
+    This function runs before every single request.
+    I use it to mark the exact start time.
+    """
+    # Record the float time for math later
     g.start_time = time.time()
-    # Grab headers if the experiment runner sent them
-    g.scenario = request.headers.get("X-Scenario", "none")
-    g.run_id = request.headers.get("X-Run-Id", "none")
 
-# This runs after every request
-@app.after_request
-def log_request(response):
-    write_log(
-        "request_finished", 
-        status_code=response.status_code,
-        extra_info={"scenario": g.scenario, "run_id": g.run_id}
-    )
-    return response
+# --- ROUTES ---
 
 @app.route("/")
-def index():
-    return "Observability App is Running"
+def home_page():
+    # This is the default page
+    # I am calling my log function manually here
+    msg = "User visited the home page"
+    record_activity_to_file(msg, 200)
+    return "Observability App is Running - Version 1.0"
 
 @app.route("/health")
-def health():
-    # Simple check for the demo script to know we are awake
-    return {"status": "ok"}, 200
+def health_check():
+    # The demo script calls this to see if the server is awake
+    # I return a 200 status code to show everything is okay
+    record_activity_to_file("Health check requested", 200)
+    return jsonify({"status": "healthy", "server": "active"}), 200
 
 @app.route("/trigger-error")
-def trigger_error():
-    # Manually trigger a 500 error for the monitoring test
-    write_log("intentional_error_triggered", status_code=500)
-    return jsonify({
+def trigger_intentional_error():
+    # This route is specifically for testing my error monitoring
+    # It always returns a 500 error
+    error_message = "This is a planned error for the experiment"
+    
+    # I log the error before returning it
+    record_activity_to_file("ERROR_TRIGGERED: " + error_message, 500)
+    
+    # Create the error response
+    response_data = {
         "status": "error",
-        "message": "This is a simulated failure for the experiment."
-    }), 500
+        "details": error_message,
+        "code": 500
+    }
+    return jsonify(response_data), 500
 
 @app.route("/unstable")
-def unstable():
-    # 40% chance of failing to test the 'error rate' monitoring
-    if random.random() < 0.4:
-        return jsonify({"status": "random_failure"}), 500
-    return jsonify({"status": "success"}), 200
+def unstable_route():
+    # This route fails sometimes (40% of the time)
+    # I use it to test if my pipeline can detect 'flaky' behavior
+    chance = random.random()
+    
+    if chance < 0.4:
+        # FAILED
+        record_activity_to_file("Unstable route failed randomly", 500)
+        return jsonify({"result": "fail"}), 500
+    else:
+        # SUCCESS
+        record_activity_to_file("Unstable route succeeded", 200)
+        return jsonify({"result": "success"}), 200
 
 @app.route("/slow")
-def slow():
-    # Artificial delay to test latency spikes
+def slow_route():
+    # This route takes 2 seconds to respond
+    # I use it to test latency monitoring
+    print("Starting a slow request... waiting 2 seconds")
     time.sleep(2)
-    return jsonify({"status": "slow_response"}), 200
+    
+    record_activity_to_file("Slow route finished", 200)
+    return jsonify({"note": "That was a slow response"}), 200
+
+# --- MAIN BLOCK ---
 
 if __name__ == "__main__":
-    # Setup argparse so demo.py can tell us which port to use
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=5000)
-    args = parser.parse_args()
+    # Use argparse so I can change the port from the command line
+    # My demo script uses this to avoid 'Port already in use' errors
+    my_args_parser = argparse.ArgumentParser()
+    my_args_parser.add_argument("--port", type=int, default=5000)
+    
+    # Get the arguments
+    parsed_args = my_args_parser.parse_args()
+    target_port = parsed_args.port
 
-    print(f"--- Starting Flask on Port {args.port} ---")
-    app.run(host="0.0.0.0", port=args.port)
+    print("****************************************")
+    print("* FLASK SERVER STARTING UP             *")
+    print("* Listening on Port: " + str(target_port))
+    print("****************************************")
+    
+    # Start the Flask app
+    # host 0.0.0.0 makes it accessible on the local network
+    app.run(host="0.0.0.0", port=target_port, debug=False)

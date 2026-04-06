@@ -58,7 +58,8 @@ def run_load_test(url, requests, csv_file, scenario, run_id):
     return result, metrics
 
 def run_single_experiment(base_url, requests, duration, folder, scenario, idx, stress_script):
-    run_id = f"run_{idx}"
+    run_id = "run_" + str(idx) #will create a unique identifier for each run of the experiment, combining the scenario name and the index of the run.
+    #This helps in organizing the results and distinguishing between different runs in the output files.
     
     # Create folders for baseline and the actual fault test
     base_path = Path(folder) / "baseline"
@@ -66,19 +67,19 @@ def run_single_experiment(base_url, requests, duration, folder, scenario, idx, s
     base_path.mkdir(parents=True, exist_ok=True)
     fault_path.mkdir(parents=True, exist_ok=True)
 
-    baseline_csv = base_path / f"base_{scenario}_{run_id}.csv"
-    fault_csv = fault_path / f"fault_{scenario}_{run_id}.csv"
+    baseline_csv = base_path / ("base_" + str(scenario) + "_" + str(run_id) + ".csv")
+    fault_csv = fault_path / ("fault_" + str(scenario) + "_" + str(run_id) + ".csv")
 
     # 1. Run Baseline (No stress)
-    print(f"   -> Running Baseline...")
+    print("   -> Running Baseline...")
     base_res, base_metrics = run_load_test(
-        base_url + "/", requests, baseline_csv, f"{scenario}_baseline", run_id
+        base_url + "/", requests, baseline_csv, str(scenario) + "_baseline", run_id
     )
 
     # 2. Start the stress script (CPU or Memory)
     stress_proc = None
     if stress_script:
-        print(f"   -> Starting Stress: {scenario}")
+        print("   -> Starting Stress: " + str(scenario))
         stress_proc = subprocess.Popen([
             sys.executable, stress_script, str(duration), 
             "--scenario", scenario, "--run-id", run_id
@@ -108,7 +109,7 @@ def main():
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--results-dir", required=True)
     args = parser.parse_args()
-
+    #handles the cmd line args for experiment so can specify the base URL of the app, number of requests to send, duration of each stress test, how many times to repeat each scenario, and where to save the results.
     out_dir = Path(args.results_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -122,18 +123,30 @@ def main():
 
     for name, script in scenarios:
         for i in range(1, args.repeats + 1):
-            print(f"--- Experiment: {name} (Round {i}) ---")
+            print("--- Experiment: " + str(name) + " (Round " + str(i) + ") ---")
             res = run_single_experiment(
                 args.base_url, args.requests, args.duration, out_dir, name, i, script
             )
             all_results.append(res)
 
     # Group the data to create a final summary
+    # Group the data to create a final summary
     final_summary = {}
+    
+    # Looping through each scenario (cpu, memory, error)
     for name, _ in scenarios:
-        s_baseline = [r["baseline"]["metrics"] for r in all_results if r["scenario"] == name]
-        s_fault = [r["fault"]["metrics"] for r in all_results if r["scenario"] == name]
+        # I am making empty lists to hold the metrics I find
+        s_baseline = []
+        s_fault = []
         
+        # Now I manually loop through ALL the results to find the right ones
+        for r in all_results:
+            # If the scenario name matches, I add it to my list
+            if r["scenario"] == name:
+                s_baseline.append(r["baseline"]["metrics"])
+                s_fault.append(r["fault"]["metrics"])
+        
+        # Now I use my manual averaging function to get the final numbers
         final_summary[name] = {
             "baseline": get_average_metrics(s_baseline),
             "fault": get_average_metrics(s_fault)

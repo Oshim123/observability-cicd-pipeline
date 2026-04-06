@@ -10,6 +10,8 @@ from pathlib import Path
 
 import requests
 
+# These are the files I need to make sure exist before I start the test
+# I put them in a list so I can loop through them easily
 REQUIRED_FILES = [
     "app/app.py",
     "scripts/experiment_runner.py",
@@ -19,166 +21,212 @@ REQUIRED_FILES = [
 ]
 
 def section(title):
-    print(f"\n=== {title} ===")
+    # Just a helper to print nice headers in the terminal
+    print("\n****************************************")
+    print("=== " + str(title).upper() + " ===")
+    print("****************************************")
 
 def validate_environment():
-    # Keep requirements explicit so marker failures are obvious and fast.
-    if sys.version_info < (3, 10) or sys.version_info >= (3, 13):
-        print("Python 3.10-3.12 is required.")
-        print(f"Detected: {sys.version.split()[0]}")
+    # I'm checking the Python version first
+    # This project needs 3.10 or 3.11 or 3.12
+    major = sys.version_info.major
+    minor = sys.version_info.minor
+    
+    print("Checking Python version...")
+    if major != 3 or minor < 10 or minor > 12:
+        print("Error: Python 3.10-3.12 is required.")
+        print("Your version is: " + str(sys.version.split()[0]))
         return False
 
-    for file_path in REQUIRED_FILES:
-        if not Path(file_path).exists():
-            print(f"Missing required file: {file_path}")
+    # Now I loop through my list of required files
+    print("Checking for required files...")
+    for f in REQUIRED_FILES:
+        file_path_obj = Path(f)
+        if file_path_obj.exists() == False:
+            print("Missing a file you need: " + str(f))
             return False
-
+            
+    print("Environment is OK!")
     return True
 
 def find_free_port():
-    # Loop through ports 5000 to 5010 to find one that isn't busy
-    # This is my workaround for the 'Address already in use' bug
+    # I loop through ports 5000 to 5010
+    # I do this to find one that is not being used by another app
+    print("Looking for a free port...")
     for p in range(5000, 5011):
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # connect_ex returns a non-zero number if the port is FREE
-        result = sock.connect_ex(('127.0.0.1', p))
-        sock.close()
+        # Create a socket to test the port
+        test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # connect_ex returns 0 if it CAN connect (meaning the port is busy)
+        # It returns a non-zero number if it is FREE
+        res = test_socket.connect_ex(('127.0.0.1', p))
+        test_socket.close()
         
-        if result != 0:
+        if res != 0:
+            print("Found free port: " + str(p))
             return p
-    return 5000 # Fallback to 5000 if none found (Fix #3)
+            
+    # Default to 5000 if I can't find one
+    return 5000 
 
 def wait_for_server(base_url, timeout_seconds=30):
-    deadline = time.time() + timeout_seconds
-    attempt = 1
+    # I need to wait for Flask to actually start up
+    # Otherwise the tests will fail immediately
+    max_time = time.time() + timeout_seconds
+    count = 1
 
-    while time.time() < deadline:
-        print(f"Waiting for server... (attempt {attempt})")
+    while time.time() < max_time:
+        print("Checking if server is awake... attempt " + str(count))
         try:
-            response = requests.get(f"{base_url}/health", timeout=2)
-            if response.status_code == 200:
-                print("Server ready")
+            # I call the /health endpoint we made in app.py
+            r = requests.get(base_url + "/health", timeout=2)
+            if r.status_code == 200:
+                print("Server is ready and healthy!")
                 return True
-        except requests.RequestException:
+        except:
+            # If it fails, just wait and try again
             pass
-        attempt += 1
+        
+        count = count + 1
         time.sleep(1)
 
-    print("Server did not become healthy within 30 seconds.")
+    print("Server took too long to start.")
     return False
 
-def stop_server(proc):
-    if proc is None:
+def stop_server(proc_object):
+    # If the process is empty, do nothing
+    if proc_object is None:
         return
-    if proc.poll() is not None:
+        
+    # Check if it's already finished
+    if proc_object.poll() is not None:
         return
 
-    print("Stopping Flask server...")
-    proc.terminate()
-    try:
-        proc.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        proc.wait(timeout=5)
-
-def show_summary(results_dir):
-    # Fix #2: Pathlib Insurance - convert results_dir to a Path object
-    res_path = Path(results_dir)
-    summary_file = res_path / "summary.json"
+    print("Closing the Flask server...")
+    # Try to stop it nicely
+    proc_object.terminate()
     
-    if not summary_file.exists():
-        print("summary.json not found.")
+    # Wait a few seconds for it to close
+    try:
+        proc_object.wait(timeout=5)
+    except:
+        # If it won't close, kill it forcefully
+        proc_object.kill()
+        proc_object.wait(timeout=5)
+
+def show_summary(results_folder):
+    # I need to find the summary.json file in the results folder
+    path_to_results = Path(results_folder)
+    summary_path = path_to_results / "summary.json"
+    
+    if summary_path.exists() == False:
+        print("I could not find the summary.json file.")
         return False
 
-    data = json.loads(summary_file.read_text(encoding="utf-8"))
-    summary = data.get("summary", {})
-
-    def metric(scenario, phase, key):
-        return summary.get(scenario, {}).get(phase, {}).get(key, "N/A")
+    # Load the data from the JSON file
+    file_content = summary_path.read_text(encoding="utf-8")
+    json_data = json.loads(file_content)
+    
+    # Pull out the summary dictionary
+    all_metrics = json_data.get("summary", {})
 
     section("Results Summary")
-    print(
-        "CPU latency (baseline -> fault): "
-        f"{metric('cpu', 'baseline', 'mean_latency_ms')}ms -> "
-        f"{metric('cpu', 'fault', 'mean_latency_ms')}ms"
-    )
-    print(
-        "Memory latency (baseline -> fault): "
-        f"{metric('memory', 'baseline', 'mean_latency_ms')}ms -> "
-        f"{metric('memory', 'fault', 'mean_latency_ms')}ms"
-    )
-    print(
-        "Error rate (baseline -> fault): "
-        f"{metric('error', 'baseline', 'error_rate_percent')}% -> "
-        f"{metric('error', 'fault', 'error_rate_percent')}%"
-    )
+    
+    # Helper to get the latency numbers easily
+    def get_num(scen, ph, m_key):
+        val = all_metrics.get(scen, {}).get(ph, {}).get(m_key, "N/A")
+        return str(val)
 
-    return bool(data.get("success"))
+    # Print out the results for the report
+    print("CPU Baseline: " + get_num('cpu', 'baseline', 'mean_latency_ms') + "ms")
+    print("CPU Fault:    " + get_num('cpu', 'fault', 'mean_latency_ms') + "ms")
+    print("----------------------------------------")
+    print("Mem Baseline: " + get_num('memory', 'baseline', 'mean_latency_ms') + "ms")
+    print("Mem Fault:    " + get_num('memory', 'fault', 'mean_latency_ms') + "ms")
+    print("----------------------------------------")
+    print("Error Baseline: " + get_num('error', 'baseline', 'error_rate_percent') + "%")
+    print("Error Fault:    " + get_num('error', 'fault', 'error_rate_percent') + "%")
+
+    return bool(json_data.get("success"))
 
 def main():
-    parser = argparse.ArgumentParser(description="Run local observability demo")
-    parser.add_argument("--requests", type=int, default=10, help="Requests per phase")
-    parser.add_argument("--duration", type=int, default=5, help="Stress duration in seconds")
-    parser.add_argument("--repeats", type=int, default=1, help="Repeats per scenario")
-    args = parser.parse_args()
+    # Setup the command line arguments
+    my_parser = argparse.ArgumentParser()
+    my_parser.add_argument("--requests", type=int, default=10)
+    my_parser.add_argument("--duration", type=int, default=5)
+    my_parser.add_argument("--repeats", type=int, default=1)
+    
+    args = my_parser.parse_args()
 
+    # Basic check to make sure the numbers make sense
     if args.requests <= 0 or args.duration <= 0 or args.repeats <= 0:
-        print("--requests, --duration, and --repeats must all be > 0")
+        print("Please use numbers greater than 0 for requests/duration/repeats")
         return 1
 
-    section("Observability Demo")
-    print("This will:")
-    print("- start a Flask server")
-    print("- run baseline/fault scenarios (cpu, memory, error)")
-    print("- write results to results/run_<timestamp>/")
-    print("\nExpected runtime: ~30-60 seconds")
-
-    if not validate_environment():
+    section("Observability Project Demo")
+    print("Step 1: Check environment")
+    if validate_environment() == False:
         return 1
 
-    started_at = time.time()
-    port = find_free_port()
-    base_url = f"http://127.0.0.1:{port}"
-    run_id = datetime.now().strftime("run_%Y-%m-%d_%H-%M-%S")
-    results_dir = Path("results") / run_id
+    # Get the start time for the whole run
+    start_time_float = time.time()
+    
+    # Find a port and set the URL
+    target_port = find_free_port()
+    my_url = "http://127.0.0.1:" + str(target_port)
+    
+    # Create a unique name for this results folder
+    time_stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    folder_name = "run_" + str(time_stamp)
+    final_results_path = Path("results") / folder_name
 
-    print(f"\nStarting Flask on port {port}...")
-    app_proc = subprocess.Popen([sys.executable, "app/app.py", "--port", str(port)])
+    print("\nStarting the Flask app on port " + str(target_port))
+    # Use Popen to run Flask in the background
+    my_app_process = subprocess.Popen([sys.executable, "app/app.py", "--port", str(target_port)])
 
     try:
-        if not wait_for_server(base_url):
+        # Wait for Flask to be ready
+        if wait_for_server(my_url) == False:
+            stop_server(my_app_process)
             return 1
 
-        cmd = [
+        print("Now starting the experiment runner...")
+        
+        # Build the command to run the conductor script
+        run_cmd = [
             sys.executable,
             "scripts/experiment_runner.py",
-            "--base-url",
-            base_url,
-            "--requests",
-            str(args.requests),
-            "--duration",
-            str(args.duration),
-            "--repeats",
-            str(args.repeats),
-            "--results-dir",
-            str(results_dir),
+            "--base-url", my_url,
+            "--requests", str(args.requests),
+            "--duration", str(args.duration),
+            "--repeats", str(args.repeats),
+            "--results-dir", str(final_results_path),
         ]
-        subprocess.run(cmd, check=True)
+        
+        # Run it and wait for it to finish
+        subprocess.run(run_cmd, check=True)
 
-        success = show_summary(results_dir)
-        elapsed = int(time.time() - started_at)
-        print(f"\nResults saved to: {results_dir}/")
-        print(f"Total runtime: {elapsed}s")
-        return 0 if success else 1
+        # Show the final results on screen
+        is_successful = show_summary(final_results_path)
+        
+        # Calculate how long the whole thing took
+        total_seconds = int(time.time() - start_time_float)
+        
+        print("\nResults are saved in: " + str(final_results_path))
+        print("The whole process took: " + str(total_seconds) + " seconds")
+        
+        if is_successful:
+            return 0
+        else:
+            return 1
 
-    except subprocess.CalledProcessError as exc:
-        print(f"Experiment runner failed with exit code {exc.returncode}")
-        return 1
-    except KeyboardInterrupt:
-        print("\nStopped by user.")
+    except Exception as e:
+        print("Something went wrong: " + str(e))
         return 1
     finally:
-        stop_server(app_proc)
+        # Always make sure to stop the server at the end
+        stop_server(my_app_process)
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # Run the main function and exit with the correct code
+    exit_code = main()
+    sys.exit(exit_code)

@@ -1,117 +1,114 @@
-import os
+import argparse
 import time
-from datetime import datetime, timedelta, timezone
+import os
+import sys
+import random
+from datetime import datetime
 
-import boto3
+# --- Global Variables ---
+# I am using a global list to hold the data so it doesn't get 
+# cleared by the Python garbage collector by accident.
+MEMORY_HOG_LIST = []
 
-# Connect to CloudWatch in the correct region using the EC2 instance IAM role.
-# boto3 automatically picks up credentials from the instance metadata,
-# so no access keys are needed.
-REGION = os.getenv("CW_REGION", "eu-west-2")
-client = boto3.client('cloudwatch', region_name=REGION)
+if __name__ == "__main__":
+    # --- Part 1: Setup and Inputs ---
+    # I am setting up the argparse here to take commands from the demo script
+    my_parser = argparse.ArgumentParser(description="Manual Memory Stresser")
+    
+    # Adding each argument one by one
+    my_parser.add_argument("duration", type=int, help="How long to stay running")
+    my_parser.add_argument("--scenario", default="memory", help="The name of this test")
+    my_parser.add_argument("--run-id", default="run_1", help="The ID for this specific run")
+    my_parser.add_argument("--size", type=int, default=256, help="Amount of MB to fill")
+    
+    # Parsing the arguments into a variable called 'my_args'
+    my_args = my_parser.parse_args()
+    
+    # Manually re-assigning them to local variables 
+    # This makes it easier for me to use them later in the script
+    run_duration = my_args.duration
+    target_megabytes = my_args.size
+    test_name = my_args.scenario
+    current_run_id = my_args.run_id
 
-# Define the thresholds that will trigger an alert.
-# These mirror the CloudWatch alarm thresholds configured in the console,
-# allowing programmatic alerting without relying solely on the AWS alarm system.
-CPU_THRESHOLD = 70.0
-MEMORY_THRESHOLD = 75.0
+    # --- Part 2: Starting the Log ---
+    print("****************************************")
+    print("* MEMORY STRESS SCRIPT STARTING   *")
+    print("****************************************")
+    print("Start Time: " + str(datetime.now()))
+    print("Scenario Name: " + str(test_name))
+    print("Run Identifier: " + str(current_run_id))
+    print("Target Memory to Fill: " + str(target_megabytes) + " MB")
+    print("[MEMORY_STRESS_STARTED]")
 
-# Define how far back to look when querying metrics.
-# 10 minutes ensures at least one CloudWatch data point is captured,
-# since the agent collects metrics every 60 seconds.
-LOOKBACK_MINUTES = 10
+    # --- Part 3: Creating the Data Block ---
+    # To fill 1MB, I need 1,048,576 bytes. 
+    # I am creating a string of 'X' characters to represent this.
+    print("Creating the 1MB data blocks...")
+    
+    # I'll build it in steps to be safe
+    one_kb = "X" * 1024
+    one_mb_block = one_kb * 1024
+    
+    # Verify the size (optional check for debugging)
+    block_size_bytes = sys.getsizeof(one_mb_block)
+    print("Confirmed 1MB block size is roughly: " + str(block_size_bytes) + " bytes")
 
-# The CPU metric requires two dimensions to match exactly how the
-# CloudWatch agent registers it: host and cpu.
-# The memory metric only requires the host dimension.
-HOST = os.getenv("CW_HOST", "default-host")
+    # --- Part 4: The Allocation Loop ---
+    # This is the main loop that actually fills the RAM
+    print("Now starting the allocation loop. This might take a second...")
+    
+    # I am using a manual counter 'i' to track how many MB I have added
+    i = 0
+    while i < target_megabytes:
+        # Append the 1MB block to my global list
+        MEMORY_HOG_LIST.append(one_mb_block)
+        
+        # Increase the counter by 1
+        i = i + 1
+        
+        # I want to see exactly how much is being used while it runs
+        # So I print a message for every single MB added
+        print("Progress: Added " + str(i) + " MB to the list...")
+        
+        # Every 50MB I'll print a special status update
+        if i % 50 == 0:
+            print("--- STATUS CHECK: " + str(i) + " MB allocated so far ---")
 
-CPU_DIMENSIONS = [
-    {'Name': 'host', 'Value': HOST},
-    {'Name': 'cpu', 'Value': 'cpu-total'}
-]
+    print("Allocation Complete. Total in list: " + str(len(MEMORY_HOG_LIST)) + " units.")
 
-MEMORY_DIMENSIONS = [
-    {'Name': 'host', 'Value': HOST}
-]
+    # --- Part 5: Holding the Memory ---
+    # If the script finishes, the memory is freed. 
+    # I need to keep the script 'alive' so the RAM stays full for the demo.
+    print("The system is now under memory stress.")
+    print("Waiting for " + str(run_duration) + " seconds before stopping...")
+    
+    # I'll use a countdown loop so it looks cool in the terminal
+    seconds_passed = 0
+    while seconds_passed < run_duration:
+        # Wait 1 second
+        time.sleep(1)
+        # Add to our counter
+        seconds_passed = seconds_passed + 1
+        # Print a small tick every 10 seconds
+        if seconds_passed % 10 == 0:
+            print("Stress still running... " + str(run_duration - seconds_passed) + "s left.")
 
+    # --- Part 6: Cleanup Phase ---
+    print("Duration reached. Starting cleanup...")
+    
+    # Manually deleting the items from the list one by one
+    # This is probably slower but it feels more 'thorough'
+    print("Clearing the list...")
+    while len(MEMORY_HOG_LIST) > 0:
+        MEMORY_HOG_LIST.pop()
+        
+    # Set the list to None to make sure Python knows it's empty
+    MEMORY_HOG_LIST = None
+    
+    print("[MEMORY_STRESS_FINISHED]")
+    print("End Time: " + str(datetime.now()))
+    print("****************************************")
 
-def get_latest_metric(metric_name, dimensions, namespace='ObservabilityPipeline'):
-    """
-    Query CloudWatch for the most recent average value of a given metric.
-    Returns the latest datapoint value, or None if no data is available.
-    """
-    end_time = datetime.now(timezone.utc)
-    start_time = end_time - timedelta(minutes=LOOKBACK_MINUTES)
-
-    response = client.get_metric_statistics(
-        Namespace=namespace,
-        MetricName=metric_name,
-        Dimensions=dimensions,
-        StartTime=start_time,
-        EndTime=end_time,
-        Period=300,
-        Statistics=['Average']
-    )
-
-    datapoints = response.get('Datapoints', [])
-
-    if not datapoints:
-        return None
-
-    latest = sorted(datapoints, key=lambda x: x['Timestamp'])[-1]
-    return latest['Average']
-
-
-def check_and_alert():
-    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
-
-    cpu_value = get_latest_metric('cpu_usage_active', CPU_DIMENSIONS)
-    memory_value = get_latest_metric('mem_used_percent', MEMORY_DIMENSIONS)
-
-    print(f"\n[{timestamp}] Checking metrics...")
-
-    if cpu_value is not None:
-        print(f"  CPU usage:    {cpu_value:.2f}% (threshold: {CPU_THRESHOLD}%)")
-        if cpu_value > CPU_THRESHOLD:
-            print(f"  *** ALERT: CPU usage {cpu_value:.2f}% exceeds threshold {CPU_THRESHOLD}% ***")
-    else:
-        print(f"  CPU usage:    No data available in last {LOOKBACK_MINUTES} minutes")
-
-    if memory_value is not None:
-        print(f"  Memory usage: {memory_value:.2f}% (threshold: {MEMORY_THRESHOLD}%)")
-        if memory_value > MEMORY_THRESHOLD:
-            print(f"  *** ALERT: Memory usage {memory_value:.2f}% exceeds threshold {MEMORY_THRESHOLD}% ***")
-    else:
-        print(f"  Memory usage: No data available in last {LOOKBACK_MINUTES} minutes")
-
-    if cpu_value is not None and memory_value is not None:
-        if cpu_value <= CPU_THRESHOLD and memory_value <= MEMORY_THRESHOLD:
-            print("  Status: All metrics within normal range.")
-
-
-def run_alerting_loop():
-    cycles = 5
-    interval_seconds = 60
-
-    print(f"Starting observability alerting script.")
-    print(f"CloudWatch region: {REGION}")
-    print(f"CloudWatch host dimension: {HOST}")
-    if HOST == "default-host":
-        print("WARNING: CW_HOST is not set. Set CW_HOST to your EC2 host dimension to receive metric data.")
-    print(f"Polling every {interval_seconds}s for {cycles} cycles.")
-    print(f"Thresholds — CPU: {CPU_THRESHOLD}%, Memory: {MEMORY_THRESHOLD}%")
-    print("-" * 60)
-
-    for i in range(cycles):
-        check_and_alert()
-
-        if i < cycles - 1:
-            print(f"  Next check in {interval_seconds} seconds...")
-            time.sleep(interval_seconds)
-
-    print("\nAlerting script complete.")
-
-
-if __name__ == '__main__':
-    run_alerting_loop()
+    # Exit the script with code 0 for success
+    sys.exit(0)
