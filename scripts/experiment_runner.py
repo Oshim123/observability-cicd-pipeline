@@ -22,29 +22,32 @@ def get_average_metrics(run_list):
             total_latency += m.get("mean_latency_ms")
             total_error += m.get("error_rate_percent", 0)
             count += 1
-
+            #this for loop calculates the average latency and error rate across multiple runs of the same scenario.
+            # It iterates through each run's metrics, sums up the mean latency and error rates, and counts how many valid runs there are.
     if count == 0:
         return {"runs": 0}
-
+    #if the counts 0 it returns a dict with 0 so we avoid division by zero. Otherwise, it calculates the average latency and error rate by dividing the totals by the count of valid runs
+    
     return {
         "runs": count,
         "mean_latency_ms": round(total_latency / count, 3),
         "error_rate_percent": round(total_error / count, 2)
-    }
+    } #chose to round the latency to 3 decimal places and error rate to 2 decimal places for better readability in the final summary.
 
 def run_load_test(url, requests, csv_file, scenario, run_id):
     # We save a temporary summary file to read the numbers back
     temp_summary = csv_file.with_name("temp_stats.json")
     
     cmd = [
-        sys.executable, "scripts/load_test.py",
+        sys.executable, "scripts/load_test.py", #sys.executable ensures  we use the same Python interpreter to run the load_test script,important for consistency, in virtual environments.
         url, str(requests),
         "--output-csv", str(csv_file),
         "--summary-json", str(temp_summary),
         "--scenario", scenario,
         "--run-id", run_id
     ]
-
+    #this command in short will execute the load_test.py script with the specified parameters, including the target URL, number of requests, output CSV file, summary JSON file, scenario name, and run ID.
+    # The load_test.py script is responsible for performing the actual load testing and writing the results to the specified files.
     result = subprocess.run(cmd, capture_output=True, text=True)
     
     metrics = {}
