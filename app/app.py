@@ -24,7 +24,7 @@ def record_activity_to_file(message_text, status_code):
     # 1. Get the current time
     # I need this so I know when the request happened
     now_obj = datetime.now()
-    time_string = now_obj.isoformat()
+    time_string = str(now_obj)
     
     # 2. Calculate Latency
     # I'm checking how much time passed since the request started
@@ -89,7 +89,7 @@ def start_the_timer():
 @app.route("/")
 def home_page():
     # This is the default page
-    # I am calling my log function manually here
+    # calling my log function manually here
     msg = "User visited the home page"
     record_activity_to_file(msg, 200)
     return "Observability App is Running - Version 1.0"

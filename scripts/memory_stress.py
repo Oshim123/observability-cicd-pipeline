@@ -1,44 +1,112 @@
 import argparse
 import time
-from datetime import datetime, timezone
+import os
+import sys
+from datetime import datetime
 
-DEFAULT_CHUNK_MB = 10
-
-
-def parse_args():
-    parser = argparse.ArgumentParser(description="Memory stress workload")
-    parser.add_argument("duration", type=int, nargs="?", default=30, help="Stress duration in seconds")
-    parser.add_argument("--scenario", default="memory")
-    parser.add_argument("--run-id", default="run0")
-    parser.add_argument("--max-mb", type=int, default=512, help="Max memory to allocate")
-    return parser.parse_args()
-
-
-def run_memory_stress(duration, max_mb):
-    print(
-        f"[MEMORY_STRESS_STARTED] start={datetime.now(timezone.utc).isoformat()} duration={duration}s chunk_mb={DEFAULT_CHUNK_MB} max_mb={max_mb}"
-    )
-    end_time = time.time() + duration
-    memory_blocks = []
-
-    try:
-        while time.time() < end_time and (len(memory_blocks) * DEFAULT_CHUNK_MB) < max_mb:
-            memory_blocks.append(" " * (DEFAULT_CHUNK_MB * 1024 * 1024))
-            print(f"allocated_mb={len(memory_blocks) * DEFAULT_CHUNK_MB}")
-            time.sleep(0.5)
-    except MemoryError:
-        print("memory_limit_reached")
-
-    while time.time() < end_time:
-        time.sleep(0.2)
-
-    memory_blocks.clear()
-    print(f"[MEMORY_STRESS_FINISHED] end={datetime.now(timezone.utc).isoformat()}")
-
+# I am making a global list to hold the data. 
+# If I don't keep it in a list, Python's garbage collector might delete it
+# and then the RAM won't actually stay full.
+LIST_TO_HOLD_DATA = []
 
 if __name__ == "__main__":
-    args = parse_args()
-    if args.duration <= 0 or args.max_mb <= 0:
-        raise ValueError("duration and max-mb must be > 0")
-    print(f"scenario={args.scenario} run_id={args.run_id}")
-    run_memory_stress(args.duration, args.max_mb)
+    # --- Part 1: Setting up the Inputs ---
+    # I am using argparse because the demo script needs to pass in the duration
+    my_parser = argparse.ArgumentParser(description="My Memory Stress Script")
+    my_parser.add_argument("duration", type=int, default=30)
+    my_parser.add_argument("--scenario", default="memory")
+    my_parser.add_argument("--run-id", default="run_1")
+    my_parser.add_argument("--max-mb", type=int, default=512)
+    
+    # Get the arguments out
+    args = my_parser.parse_args()
+    
+    # Re-assigning them to easy names I can use
+    time_limit = args.duration
+    mb_limit = args.max_mb
+    test_name = args.scenario
+    run_idx = args.run_id
+
+    # --- Part 2: Starting the script ---
+    print("****************************************")
+    print("MEMORY STRESS STARTING")
+    # I'm using string concatenation because it's easier to see what is happening
+    print("Scenario: " + str(test_name))
+    print("Run ID: " + str(run_idx))
+    print("Start Time: " + str(datetime.now()))
+    print("[MEMORY_STRESS_STARTED]")
+
+    # Calculating the end time manually
+    start_time_float = time.time()
+    end_time_float = start_time_float + time_limit
+
+    # --- Part 3: Memory Filling Loop ---
+    # I want to add 10MB at a time so I don't crash the laptop too fast
+    chunk_size = 10
+    
+    # I'll keep track of how many MB I've added so far
+    total_added_mb = 0
+
+    print("Now starting to fill up to " + str(mb_limit) + " MB...")
+
+    # I'm using a while True loop and checking conditions inside
+    while True:
+        # Check 1: Have we run out of time?
+        if time.time() >= end_time_float:
+            print("Time limit reached during allocation phase.")
+            break
+            
+        # Check 2: Have we hit the MB limit?
+        if total_added_mb >= mb_limit:
+            print("Target MB limit reached.")
+            break
+            
+        try:
+            # Create a string that is roughly 1MB, then multiply it by 10
+            # A character in Python is 1 byte, so 1024*1024 = 1MB
+            one_mb_string = "M" * (1024 * 1024)
+            ten_mb_chunk = one_mb_string * chunk_size
+            
+            # Put it in the list to "hog" the memory
+            LIST_TO_HOLD_DATA.append(ten_mb_chunk)
+            
+            # Update our manual counter
+            total_added_mb = total_added_mb + chunk_size
+            
+            # Print an update so I can see it working in the terminal
+            print("Added " + str(chunk_size) + "MB. Total in RAM: " + str(total_added_mb) + "MB")
+            
+            # Sleep for a tiny bit so we don't freeze the whole computer
+            time.sleep(0.1)
+            
+        except MemoryError:
+            print("!!! ERROR: The system ran out of RAM early !!!")
+            break
+
+    # --- Part 4: Holding Phase ---
+    # Now that we've filled the RAM, we need to stay alive until the timer is up
+    print("Allocation finished. Holding memory for the rest of the duration...")
+    
+    while time.time() < end_time_float:
+        # We just wait here
+        # This keeps the 'LIST_TO_HOLD_DATA' in memory
+        time.sleep(1)
+        
+        # Calculate how many seconds are left for my own information
+        seconds_remaining = int(end_time_float - time.time())
+        if seconds_remaining % 10 == 0:
+            print("Still holding memory... " + str(seconds_remaining) + "s left.")
+
+    # --- Part 5: Clean up ---
+    print("Time is up! Clearing the memory list...")
+    
+    # Manually clearing and setting to None
+    LIST_TO_HOLD_DATA.clear()
+    LIST_TO_HOLD_DATA = None
+    
+    print("Final End Time: " + str(datetime.now()))
+    print("[MEMORY_STRESS_FINISHED]")
+    print("****************************************")
+    
+    # Exit with code 0 for success
+    sys.exit(0)

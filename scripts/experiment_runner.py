@@ -7,8 +7,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-# Simplified the aggregate function. 
-# Using a manual loop instead of the 'statistics' library and nested functions.
+# Manual loop here to get the average. 
+# Avoided the statistics library because it was overkill for just two numbers.
 def get_average_metrics(run_list):
     if not run_list:
         return {}
@@ -22,46 +22,44 @@ def get_average_metrics(run_list):
             total_latency += m.get("mean_latency_ms")
             total_error += m.get("error_rate_percent", 0)
             count += 1
-            #this for loop calculates the average latency and error rate across multiple runs of the same scenario.
-            # It iterates through each run's metrics, sums up the mean latency and error rates, and counts how many valid runs there are.
+            
     if count == 0:
         return {"runs": 0}
-    #if the counts 0 it returns a dict with 0 so we avoid division by zero. Otherwise, it calculates the average latency and error rate by dividing the totals by the count of valid runs
     
+    # Rounding to 3 decimals so the final JSON report looks clean
     return {
         "runs": count,
         "mean_latency_ms": round(total_latency / count, 3),
         "error_rate_percent": round(total_error / count, 2)
-    } #chose to round the latency to 3 decimal places and error rate to 2 decimal places for better readability in the final summary.
+    }
 
 def run_load_test(url, requests, csv_file, scenario, run_id):
-    # We save a temporary summary file to read the numbers back
+    # Using a temp file to pass data between the load test and this script
     temp_summary = csv_file.with_name("temp_stats.json")
     
     cmd = [
-        sys.executable, "scripts/load_test.py", #sys.executable ensures  we use the same Python interpreter to run the load_test script,important for consistency, in virtual environments.
+        sys.executable, "scripts/load_test.py", 
         url, str(requests),
         "--output-csv", str(csv_file),
         "--summary-json", str(temp_summary),
         "--scenario", scenario,
         "--run-id", run_id
     ]
-    #this command in short will execute the load_test.py script with the specified parameters, including the target URL, number of requests, output CSV file, summary JSON file, scenario name, and run ID.
-    # The load_test.py script is responsible for performing the actual load testing and writing the results to the specified files.
+    
     result = subprocess.run(cmd, capture_output=True, text=True)
     
     metrics = {}
     if temp_summary.exists():
         metrics = json.loads(temp_summary.read_text())
-        temp_summary.unlink() # Delete temp file after reading
+        # Delete temp file after reading so it doesn't clutter the folder
+        os.remove(str(temp_summary)) 
 
     return result, metrics
 
 def run_single_experiment(base_url, requests, duration, folder, scenario, idx, stress_script):
-    run_id = "run_" + str(idx) #will create a unique identifier for each run of the experiment, combining the scenario name and the index of the run.
-    #This helps in organizing the results and distinguishing between different runs in the output files.
+    run_id = "run_" + str(idx) 
     
-    # Create folders for baseline and the actual fault test
+    # Setting up the subfolders for the results
     base_path = Path(folder) / "baseline"
     fault_path = Path(folder) / scenario
     base_path.mkdir(parents=True, exist_ok=True)
@@ -70,28 +68,28 @@ def run_single_experiment(base_url, requests, duration, folder, scenario, idx, s
     baseline_csv = base_path / ("base_" + str(scenario) + "_" + str(run_id) + ".csv")
     fault_csv = fault_path / ("fault_" + str(scenario) + "_" + str(run_id) + ".csv")
 
-    # 1. Run Baseline (No stress)
-    print("   -> Running Baseline...")
+    # Step 1: Baseline. This shows how the app performs normally.
+    print("Running Baseline test...")
     base_res, base_metrics = run_load_test(
         base_url + "/", requests, baseline_csv, str(scenario) + "_baseline", run_id
     )
 
-    # 2. Start the stress script (CPU or Memory)
+    # Step 2: Injection. Launching the stress script in the background.
     stress_proc = None
     if stress_script:
-        print("   -> Starting Stress: " + str(scenario))
+        print("Injecting fault: " + str(scenario))
         stress_proc = subprocess.Popen([
             sys.executable, stress_script, str(duration), 
             "--scenario", scenario, "--run-id", run_id
         ])
 
-    # 3. Run the test during the stress
+    # Step 3: Fault Test. Running load while the system is stressed.
+    # The /trigger-error endpoint is only used for the error scenario.
     endpoint = "/trigger-error" if scenario == "error" else "/"
     fault_res, fault_metrics = run_load_test(
         base_url + endpoint, requests, fault_csv, scenario, run_id
     )
 
-    # Clean up the stress process if it's running
     if stress_proc:
         stress_proc.wait()
 
@@ -109,7 +107,7 @@ def main():
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--results-dir", required=True)
     args = parser.parse_args()
-    #handles the cmd line args for experiment so can specify the base URL of the app, number of requests to send, duration of each stress test, how many times to repeat each scenario, and where to save the results.
+
     out_dir = Path(args.results_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -123,49 +121,45 @@ def main():
 
     for name, script in scenarios:
         for i in range(1, args.repeats + 1):
-            print("--- Experiment: " + str(name) + " (Round " + str(i) + ") ---")
+            print("Running " + str(name) + " experiment round " + str(i))
             res = run_single_experiment(
                 args.base_url, args.requests, args.duration, out_dir, name, i, script
             )
             all_results.append(res)
 
-    # Group the data to create a final summary
-    # Group the data to create a final summary
     final_summary = {}
     
-    # Looping through each scenario (cpu, memory, error)
+    # Manual grouping of results to build the final report
     for name, _ in scenarios:
-        # I am making empty lists to hold the metrics I find
         s_baseline = []
         s_fault = []
         
-        # Now I manually loop through ALL the results to find the right ones
         for r in all_results:
-            # If the scenario name matches, I add it to my list
             if r["scenario"] == name:
                 s_baseline.append(r["baseline"]["metrics"])
                 s_fault.append(r["fault"]["metrics"])
         
-        # Now I use my manual averaging function to get the final numbers
         final_summary[name] = {
             "baseline": get_average_metrics(s_baseline),
             "fault": get_average_metrics(s_fault)
         }
 
-    # Save final JSON files
-    (out_dir / "summary.json").write_text(json.dumps({
-        "timestamp": datetime.now().isoformat(),
+    # Saving everything to one big JSON file for the project report
+    summary_file = out_dir / "summary.json"
+    summary_file.write_text(json.dumps({
+        "timestamp": str(datetime.now()),
         "success": True,
         "summary": final_summary,
         "details": all_results
     }, indent=4))
 
-    # Snapshot of our app logs (the file we created in app.py)
+    # Taking a copy of the app logs to keep them with this experiment run
     app_log_src = Path("app_logs.json")
     if app_log_src.exists():
-        (out_dir / "app_logs_snapshot.json").write_text(app_log_src.read_text())
+        log_dest = out_dir / "app_logs_snapshot.json"
+        log_dest.write_text(app_log_src.read_text())
 
-    print("\nExperiments Finished!")
+    print("All experiments are finished. Results saved.")
 
 if __name__ == "__main__":
     main()
