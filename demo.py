@@ -114,39 +114,36 @@ def stop_server(proc_object):
         proc_object.wait(timeout=5)
 
 def show_summary(results_folder):
-    # I need to find the summary.json file in the results folder
-    path_to_results = Path(results_folder)
-    summary_path = path_to_results / "summary.json"
+    # 1. Open the file manually
+    path = Path(results_folder) / "summary.json"
     
-    if summary_path.exists() == False:
+    if path.exists() == False:
         print("I could not find the summary.json file.")
         return False
-
-    # Load the data from the JSON file
-    file_content = summary_path.read_text(encoding="utf-8")
-    json_data = json.loads(file_content)
+        
+    with open(path, 'r') as f:
+        data = json.load(f)
     
-    # Pull out the summary dictionary
-    all_metrics = json_data.get("summary", {})
-
+    # 2. Grab the 'details' list because it contains the real numbers
+    # Index 0 = CPU, 1 = Memory, 2 = Error
+    d = data.get('details', [])
+    
     section("Results Summary")
     
-    # Helper to get the latency numbers easily
-    def get_num(scen, ph, m_key):
-        val = all_metrics.get(scen, {}).get(ph, {}).get(m_key, "N/A")
-        return str(val)
+    # 3. Pull the numbers manually from the details list
+    # I'm using 'avg_ms' and 'error_rate' because that's what's in the JSON
+    print("CPU Baseline: " + str(d[0]['baseline']['metrics']['avg_ms']) + "ms")
+    print("CPU Fault:    " + str(d[0]['fault']['metrics']['avg_ms']) + "ms")
+    print("-" * 40)
+    
+    print("Mem Baseline: " + str(d[1]['baseline']['metrics']['avg_ms']) + "ms")
+    print("Mem Fault:    " + str(d[1]['fault']['metrics']['avg_ms']) + "ms")
+    print("-" * 40)
+    
+    print("Error Baseline: " + str(d[2]['baseline']['metrics']['error_rate']))
+    print("Error Fault:    " + str(d[2]['fault']['metrics']['error_rate']))
 
-    # Print out the results for the report
-    print("CPU Baseline: " + get_num('cpu', 'baseline', 'mean_latency_ms') + "ms")
-    print("CPU Fault:    " + get_num('cpu', 'fault', 'mean_latency_ms') + "ms")
-    print("----------------------------------------")
-    print("Mem Baseline: " + get_num('memory', 'baseline', 'mean_latency_ms') + "ms")
-    print("Mem Fault:    " + get_num('memory', 'fault', 'mean_latency_ms') + "ms")
-    print("----------------------------------------")
-    print("Error Baseline: " + get_num('error', 'baseline', 'error_rate_percent') + "%")
-    print("Error Fault:    " + get_num('error', 'fault', 'error_rate_percent') + "%")
-
-    return bool(json_data.get("success"))
+    return True
 
 def main():
     # Setup the command line arguments

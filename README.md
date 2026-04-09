@@ -46,7 +46,7 @@ Stop the app (Ctrl+C) before running the demo.
 Run this for a complete demonstration in ~30–60 seconds (default settings):
 
     python -m venv venv
-    source venv/bin/activate  # On Windows use: venv\Scripts\activate
+    source venv/Scripts/activate  # On Windows use: venv\Scripts\activate
     pip install -r requirements.txt
     python demo.py
 
@@ -90,7 +90,7 @@ Quick run steps (if already set up):
 1. Connect to EC2:
 
         ssh -i observability-key.pem ubuntu@<EC2_PUBLIC_IP>
-
+        (for myself )
 2. Pull latest code:
 
         cd ~/observability-cicd-pipeline
@@ -129,6 +129,22 @@ Quick run steps (if already set up):
 In this mode:
 - CloudWatch collects logs and system metrics
 - Grafana visualises behaviour and anomalies
+
+OBSERVING RESULTS (AWS)
+
+CloudWatch Logs:
+- Go to CloudWatch → Logs → Log groups
+- Open the observability log group
+- View live request logs during experiments
+
+CloudWatch Metrics:
+- Go to CloudWatch → Metrics → EC2
+- Observe CPU and memory metrics during fault scenarios
+
+Grafana:
+- Open Grafana dashboard (http://<EC2_IP>:3000)
+- View real-time visualisation of system behaviour
+ 
 
 
 ===============================================================================
