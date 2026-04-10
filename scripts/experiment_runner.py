@@ -18,15 +18,18 @@ def get_average_metrics(run_list):
     count = 0
 
     for m in run_list:
-        if m.get("mean_latency_ms") is not None:
-            total_latency += m.get("mean_latency_ms")
-            total_error += m.get("error_rate_percent", 0)
+        if m.get("avg_ms") is not None:
+            total_latency += m.get("avg_ms")
+            
+            # Convert "0.0%" → 0.0
+            error_str = m.get("error_rate", "0%").replace("%", "")
+            total_error += float(error_str)
+            
             count += 1
             
     if count == 0:
         return {"runs": 0}
     
-    # Rounding to 3 decimals so the final JSON report looks clean
     return {
         "runs": count,
         "mean_latency_ms": round(total_latency / count, 3),

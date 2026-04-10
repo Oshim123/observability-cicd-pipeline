@@ -1,0 +1,131 @@
+{
+    "timestamp": "2026-04-10 16:38:37.483382",
+    "success": true,
+    "summary": {
+        "cpu": {
+            "baseline": {
+                "runs": 0
+            },
+            "fault": {
+                "runs": 0
+            }
+        },
+        "memory": {
+            "baseline": {
+                "runs": 0
+            },
+            "fault": {
+                "runs": 0
+            }
+        },
+        "error": {
+            "baseline": {
+                "runs": 0
+            },
+            "fault": {
+                "runs": 0
+            }
+        }
+    },
+    "details": [
+        {
+            "scenario": "cpu",
+            "baseline": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 14.49,
+                    "median_ms": 17.63,
+                    "p95_ms": 27.75,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 81.41,
+                    "median_ms": 91.08,
+                    "p95_ms": 105.41,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            }
+        },
+        {
+            "scenario": "memory",
+            "baseline": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 18.28,
+                    "median_ms": 26.01,
+                    "p95_ms": 30.21,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 16.21,
+                    "median_ms": 20.5,
+                    "p95_ms": 27.47,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            }
+        },
+        {
+            "scenario": "error",
+            "baseline": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 12.75,
+                    "median_ms": 8.69,
+                    "p95_ms": 28.51,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/trigger-error",
+                    "total_sent": 10,
+                    "avg_ms": 16.3,
+                    "median_ms": 19.91,
+                    "p95_ms": 29.71,
+                    "failed_requests": 10,
+                    "error_rate": "100.0%",
+                    "all_codes": {
+                        "500": 10
+                    }
+                },
+                "code": 0
+            }
+        }
+    ]
+}

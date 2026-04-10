@@ -90,7 +90,7 @@ Quick run steps (if already set up):
 1. Connect to EC2:
 
         ssh -i observability-key.pem ubuntu@<EC2_PUBLIC_IP>
-        (for myself )
+        (for myself ssh -i /c/Users/oshim/Downloads/observability-key.pem ubuntu@<IP> )
 2. Pull latest code:
 
         cd ~/observability-cicd-pipeline

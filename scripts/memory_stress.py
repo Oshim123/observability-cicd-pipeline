@@ -13,10 +13,10 @@ if __name__ == "__main__":
     # --- Part 1: Setting up the Inputs ---
     # I am using argparse because the demo script needs to pass in the duration
     my_parser = argparse.ArgumentParser(description="My Memory Stress Script")
-    my_parser.add_argument("duration", type=int, default=30)
+    my_parser.add_argument("duration", type=int, nargs="?", default=30)
     my_parser.add_argument("--scenario", default="memory")
     my_parser.add_argument("--run-id", default="run_1")
-    my_parser.add_argument("--max-mb", type=int, default=512)
+    my_parser.add_argument("--max-mb", type=int, default=200)
     
     # Get the arguments out
     args = my_parser.parse_args()
@@ -62,10 +62,8 @@ if __name__ == "__main__":
             break
             
         try:
-            # Create a string that is roughly 1MB, then multiply it by 10
-            # A character in Python is 1 byte, so 1024*1024 = 1MB
-            one_mb_string = "M" * (1024 * 1024)
-            ten_mb_chunk = one_mb_string * chunk_size
+            # Create a chunk of data in memory. This is just a bunch of zeros.
+            ten_mb_chunk = bytearray(chunk_size * 1024 * 1024)
             
             # Put it in the list to "hog" the memory
             LIST_TO_HOLD_DATA.append(ten_mb_chunk)
@@ -102,7 +100,7 @@ if __name__ == "__main__":
     
     # Manually clearing and setting to None
     LIST_TO_HOLD_DATA.clear()
-    LIST_TO_HOLD_DATA = None
+    
     
     print("Final End Time: " + str(datetime.now()))
     print("[MEMORY_STRESS_FINISHED]")
