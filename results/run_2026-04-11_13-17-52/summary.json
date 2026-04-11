@@ -1,0 +1,143 @@
+{
+    "timestamp": "2026-04-11 13:18:11.299166",
+    "success": true,
+    "summary": {
+        "cpu": {
+            "baseline": {
+                "runs": 1,
+                "mean_latency_ms": 21.26,
+                "error_rate_percent": 0.0
+            },
+            "fault": {
+                "runs": 1,
+                "mean_latency_ms": 101.48,
+                "error_rate_percent": 0.0
+            }
+        },
+        "memory": {
+            "baseline": {
+                "runs": 1,
+                "mean_latency_ms": 26.55,
+                "error_rate_percent": 0.0
+            },
+            "fault": {
+                "runs": 1,
+                "mean_latency_ms": 27.2,
+                "error_rate_percent": 0.0
+            }
+        },
+        "error": {
+            "baseline": {
+                "runs": 1,
+                "mean_latency_ms": 20.49,
+                "error_rate_percent": 0.0
+            },
+            "fault": {
+                "runs": 1,
+                "mean_latency_ms": 24.12,
+                "error_rate_percent": 100.0
+            }
+        }
+    },
+    "details": [
+        {
+            "scenario": "cpu",
+            "baseline": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 21.26,
+                    "median_ms": 25.44,
+                    "p95_ms": 27.86,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 101.48,
+                    "median_ms": 88.2,
+                    "p95_ms": 180.44,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            }
+        },
+        {
+            "scenario": "memory",
+            "baseline": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 26.55,
+                    "median_ms": 26.95,
+                    "p95_ms": 28.77,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 27.2,
+                    "median_ms": 27.32,
+                    "p95_ms": 29.9,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            }
+        },
+        {
+            "scenario": "error",
+            "baseline": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/",
+                    "total_sent": 10,
+                    "avg_ms": 20.49,
+                    "median_ms": 25.92,
+                    "p95_ms": 28.77,
+                    "failed_requests": 0,
+                    "error_rate": "0.0%",
+                    "all_codes": {
+                        "200": 10
+                    }
+                },
+                "code": 0
+            },
+            "fault": {
+                "metrics": {
+                    "target_url": "http://127.0.0.1:5000/trigger-error",
+                    "total_sent": 10,
+                    "avg_ms": 24.12,
+                    "median_ms": 27.18,
+                    "p95_ms": 29.23,
+                    "failed_requests": 10,
+                    "error_rate": "100.0%",
+                    "all_codes": {
+                        "500": 10
+                    }
+                },
+                "code": 0
+            }
+        }
+    ]
+}
