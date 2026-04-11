@@ -148,8 +148,8 @@ Quick run steps (if already set up):
 
         python scripts/experiment_runner.py \
           --base-url http://127.0.0.1:5000 \
-          --requests 100 \
-          --duration 60 \
+          --requests 50 \
+          --duration 15 \
           --repeats 1 \
           --results-dir results/run_marker
 
