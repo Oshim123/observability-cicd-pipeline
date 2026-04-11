@@ -1,14 +1,19 @@
 import argparse
 import json
 import os
+import logging
 import random
 import time
 from datetime import datetime
 from flask import Flask, g, jsonify, request
 
 # --- Start of the App ---
-# I am initializing the Flask web server here
+# initialising the Flask web server here
 app = Flask(__name__)
+
+# I am setting the logging level to ERROR to reduce noise in the console
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR) #this logs the requests to the console, but I set it to ERROR so it only logs when something goes wrong
 
 # This is where I am going to save all the data I collect
 # I named it app_logs.json so it's easy to find
