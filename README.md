@@ -58,14 +58,45 @@ WHAT THIS DOES:
     MEMORY:  baseline → fault
     ERROR:   baseline → fault
 
-- Saves results into the results/ folder
+- Saves results into the results/ folder as a new timestamped directory:
+
+    results/run_<timestamp>/
 
 EXPECTED OUTPUT:
 - A new folder appears in results/
-- summary.json is generated
+- summary.json is generated inside the run folder
 - Terminal shows each scenario completing without errors
 
-If these occur, the system is working correctly.
+HOW TO VIEW RESULTS (BASH):
+
+After the demo finishes:
+
+    cd results
+    ls
+
+Find the latest run folder (example):
+
+    run_2026-04-11_13-17-52
+
+Enter it:
+
+    cd run_2026-04-11_13-17-52
+    ls
+
+You should see:
+
+    baseline/
+    cpu/
+    memory/
+    error/
+    summary.json
+    app_logs_snapshot.json
+
+To view the summary:
+
+    cat summary.json
+
+This file contains the final metrics used for evaluation.
 
 NOTE:
 This mode does NOT use CloudWatch or Grafana.
