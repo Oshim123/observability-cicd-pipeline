@@ -13,6 +13,7 @@ REQUIREMENTS
 - Python 3.10, 3.11, or 3.12 (required)
 - pip
 - Internet connection (required once for dependency installation)
+- Bash-compatible terminal (e.g. Git Bash on Windows)
 
 ---------------------
 There are TWO ways to run this project:
@@ -46,7 +47,7 @@ Stop the app (Ctrl+C) before running the demo.
 Run this for a complete demonstration in ~30–60 seconds (default settings):
 
     python -m venv venv
-    source venv/Scripts/activate  # On Windows use: venv\Scripts\activate
+    source venv/Scripts/activate 
     pip install -r requirements.txt
     python demo.py
 
@@ -102,6 +103,18 @@ NOTE:
 This mode does NOT use CloudWatch or Grafana.
 It exists to reproduce the experiment logic locally.
 
+LOGGING:
+The application uses manual JSON logging.
+Each request is recorded in app_logs.json and includes:
+- timestamp
+- endpoint
+- status code
+- latency (ms)
+- experiment scenario and run ID
+
+During experiments, a snapshot of these logs is saved as:
+    app_logs_snapshot.json
+inside each run folder.
 
 ===============================================================================
 2) FULL AWS DEPLOYMENT (OPTIONAL)
@@ -209,8 +222,7 @@ Each run produces:
         memory/
         error/
         summary.json
-        metadata.json
-        logs.txt
+        app_logs_snapshot.json
 
 summary.json structure:
 
@@ -222,12 +234,11 @@ summary.json structure:
     summary["error"]["fault"]
 
 Each block contains:
-    - runs
-    - mean_latency_ms
-    - std_dev_latency_ms
-    - p95_latency_ms
-    - error_rate_percent
-
+- runs
+- mean_latency_ms
+- error_rate_percent
+  
+Note: Additional metrics (e.g. median and p95 latency) are available in the "details" section of summary.json
 
 ===============================================================================
 FLASK ENDPOINTS
