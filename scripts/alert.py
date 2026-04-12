@@ -5,33 +5,31 @@ import sys
 import random
 from datetime import datetime
 
-# --- Global Variables ---
-# I am using a global list to hold the data so it doesn't get 
-# cleared by the Python garbage collector by accident.
+# Global variable used to ensure memory data remains in scope.
+# This prevents the Python garbage collector from clearing the list until the test is complete.
 MEMORY_HOG_LIST = []
 
 if __name__ == "__main__":
-    # --- Part 1: Setup and Inputs ---
-    # I am setting up the argparse here to take commands from the demo script
+    # --- Part 1: Configuration and Inputs ---
+    # Setting up command-line arguments to allow the orchestration script to pass in parameters.
     my_parser = argparse.ArgumentParser(description="Manual Memory Stresser")
     
-    # Adding each argument one by one
-    my_parser.add_argument("duration", type=int, help="How long to stay running")
-    my_parser.add_argument("--scenario", default="memory", help="The name of this test")
-    my_parser.add_argument("--run-id", default="run_1", help="The ID for this specific run")
-    my_parser.add_argument("--size", type=int, default=256, help="Amount of MB to fill")
+    # Definition of arguments required for the test duration and intensity.
+    my_parser.add_argument("duration", type=int, help="Execution time in seconds")
+    my_parser.add_argument("--scenario", default="memory", help="Scenario label for logging")
+    my_parser.add_argument("--run-id", default="run_1", help="Unique identifier for the current run")
+    my_parser.add_argument("--size", type=int, default=256, help="Target memory usage in MB")
     
-    # Parsing the arguments into a variable called 'my_args'
+    # Processing arguments into an object.
     my_args = my_parser.parse_args()
     
-    # Manually re-assigning them to local variables 
-    # This makes it easier for me to use them later in the script
+    # Extracting values for use throughout the script.
     run_duration = my_args.duration
     target_megabytes = my_args.size
     test_name = my_args.scenario
     current_run_id = my_args.run_id
 
-    # --- Part 2: Starting the Log ---
+    # --- Part 2: Execution Logging ---
     print("****************************************")
     print("* MEMORY STRESS SCRIPT STARTING   *")
     print("****************************************")
@@ -41,74 +39,68 @@ if __name__ == "__main__":
     print("Target Memory to Fill: " + str(target_megabytes) + " MB")
     print("[MEMORY_STRESS_STARTED]")
 
-    # --- Part 3: Creating the Data Block ---
-    # To fill 1MB, I need 1,048,576 bytes. 
-    # I am creating a string of 'X' characters to represent this.
-    print("Creating the 1MB data blocks...")
+    # --- Part 3: Data Structure Generation ---
+    # Calculation of bytes needed for a 1MB block. 
+    # Repeating a character 1,024 times creates 1KB; repeating that block 1,024 times creates 1MB.
+    print("Generating 1MB data blocks...")
     
-    # I'll build it in steps to be safe
     one_kb = "X" * 1024
     one_mb_block = one_kb * 1024
     
-    # Verify the size (optional check for debugging)
+    # Displaying the size of the generated block for verification.
     block_size_bytes = sys.getsizeof(one_mb_block)
-    print("Confirmed 1MB block size is roughly: " + str(block_size_bytes) + " bytes")
+    print("Approximate size of 1MB block: " + str(block_size_bytes) + " bytes")
 
-    # --- Part 4: The Allocation Loop ---
-    # This is the main loop that actually fills the RAM
-    print("Now starting the allocation loop. This might take a second...")
+    # --- Part 4: Memory Allocation Sequence ---
+    # Logic to occupy the system RAM by appending blocks to the global list.
+    print("Beginning the allocation process...")
     
-    # I am using a manual counter 'i' to track how many MB I have added
     i = 0
     while i < target_megabytes:
-        # Append the 1MB block to my global list
+        # Adding the 1MB string to the list to increase total memory usage.
         MEMORY_HOG_LIST.append(one_mb_block)
-        
-        # Increase the counter by 1
         i = i + 1
         
-        # I want to see exactly how much is being used while it runs
-        # So I print a message for every single MB added
-        print("Progress: Added " + str(i) + " MB to the list...")
+        # Providing real-time progress updates to the terminal.
+        print("Progress: Allocated " + str(i) + " MB...")
         
-        # Every 50MB I'll print a special status update
+        # Periodic status checks for visibility during larger tests.
         if i % 50 == 0:
-            print("--- STATUS CHECK: " + str(i) + " MB allocated so far ---")
+            print("--- CHECKPOINT: " + str(i) + " MB in memory ---")
 
-    print("Allocation Complete. Total in list: " + str(len(MEMORY_HOG_LIST)) + " units.")
+    print("Allocation successful. Total items stored: " + str(len(MEMORY_HOG_LIST)))
 
-    # --- Part 5: Holding the Memory ---
-    # If the script finishes, the memory is freed. 
-    # I need to keep the script 'alive' so the RAM stays full for the demo.
-    print("The system is now under memory stress.")
-    print("Waiting for " + str(run_duration) + " seconds before stopping...")
+    # --- Part 5: Holding State ---
+    # The script must stay running to keep the RAM occupied. 
+    # If the process terminates, the operating system will reclaim the memory immediately.
+    print("The system is currently under memory pressure.")
+    print("Holding for " + str(run_duration) + " seconds...")
     
-    # I'll use a countdown loop so it looks cool in the terminal
+    # Countdown timer to monitor the remaining time for the test round.
     seconds_passed = 0
     while seconds_passed < run_duration:
-        # Wait 1 second
         time.sleep(1)
-        # Add to our counter
         seconds_passed = seconds_passed + 1
-        # Print a small tick every 10 seconds
+        
+        # Updates provided every 10 seconds.
         if seconds_passed % 10 == 0:
-            print("Stress still running... " + str(run_duration - seconds_passed) + "s left.")
+            print("Test active... " + str(run_duration - seconds_passed) + "s remaining.")
 
-    # --- Part 6: Cleanup Phase ---
-    print("Duration reached. Starting cleanup...")
+    # --- Part 6: Cleanup Sequence ---
+    print("Target duration reached. Initialising cleanup...")
     
-    # Manually deleting the items from the list one by one
-    # This is probably slower but it feels more 'thorough'
-    print("Clearing the list...")
+    # Systematic removal of data from the list.
+    # This returns the system to its baseline state before the process finishes.
+    print("Emptying memory list...")
     while len(MEMORY_HOG_LIST) > 0:
         MEMORY_HOG_LIST.pop()
         
-    # Set the list to None to make sure Python knows it's empty
+    # Setting the variable to None to ensure Python marks the data for deletion.
     MEMORY_HOG_LIST = None
     
     print("[MEMORY_STRESS_FINISHED]")
     print("End Time: " + str(datetime.now()))
     print("****************************************")
 
-    # Exit the script with code 0 for success
+    # Returning exit code 0 to signal a successful completion.
     sys.exit(0)

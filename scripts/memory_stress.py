@@ -15,9 +15,8 @@ if __name__ == "__main__":
     my_parser = argparse.ArgumentParser(description="My Memory Stress Script")
     my_parser.add_argument("duration", type=int, nargs="?", default=30)
     my_parser.add_argument("--scenario", default="memory")
-    my_parser.add_argument("--run-id", default="run_1")
-    my_parser.add_argument("--max-mb", type=int, default=200)
-    
+    my_parser.add_argument("--run-id", default="run_1") #lets me tag the run with a unique ID for better logging and traceability
+    my_parser.add_argument("--max-mb", type=int, default=200) #used to set a maximum memory limit to prevent the script from crashing the system, especially during testing. 
     # Get the arguments out
     args = my_parser.parse_args()
     
@@ -93,7 +92,7 @@ if __name__ == "__main__":
         # Calculate how many seconds are left for my own information
         seconds_remaining = int(end_time_float - time.time())
         if seconds_remaining % 10 == 0:
-            print("Still holding memory... " + str(seconds_remaining) + "s left.")
+            print("Still holding memory... " + str(seconds_remaining) + "s left.") # periodic updates every 10 seconds
 
     # --- Part 5: Clean up ---
     print("Time is up! Clearing the memory list...")
