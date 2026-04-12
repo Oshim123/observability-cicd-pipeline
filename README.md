@@ -116,9 +116,13 @@ During experiments, a snapshot of these logs is saved as:
     app_logs_snapshot.json
 inside each run folder.
 
+If the demo completes without errors and summary.json is generated, the system is functioning correctly.
 ===============================================================================
 2) FULL AWS DEPLOYMENT (OPTIONAL)
 ===============================================================================
+
+Hosted Application:
+http://<EC2_PUBLIC_IP>:5000
 
 This is the environment used for the dissertation evaluation.
 
@@ -196,7 +200,7 @@ PROJECT OVERVIEW
 ===============================================================================
 
 Modern systems often detect failures only after users are affected.
-This project investigates whether observability tools can detect issues earlier
+This project investigates whether observability tools can detect system issues earlier than traditional monitoring approaches
 through logs, metrics, and visualisation.
 
 A Flask application is deployed via CI/CD (GitHub Actions) to AWS EC2.
